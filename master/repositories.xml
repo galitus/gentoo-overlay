@@ -3,7 +3,7 @@
 <repositories version="1.0">
 	<repo priority="50" quality="experimental" status="unofficial">
 		<name>gentoo-overlay</name>
-		<homepage>https://github.com/github/gentoo-overlay</homepage>
-		<source type="git">https://github.com/abusse/gentoo-overlay.git</source>
+		<homepage>https://github.com/galitus/gentoo-overlay</homepage>
+		<source type="git">https://github.com/galitus/gentoo-overlay.git</source>
 	</repo>
 </repositories>
