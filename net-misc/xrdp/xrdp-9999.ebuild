@@ -31,7 +31,6 @@ DEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	|| (
 		net-misc/tigervnc:0[server,xorgmodule]
-		net-misc/x11rdp:0
 	)"
 
 # does not work with gentoo version of freerdp
