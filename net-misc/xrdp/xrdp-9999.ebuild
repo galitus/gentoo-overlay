@@ -28,10 +28,10 @@ RDEPEND="dev-libs/openssl:0=
 	pulseaudio? ( media-sound/pulseaudio:0= )"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
-RDEPEND="${RDEPEND}
-	|| (
-		net-misc/tigervnc:0[server,xorgmodule]
-	)"
+RDEPEND="${RDEPEND}"
+#	|| (
+#		net-misc/tigervnc:0[server,xorgmodule]
+#	)"
 
 # does not work with gentoo version of freerdp
 #	neutrinordp? ( net-misc/freerdp:0= )
