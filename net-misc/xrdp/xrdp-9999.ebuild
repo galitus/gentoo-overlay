@@ -54,9 +54,9 @@ src_prepare() {
 	#sed -i -e '/^\[xrdp1\]$/,/^$/{wxrdp.ini.tmp
 	#	;d}' xrdp/xrdp.ini || die
 	# move newline to the beginning
-	sed -i -e 'x' xrdp.ini.tmp || die
-	cat xrdp.ini.tmp >> xrdp/xrdp.ini || die
-	rm -f xrdp.ini.tmp || die
+	#sed -i -e 'x' xrdp.ini.tmp || die
+	#cat xrdp.ini.tmp >> xrdp/xrdp.ini || die
+	#rm -f xrdp.ini.tmp || die
 
 	eautoreconf
 	# part of ./bootstrap
