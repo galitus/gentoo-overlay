@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/neutrinolabs/xorgxrdp"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/neutrinolabs/xrdp"
 
-S=${WORKDIR}/xrdp/xorgxrdp
+S=${WORKDIR}/${P}/xorgxrdp
 
 SLOT="0"
 LICENSE="GPL-2 LGPL-2"
