@@ -60,7 +60,7 @@ src_prepare() {
 
 	eautoreconf
 	# part of ./bootstrap
-	ln -s ../config.c sesman/tools/config.c || die
+	#ln -s ../config.c sesman/tools/config.c || die
 }
 
 src_configure() {
