@@ -111,7 +111,7 @@ src_install() {
 	doexe "${FILESDIR}"/startwm.sh
 
 	# Fedora stuff
-	rm -r "${ED}"/etc/default || die
+	#rm -r "${ED}"/etc/default || die
 
 	# own /etc/xrdp/rsakeys.ini
 	: > rsakeys.ini
