@@ -26,6 +26,11 @@ pkg_setup() {
 	enewuser redmine -1 -1 "${REDMINE_DIR}" redmine
 }
 
+src_unpack() {
+        git-r3_fetch
+        git-r3_checkout "${EGIT_REPO_URI}" "${WORKDIR}/all"
+}
+
 all_ruby_install() {
 	dodoc README.md
 	rm README.md || die
