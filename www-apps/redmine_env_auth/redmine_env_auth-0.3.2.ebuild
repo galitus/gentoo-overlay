@@ -28,7 +28,7 @@ pkg_setup() {
 
 all_ruby_install() {
 	dodoc readme.md
-	rm readme.md .travis.yml || die
+	rm readme.md || die
 	dodir "${REDMINE_DIR}"/plugins/${PN}
 	insinto "${REDMINE_DIR}"/plugins/${PN}
 	doins -r .
