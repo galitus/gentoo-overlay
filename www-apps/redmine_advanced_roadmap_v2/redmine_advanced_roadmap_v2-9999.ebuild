@@ -34,6 +34,7 @@ src_unpack() {
 all_ruby_install() {
 	dodoc README.md
 	rm README.md || die
+	rm -R .git .gitignore
 	dodir "${REDMINE_DIR}"/plugins/advanced_roadmap_v2
 	insinto "${REDMINE_DIR}"/plugins/advanced_roadmap_v2/
 	doins -r .
