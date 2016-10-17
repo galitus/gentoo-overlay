@@ -1,0 +1,723 @@
+diff -rupN cinder-7.0.1/cinder/image/image_utils.py /usr/local/lib/python2.7/site-packages/cinder/image/image_utils.py
+--- cinder-7.0.1/cinder/image/image_utils.py	2015-12-22 13:59:12.000000000 +0100
++++ /usr/local/lib/python2.7/site-packages/cinder/image/image_utils.py	2016-03-17 12:54:35.355445000 +0100
+@@ -94,7 +94,7 @@ def check_qemu_img_version(minimum_versi
+         raise exception.VolumeBackendAPIException(data=_msg)
+ 
+ 
+-def _convert_image(prefix, source, dest, out_format, run_as_root=True):
++def _convert_image(prefix, source, dest, out_format, run_as_root=True, sparse=0):
+     """Convert image to other format."""
+ 
+     cmd = prefix + ('qemu-img', 'convert',
+@@ -117,6 +117,8 @@ def _convert_image(prefix, source, dest,
+                         '-t', 'none',
+                         '-O', out_format, source, dest)
+ 
++	cmd += ('-S', str(sparse))
++
+     start_time = timeutils.utcnow()
+     utils.execute(*cmd, run_as_root=run_as_root)
+     duration = timeutils.delta_seconds(start_time, timeutils.utcnow())
+@@ -138,13 +140,13 @@ def _convert_image(prefix, source, dest,
+     LOG.info(msg, {"sz": fsz_mb, "mbps": mbps})
+ 
+ 
+-def convert_image(source, dest, out_format, run_as_root=True, throttle=None):
++def convert_image(source, dest, out_format, run_as_root=True, throttle=None, sparse=0):
+     if not throttle:
+         throttle = throttling.Throttle.get_default()
+     with throttle.subcommand(source, dest) as throttle_cmd:
+         _convert_image(tuple(throttle_cmd['prefix']),
+                        source, dest,
+-                       out_format, run_as_root=run_as_root)
++                       out_format, run_as_root=run_as_root, sparse=sparse)
+ 
+ 
+ def resize_image(source, size, run_as_root=False):
+diff -rupN cinder-7.0.1/cinder/volume/driver.py /usr/local/lib/python2.7/site-packages/cinder/volume/driver.py
+--- cinder-7.0.1/cinder/volume/driver.py	2015-12-22 13:59:12.000000000 +0100
++++ /usr/local/lib/python2.7/site-packages/cinder/volume/driver.py	2016-03-17 12:54:35.108513000 +0100
+@@ -92,7 +92,7 @@ volume_opts = [
+     cfg.StrOpt('iscsi_helper',
+                default='tgtadm',
+                choices=['tgtadm', 'lioadm', 'scstadmin', 'iseradm', 'iscsictl',
+-                        'ietadm', 'fake'],
++                        'ietadm', 'ctladm', 'fake'],
+                help='iSCSI target user-land tool to use. tgtadm is default, '
+                     'use lioadm for LIO iSCSI support, scstadmin for SCST '
+                     'target support, iseradm for the ISER protocol, ietadm '
+@@ -105,6 +105,15 @@ volume_opts = [
+     cfg.StrOpt('iet_conf',
+                default='/etc/iet/ietd.conf',
+                help='IET configuration file'),
++    cfg.StrOpt('ctl_deamon',
++               default='/etc/rc.d/ctld',
++               help='Path to the ctl deamon.'),
++    cfg.StrOpt('ctl_conf',
++               default='/etc/ctl.conf',
++               help='Path to the ctl global configuration file.'),
++    cfg.StrOpt('ctl_backend',
++               default='block',
++               help='Backend used in the ctl driver.'),
+     cfg.StrOpt('chiscsi_conf',
+                default='/etc/chelsio-iscsi/chiscsi.conf',
+                help='Chiscsi (CXT) global defaults configuration file'),
+@@ -339,7 +348,8 @@ class BaseVD(object):
+             'lioadm': 'cinder.volume.targets.lio.LioAdm',
+             'tgtadm': 'cinder.volume.targets.tgt.TgtAdm',
+             'scstadmin': 'cinder.volume.targets.scst.SCSTAdm',
+-            'iscsictl': 'cinder.volume.targets.cxt.CxtAdm'}
++            'iscsictl': 'cinder.volume.targets.cxt.CxtAdm',
++            'ctladm': 'cinder.volume.targets.ctl.CtlAdm'}
+ 
+         # set True by manager after successful check_for_setup
+         self._initialized = False
+diff -rupN cinder-7.0.1/cinder/volume/drivers/zfs.py /usr/local/lib/python2.7/site-packages/cinder/volume/drivers/zfs.py
+--- cinder-7.0.1/cinder/volume/drivers/zfs.py	1970-01-01 01:00:00.000000000 +0100
++++ /usr/local/lib/python2.7/site-packages/cinder/volume/drivers/zfs.py	2016-07-28 17:40:14.280706000 +0200
+@@ -0,0 +1,425 @@
++# vim: tabstop=4 shiftwidth=4 softtabstop=4
++#
++# Copyright 2013-2014 CloudVPS
++#
++#    Licensed under the Apache License, Version 2.0 (the "License"); you may
++#    not use this file except in compliance with the License. You may obtain
++#    a copy of the License at
++#
++#         http://www.apache.org/licenses/LICENSE-2.0
++#
++#    Unless required by applicable law or agreed to in writing, software
++#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++#    License for the specific language governing permissions and limitations
++#    under the License.
++"""
++Driver for Linux servers running ZFS.
++
++"""
++
++import math
++import socket
++import time
++
++from oslo_concurrency import processutils
++from oslo_config import cfg
++from oslo_log import log as logging
++from oslo_utils import importutils
++
++from cinder import exception
++from cinder.image import image_utils
++#from cinder.openstack.common import fileutils
++#from cinder.openstack.common import strutils
++from oslo_utils import strutils
++from cinder import utils
++from cinder.volume import driver
++
++LOG = logging.getLogger(__name__)
++
++volume_opts = [
++    cfg.StrOpt('zfs_zpool', default='cinder-volumes',
++               help='Name for the zpool that will contain exported volumes'),
++]
++
++CONF = cfg.CONF
++CONF.register_opts(volume_opts)
++
++
++def _sizestr(size_in_g):
++    if int(size_in_g) == 0:
++        return '100m'
++    return '%sg' % size_in_g
++
++
++def _fromsizestr(sizestr):
++    # ZFS uses a dash as a 'not applicable' value.
++    if sizestr == '-':
++        return None
++
++    # ZFS tools give their sizes as 1T, 9.2G. string_to_bytes
++    # doesn't accept that format, so we'll have to add a B.
++    try:
++        return strutils.string_to_bytes(sizestr + "B")
++    except ValueError:
++        return strutils.string_to_bytes(sizestr)
++
++
++class ZFSVolumeDriver(driver.ISCSIDriver):
++    """Executes commands relating to Volumes."""
++
++    VERSION = '1.0.1'
++
++    def __init__(self, *args, **kwargs):
++        super(ZFSVolumeDriver, self).__init__(*args, **kwargs)
++        self.hostname = socket.gethostname()
++        self.zpool = self.configuration.zfs_zpool
++        self.backend_name =\
++            self.configuration.safe_get('volume_backend_name') or 'ZFS'
++
++        target_driver = \
++            self.target_mapping[self.configuration.safe_get('iscsi_helper')]
++
++        LOG.debug('Attempting to initialize ZFS driver with the '
++                  'following target_driver: %s',
++                  target_driver)
++
++        self.target_driver = importutils.import_object(
++            target_driver,
++            configuration=self.configuration,
++            db=self.db,
++            executor=self._execute)
++        self.protocol = self.target_driver.protocol
++
++    def check_for_setup_error(self):
++        """Verify that requirements are in place to use ZFS driver."""
++
++        # Call zpool, if the volume doesn't exist it will result in an error
++        self._execute('zpool', 'status', self.zpool,
++                      run_as_root=True)
++
++    def create_volume(self, volume):
++        """Creates a logical volume."""
++        if not self.volume_exists(volume):
++            self._execute('zfs', 'create',
++                          '-s',  # sparse
++                          '-b', '32K', # blocksize
++                          '-V', _sizestr(volume['size']),
++                          "%s/%s" % (self.zpool, volume['name']),
++                          run_as_root=True)
++
++    def create_volume_from_snapshot(self, volume, snapshot):
++        """Creates a volume from a snapshot."""
++
++        # FIXME: this will fail if the volume already exists, which may happen
++        # during a retry cycle.
++
++        src_path = "%s/%s@%s" % (self.zpool, snapshot['volume_name'],
++                                 snapshot['name'])
++        dst_path = "%s/%s" % (self.zpool, volume['name'])
++
++        self._execute('zfs', 'clone', src_path, dst_path,
++                      run_as_root=True)
++
++    def _delete_volume(self, volume):
++        """Deletes a logical volume."""
++
++        full_name = "%s/%s" % (self.zpool, volume['name'])
++
++        try:
++            # Try to promote dependent volumes
++            stdout, stderr = self._execute('zfs', 'get', '-H', '-r',
++                                           '-t', 'snapshot',
++                                           'clones', full_name,
++                                           run_as_root=True)
++
++            for line in stdout.splitlines():
++                if not line:
++                    continue
++
++                clones = line.split('\t')[2]
++                if clones and clones != '-':
++                    for clone in clones.split(','):
++                        self._execute('zfs', 'promote', clone,
++                                      run_as_root=True)
++
++            self._execute('zfs', 'destroy', '-r', full_name,
++                          run_as_root=True)
++            return True
++        except processutils.ProcessExecutionError as err:
++            if "dataset is busy" in err.stderr:
++                mesg = ('Unable to delete volume %s due to it being busy' %
++                        volume['name'])
++                LOG.error(mesg)
++                raise exception.VolumeIsBusy(volume_name=volume['name'])
++            elif "dataset does not exist" not in err.stderr:
++                mesg = ('Error reported running zfs destroy: '
++                          'CMD: %(command)s, RESPONSE: %(response)s' %
++                        {'command': err.cmd, 'response': err.stderr})
++                LOG.error(mesg)
++                raise
++
++    def delete_volume(self, volume):
++        for attempt in range(3):
++            try:
++                return self._delete_volume(volume)
++            except exception.VolumeIsBusy:
++                if attempt != 2:
++                    time.sleep(15)
++                else:
++                    raise
++
++    def create_snapshot(self, snapshot):
++        """Creates a snapshot."""
++
++        cmd = ['zfs', 'snapshot',
++               "%s/%s@%s" % (self.zpool, snapshot['volume_name'],
++                             snapshot['name'])]
++
++        try:
++            self._execute(*cmd,
++                          run_as_root=True)
++        except processutils.ProcessExecutionError as err:
++            LOG.exception('Error creating snapshot')
++            LOG.debug('Cmd     :%s' % err.cmd)
++            LOG.debug('StdOut  :%s' % err.stdout)
++            LOG.debug('StdErr  :%s' % err.stderr)
++            raise
++
++    def delete_snapshot(self, snapshot):
++        """Deletes a snapshot."""
++
++        full_name = "%s/%s@%s" % (self.zpool, snapshot['volume_name'],
++                                  snapshot['name'])
++
++        try:
++            self._execute('zfs', 'destroy', "-d", full_name,
++                          run_as_root=True)
++        except processutils.ProcessExecutionError as err:
++            if "volume has children" in err.stderr:
++                mesg = ('Unable to delete snapshot due to dependent '
++                          'snapshots for volume: %s' % full_name)
++                LOG.error(mesg)
++                raise exception.VolumeIsBusy(
++                    volume_name=snapshot['volume_name'])
++            elif "dataset does not exist" not in err.stderr:
++                mesg = ('Error reported running zfs destroy: '
++                          'CMD: %(command)s, RESPONSE: %(response)s' %
++                        {'command': err.cmd, 'response': err.stderr})
++                LOG.error(mesg)
++                raise
++
++    def volume_exists(self, volume):
++        full_name = "%s/%s" % (self.zpool, volume['name'])
++
++        try:
++            self._execute('zfs', 'list', full_name, run_as_root=True)
++        except processutils.ProcessExecutionError as err:
++            if 'dataset does not exist' in err.stderr:
++                return False
++            raise
++
++        return True
++
++    def snapshot_exists(self, snapshot):
++        if self.volume_exists({'name': snapshot['volume_name']}):
++            snapshots = self._list_snapshots({'name': snapshot['volume_name']})
++            return any(s['name'] == snapshot['name'] for s in snapshots)
++        return False
++
++    def _list_snapshots(self, volume):
++        full_name = "%s/%s" % (self.zpool, volume['name'])
++
++        (out, err) = self._execute('zfs', 'list', '-t', 'snapshot', '-r', '-H',
++                                   full_name, run_as_root=True)
++
++        result = []
++        for line in out.splitlines():
++            name, used, available, referenced, mountpoint = line.split()
++            result.append({
++                'name': name.split('@')[-1],
++                'volume_name': name.split('/', 1)[1],
++                'zpool': name.split('/')[0],
++                'used': _fromsizestr(used),
++                'available': _fromsizestr(available),
++                'referenced': _fromsizestr(referenced),
++                'mountpoint': mountpoint,
++            })
++
++        return result
++
++    def local_path(self, volume):
++        return "/dev/zvol/%s/%s" % (self.zpool, volume['name'])
++
++    @utils.synchronized('zfs-imgcache', external=False)
++    def copy_image_to_volume(self, context, volume, image_service, image_id):
++        """Fetch the image from image_service and write it to the volume."""
++
++        img_cache_volume = {'name': 'img-%s' % image_id}
++        img_cache_snapshot = {'volume_name': img_cache_volume['name'],
++                              'name': 'snap'}
++
++        if self._list_snapshots(volume):
++            # If the volume has snapshots, there is no efficient way to replace
++            # the contents. Do things the inefficient way.
++            image_utils.fetch_to_raw(context, image_service, image_id,
++                                     self.local_path(volume),
++                                     self.configuration.volume_dd_blocksize,
++                                     size=volume['size'])
++
++        else:
++
++            if not self.snapshot_exists(img_cache_snapshot):
++                with image_utils.temporary_file() as tmp:
++                    image_utils.fetch_verify_image(context, image_service,
++                                                   image_id, tmp)
++
++                    qemu_info = image_utils.qemu_img_info(tmp)
++                    virtual_size_gb = math.ceil(
++                        qemu_info.virtual_size / (1024.0 ** 3))
++                    img_cache_volume['size'] = virtual_size_gb
++
++                    self.create_volume(img_cache_volume)
++
++                    image_utils.convert_image(
++                        tmp, self.local_path(img_cache_volume), 'raw', None,
++                        sparse=64 * 1024)
++
++                self.create_snapshot(img_cache_snapshot)
++
++            self.delete_volume(volume)
++            self.create_volume_from_snapshot(volume, img_cache_snapshot)
++            self.extend_volume(volume, volume['size'])
++
++    def copy_volume_to_image(self, context, volume, image_service, image_meta):
++        """Copy the volume to the specified image."""
++        image_utils.upload_volume(context,
++                                  image_service,
++                                  image_meta,
++                                  self.local_path(volume))
++
++    def create_cloned_volume(self, volume, src_vref):
++        """Creates a clone of the specified volume."""
++        volume_name = src_vref['name']
++        temp_snapshot = {'volume_name': volume_name,
++                         'name': 'origin-%s' % volume['id']}
++
++        self.create_snapshot(temp_snapshot)
++        self.create_volume_from_snapshot(volume, temp_snapshot)
++
++    @utils.synchronized('zfs-imgcache', external=False)
++
++    def clone_image(self, context, volume,
++                    image_location, image_meta,
++                    image_service):
++        img_cache_snapshot = {'volume_name': 'img-%s' % image_meta['id'],
++                              'name': 'snap'}
++
++        if self.snapshot_exists(img_cache_snapshot):
++            self.create_volume_from_snapshot(volume, img_cache_snapshot)
++            self.extend_volume(volume, volume['size'])
++            return None, True
++
++        return None, False
++
++    def backup_volume(self, context, backup, backup_service):
++        """Create a new backup from an existing volume."""
++        volume = self.db.volume_get(context, backup['volume_id'])
++        volume_path = self.local_path(volume)
++        with utils.temporary_chown(volume_path):
++            with open(volume_path) as volume_file:
++                backup_service.backup(backup, volume_file)
++
++    def restore_backup(self, context, backup, volume, backup_service):
++        """Restore an existing backup to a new or existing volume."""
++        volume_path = self.local_path(volume)
++        with utils.temporary_chown(volume_path):
++            with open(volume_path, 'wb') as volume_file:
++                backup_service.restore(backup, volume['id'], volume_file)
++
++    def get_volume_stats(self, refresh=False):
++        """Get volume status.
++
++        If 'refresh' is True, run update the stats first.
++        """
++
++        if refresh:
++            self._update_volume_stats()
++
++        return self._stats
++
++    def _update_volume_stats(self):
++        """Retrieve stats info from volume group."""
++
++        out, err = self._execute('zpool', 'list',
++                                 '-H', "-oname,free,size",
++                                 self.zpool, run_as_root=True)
++
++        name, avail, size = out.strip().split('\t')
++
++        data = {}
++
++        # Note(zhiteng): These information are driver/backend specific,
++        # each driver may define these values in its own config options
++        # or fetch from driver specific configuration file.
++        data["volume_backend_name"] = self.backend_name
++        data["vendor_name"] = 'Open Source'
++        data["driver_version"] = self.VERSION
++        data["storage_protocol"] = "iSCSI"
++
++        gb_factor = 1.0 / (1024 ** 3)
++        data['total_capacity_gb'] = _fromsizestr(size) * gb_factor
++        data['free_capacity_gb'] = _fromsizestr(avail) * gb_factor
++        data['reserved_percentage'] = self.configuration.reserved_percentage
++        data['QoS_support'] = False
++        data['location_info'] = \
++            'ZFSVolumeDriver:%s:%s' % (self.hostname, self.zpool)
++
++        self._stats = data
++
++    def extend_volume(self, volume, new_size):
++        """Extend an existing voumes size."""
++
++        try:
++            self._execute('zfs', 'set', 'volsize=%s' % _sizestr(new_size),
++                          '%s/%s' % (self.zpool, volume['name']),
++                          run_as_root=True)
++        except processutils.ProcessExecutionError as err:
++            LOG.exception('Error extending Volume')
++            LOG.debug('Cmd     :%s' % err.cmd)
++            LOG.debug('StdOut  :%s' % err.stdout)
++            LOG.debug('StdErr  :%s' % err.stderr)
++            raise
++
++        try:
++            self._execute('gpart', 'commit', 'zvol/%s/%s' % (self.zpool, volume['name']))
++        except processutils.ProcessExecutionError as err:
++            LOG.debug('Cmd     :%s' % err.cmd)
++            LOG.debug('StdOut  :%s' % err.stdout)
++            LOG.debug('StdErr  :%s' % err.stderr)
++
++    def ensure_export(self, context, volume):
++        volume_name = volume['name']
++        iscsi_name = "%s%s" % (self.configuration.iscsi_target_prefix,
++                               volume_name)
++        volume_path = self.local_path(volume)
++        # NOTE(jdg): For TgtAdm case iscsi_name is the ONLY param we need
++        # should clean this all up at some point in the future
++        model_update = self.target_driver.ensure_export(context, volume,
++                                                        volume_path)
++        if model_update:
++            self.db.volume_update(context, volume['id'], model_update)
++
++    def create_export(self, context, volume, connector):
++        """Creates an export for a logical volume."""
++
++        volume_path = self.local_path(volume)
++
++        data = self.target_driver.create_export(context, volume, volume_path)
++        return {
++            'provider_location': data['location'],
++            'provider_auth': data['auth'],
++        }
++
++    def remove_export(self, context, volume):
++        self.target_driver.remove_export(context, volume)
+diff -rupN cinder-7.0.1/cinder/volume/targets/ctl.py /usr/local/lib/python2.7/site-packages/cinder/volume/targets/ctl.py
+--- cinder-7.0.1/cinder/volume/targets/ctl.py	1970-01-01 01:00:00.000000000 +0100
++++ /usr/local/lib/python2.7/site-packages/cinder/volume/targets/ctl.py	2016-03-17 12:54:35.083867000 +0100
+@@ -0,0 +1,215 @@
++# Copyright 2015 Chelsio Communications Inc.
++# All Rights Reserved.
++#
++#    Licensed under the Apache License, Version 2.0 (the "License"); you may
++#    not use this file except in compliance with the License. You may obtain
++#    a copy of the License at
++#
++#         http://www.apache.org/licenses/LICENSE-2.0
++#
++#    Unless required by applicable law or agreed to in writing, software
++#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
++#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
++#    License for the specific language governing permissions and limitations
++#    under the License.
++
++
++import os
++import re
++
++from oslo_concurrency import processutils as putils
++from oslo_log import log as logging
++from oslo_utils import netutils
++
++from cinder import exception
++from cinder.i18n import _LI, _LW, _LE
++from cinder import utils
++from cinder.volume.targets import iscsi
++from cinder.volume import utils as vutils
++
++LOG = logging.getLogger(__name__)
++
++
++class CtlAdm(iscsi.ISCSITarget):
++    """iSCSI target administration using ctladm."""
++
++    def __init__(self, *args, **kwargs):
++        super(CtlAdm, self).__init__(*args, **kwargs)
++        self.ctld = self.configuration.safe_get('ctl_deamon')
++        self.ctl_conf = self.configuration.safe_get('ctl_conf')
++        self.iscsi_iotype = self.configuration.safe_get('ctl_backend')
++	LOG.warn("ctl_conf: %s", self.configuration)
++
++    def _is_block(self, path):
++        mode = os.stat(path).st_mode
++        return stat.S_ISBLK(mode)
++
++    def _iotype(self, path):
++         return 'block'
++
++
++    def _get_iscsi_target(self, context, vol_id):
++        return 0
++
++    def _get_target_and_lun(self, context, volume):
++        lun = 0
++        iscsi_target = 0
++        return iscsi_target, lun
++
++    def _get_target_chap_auth(self, context, iscsi_name):
++        """Get the current chap auth username and password."""
++        return None
++
++    def _get_target(self, iqn):
++        conf_file = self.ctl_conf
++
++        if os.path.exists(conf_file):
++            with utils.temporary_chown(conf_file):
++                try:
++                    ctl_conf_text = open(conf_file, 'r+')
++                    full_txt = ctl_conf_text.readlines()
++                    for line in full_txt:
++                        if re.search(iqn, line):
++                            return iqn
++                finally:
++                    return none
++        return None
++
++    def _iscsi_authentication(self, chap, name, password):
++        return ""
++
++    def show_target(self, tid, iqn=None, **kwargs):
++
++        conf_file = self.ctl_conf
++
++        if iqn is None:
++            raise exception.InvalidParameterValue(
++                err=_('valid iqn needed for show_target'))
++
++        if os.path.exists(conf_file):
++            with utils.temporary_chown(conf_file):
++                try:
++                    ctl_conf_text = open(conf_file, 'r+')
++                    full_txt = ctl_conf_text.readlines()
++                    for line in full_txt:
++                        if re.search(iqn, line):
++                            ctl_conf_text.close()
++                            return
++                finally:
++                    ctl_conf_text.close()
++
++        raise exception.NotFound()
++
++    @utils.synchronized('iscsi-ctl', external=False)
++    def create_iscsi_target(self, name, tid, lun, path,
++                            chap_auth=None, **kwargs):
++
++        # NOTE (jdg): Address bug: 1175207
++        kwargs.pop('old_name', None)
++
++	"""tid = "foobar"""
++	""" tid = name
++	LOG.warn("tid: %s", tid)
++	LOG.warn("conf_file: %s", conf_file) """
++        conf_file = self.ctl_conf
++
++        if os.path.exists(conf_file):
++            with utils.temporary_chown(conf_file):
++                try:
++                    ctl_conf_text = open(conf_file, 'r+')
++                    full_txt = ctl_conf_text.readlines()
++                    for line in full_txt:
++                        if re.search(name, line):
++                            LOG.warn('%s already in config. Will not add again' % name)
++                            ctl_conf_text.close()
++                            return tid
++                finally:
++                    ctl_conf_text.close()
++
++
++            try:
++                volume_conf = """
++target %s {
++    auth-group no-authentication
++    portal-group pg0
++    lun 0 {
++        backend %s
++        path %s
++    }
++}
++""" % (name, self._iotype(path), path)
++
++                with utils.temporary_chown(conf_file):
++                    f = open(conf_file, 'a+')
++                    f.write(volume_conf)
++                    f.close()
++            except putils.ProcessExecutionError as e:
++                vol_id = name.split(':')[1]
++                LOG.error("Failed to create iscsi target for volume "
++                            "id:%(vol_id)s: %(e)s"
++                          % {'vol_id': vol_id, 'e': e})
++                raise exception.ISCSITargetCreateFailed(volume_id=vol_id)
++
++            utils.execute(self.ctld, 'onereload', run_as_root=True, log_errors=putils.LOG_ALL_ERRORS)
++
++	""" LOG.warn("tid2: %s", tid)"""
++        return tid
++
++    def create_export(self, context, volume, volume_path):
++        """Creates an export for a logical volume."""
++        # 'iscsi_name': 'iqn.2010-10.org.openstack:volume-00000001'
++        iscsi_name = "%s%s" % (self.configuration.iscsi_target_prefix,
++                               volume['name'])
++        iscsi_target, lun = self._get_target_and_lun(context, volume)
++
++        # Verify we haven't setup a CHAP creds file already
++        # if DNE no big deal, we'll just create it
++        chap_auth = self._get_target_chap_auth(context, iscsi_name)
++        if not chap_auth:
++            chap_auth = (vutils.generate_username(),
++                         vutils.generate_password())
++
++        # NOTE(jdg): For TgtAdm case iscsi_name is the ONLY param we need
++        # should clean this all up at some point in the future
++        tid = self.create_iscsi_target(iscsi_name,
++                                       iscsi_target,
++                                       lun,
++                                       volume_path,
++                                       chap_auth)
++        data = {}
++        data['location'] = self._iscsi_location(
++            self.configuration.iscsi_ip_address, tid, iscsi_name, lun,
++            self.configuration.iscsi_secondary_ip_addresses)
++        LOG.debug('Set provider_location to: %s', data['location'])
++        data['auth'] = self._iscsi_authentication(
++            'CHAP', *chap_auth)
++        return data
++
++    @utils.synchronized('iscsi-ctl', external=False)
++    def remove_iscsi_target(self, tid, lun, vol_id, vol_name, **kwargs):
++        LOG.info('Removing iscsi_target for volume: %s' % vol_id)
++        vol_uuid_file = vol_name
++        conf_file = self.ctl_conf
++        if os.path.exists(conf_file):
++            with utils.temporary_chown(conf_file):
++                try:
++                    ctl_conf_text = open(conf_file, 'r+')
++                    full_txt = ctl_conf_text.readlines()
++                    new_ctl_conf_txt = []
++                    count = 0
++                    for line in full_txt:
++                        if count > 0:
++                            count -= 1
++                            continue
++                        elif re.search(vol_uuid_file, line):
++                            count = 7
++                            continue
++                        else:
++                            new_ctl_conf_txt.append(line)
++
++                    ctl_conf_text.seek(0)
++                    ctl_conf_text.truncate(0)
++                    ctl_conf_text.writelines(new_ctl_conf_txt)
++                finally:
++                    ctl_conf_text.close()
++            utils.execute(self.ctld, 'onereload', run_as_root=True)

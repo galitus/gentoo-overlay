@@ -1,0 +1,11 @@
+--- nova/virt/libvirt/driver.py	2016-09-15 12:06:46.814110321 +0200
++++ nova/virt/libvirt/driver2.py	2016-09-15 12:04:50.580111782 +0200
+@@ -318,7 +318,7 @@
+     'GuestNumaConfig', ['cpuset', 'cputune', 'numaconfig', 'numatune'])
+ 
+ libvirt_volume_drivers = [
+-    'iscsi=nova.virt.libvirt.volume.iscsi.LibvirtISCSIVolumeDriver',
++    'iscsi=nova.virt.libvirt.volume.net.LibvirtNetVolumeDriver',
+     'iser=nova.virt.libvirt.volume.iser.LibvirtISERVolumeDriver',
+     'local=nova.virt.libvirt.volume.volume.LibvirtVolumeDriver',
+     'fake=nova.virt.libvirt.volume.volume.LibvirtFakeVolumeDriver',

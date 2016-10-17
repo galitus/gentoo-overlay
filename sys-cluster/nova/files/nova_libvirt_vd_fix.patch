@@ -1,0 +1,23 @@
+--- nova/compute/utils2.py	2016-02-15 16:33:12.234067751 +0000
++++ nova/compute/utils.py	2016-02-15 16:31:22.497463640 +0000
+@@ -137,6 +137,8 @@
+     """
+     is_xen = driver.compute_driver_matches('xenapi.XenAPIDriver')
+ 
++    is_libvirt = driver.compute_driver_matches('libvirt.LibvirtDriver')
++
+     req_prefix = None
+     req_letter = None
+ 
+@@ -159,6 +161,11 @@
+     if is_xen:
+         prefix = '/dev/xvd'
+ 
++    if is_libvirt:
++        prefix = req_prefix
++        if prefix is None:
++	        prefix = '/dev/vd'
++
+     if req_prefix != prefix:
+         LOG.debug("Using %(prefix)s instead of %(req_prefix)s",
+                   {'prefix': prefix, 'req_prefix': req_prefix})
