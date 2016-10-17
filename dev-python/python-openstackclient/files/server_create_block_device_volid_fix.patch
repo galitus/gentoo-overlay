@@ -1,0 +1,187 @@
+From 8b23c2690c90a6cafc58f8a72f04c8e33234ce37 Mon Sep 17 00:00:00 2001
+From: xiexs <xiexs@cn.fujitsu.com>
+Date: Tue, 10 Nov 2015 02:39:28 -0500
+Subject: Split the vol_id from a dev mapping
+
+Add a split into the dev mapping to get the right vol_id.
+
+Change-Id: I1a7bf6351491b1321c5ca0fa4a27f29825400eaf
+Closes-Bug: #1514394
+---
+ openstackclient/compute/v2/server.py            | 15 +++--
+ openstackclient/tests/compute/v2/fakes.py       | 10 ++++
+ openstackclient/tests/compute/v2/test_server.py | 73 +++++++++++++++++++++++++
+ 3 files changed, 94 insertions(+), 4 deletions(-)
+
+diff --git a/openstackclient/compute/v2/server.py b/openstackclient/compute/v2/server.py
+index b5e7f00..ef9d24e 100644
+--- a/openstackclient/compute/v2/server.py
++++ b/openstackclient/compute/v2/server.py
+@@ -425,10 +425,17 @@ class CreateServer(show.ShowOne):
+                 dev_key, dev_vol = dev_map.split('=', 1)
+                 block_volume = None
+                 if dev_vol:
+-                    block_volume = utils.find_resource(
+-                        volume_client.volumes,
+-                        dev_vol,
+-                    ).id
++                    vol = dev_vol.split(':', 1)[0]
++                    if vol:
++                        vol_id = utils.find_resource(
++                            volume_client.volumes,
++                            vol,
++                        ).id
++                        block_volume = dev_vol.replace(vol, vol_id)
++                    else:
++                        msg = _("Volume name or ID must be specified if "
++                                "--block-device-mapping is specified")
++                        raise exceptions.CommandError(msg)
+                 block_device_mapping.update({dev_key: block_volume})
+ 
+         nics = []
+diff --git a/openstackclient/tests/compute/v2/fakes.py b/openstackclient/tests/compute/v2/fakes.py
+index 08eb5af..13db0c0 100644
+--- a/openstackclient/tests/compute/v2/fakes.py
++++ b/openstackclient/tests/compute/v2/fakes.py
+@@ -20,6 +20,7 @@ from openstackclient.tests.identity.v2_0 import fakes as identity_fakes
+ from openstackclient.tests.image.v2 import fakes as image_fakes
+ from openstackclient.tests.network.v2 import fakes as network_fakes
+ from openstackclient.tests import utils
++from openstackclient.tests.volume.v2 import fakes as volume_fakes
+ 
+ 
+ server_id = 'serv1'
+@@ -80,6 +81,8 @@ QUOTA = {
+ QUOTA_columns = tuple(sorted(QUOTA))
+ QUOTA_data = tuple(QUOTA[x] for x in sorted(QUOTA))
+ 
++block_device_mapping = 'vda=' + volume_fakes.volume_name + ':::0'
++
+ 
+ class FakeComputev2Client(object):
+     def __init__(self, **kwargs):
+@@ -95,6 +98,8 @@ class FakeComputev2Client(object):
+         self.flavors.resource_class = fakes.FakeResource(None, {})
+         self.quotas = mock.Mock()
+         self.quotas.resource_class = fakes.FakeResource(None, {})
++        self.volumes = mock.Mock()
++        self.volumes.resource_class = fakes.FakeResource(None, {})
+         self.auth_token = kwargs['token']
+         self.management_url = kwargs['endpoint']
+ 
+@@ -122,3 +127,8 @@ class TestComputev2(utils.TestCommand):
+             endpoint=fakes.AUTH_URL,
+             token=fakes.AUTH_TOKEN,
+         )
++
++        self.app.client_manager.volume = volume_fakes.FakeVolumeClient(
++            endpoint=fakes.AUTH_URL,
++            token=fakes.AUTH_TOKEN,
++        )
+diff --git a/openstackclient/tests/compute/v2/test_server.py b/openstackclient/tests/compute/v2/test_server.py
+index f420ff0..f6f9797 100644
+--- a/openstackclient/tests/compute/v2/test_server.py
++++ b/openstackclient/tests/compute/v2/test_server.py
+@@ -24,6 +24,7 @@ from openstackclient.tests.compute.v2 import fakes as compute_fakes
+ from openstackclient.tests import fakes
+ from openstackclient.tests.image.v2 import fakes as image_fakes
+ from openstackclient.tests import utils
++from openstackclient.tests.volume.v2 import fakes as volume_fakes
+ 
+ 
+ class TestServer(compute_fakes.TestComputev2):
+@@ -47,6 +48,10 @@ class TestServer(compute_fakes.TestComputev2):
+         self.images_mock = self.app.client_manager.image.images
+         self.images_mock.reset_mock()
+ 
++        # Get a shortcut to the VolumeManager Mock
++        self.volumes_mock = self.app.client_manager.volume.volumes
++        self.volumes_mock.reset_mock()
++
+ 
+ class TestServerCreate(TestServer):
+ 
+@@ -80,6 +85,13 @@ class TestServerCreate(TestServer):
+         )
+         self.flavors_mock.get.return_value = self.flavor
+ 
++        self.volume = fakes.FakeResource(
++            None,
++            copy.deepcopy(volume_fakes.VOLUME),
++            loaded=True,
++        )
++        self.volumes_mock.get.return_value = self.volume
++
+         # Get the command object to test
+         self.cmd = server.CreateServer(self.app, None)
+ 
+@@ -289,6 +301,67 @@ class TestServerCreate(TestServer):
+         )
+         self.assertEqual(datalist, data)
+ 
++    def test_server_create_with_block_device_mapping(self):
++        arglist = [
++            '--image', 'image1',
++            '--flavor', compute_fakes.flavor_id,
++            '--block-device-mapping', compute_fakes.block_device_mapping,
++            compute_fakes.server_name,
++        ]
++        verifylist = [
++            ('image', 'image1'),
++            ('flavor', compute_fakes.flavor_id),
++            ('block_device_mapping', [compute_fakes.block_device_mapping]),
++            ('config_drive', False),
++            ('server_name', compute_fakes.server_name),
++        ]
++        parsed_args = self.check_parser(self.cmd, arglist, verifylist)
++
++        # CreateServer.take_action() returns two tuples
++        columns, data = self.cmd.take_action(parsed_args)
++
++        real_volume_mapping = (
++            (compute_fakes.block_device_mapping.split('=', 1)[1]).replace(
++                volume_fakes.volume_name,
++                volume_fakes.volume_id))
++
++        # Set expected values
++        kwargs = dict(
++            meta=None,
++            files={},
++            reservation_id=None,
++            min_count=1,
++            max_count=1,
++            security_groups=[],
++            userdata=None,
++            key_name=None,
++            availability_zone=None,
++            block_device_mapping={
++                'vda': real_volume_mapping
++            },
++            nics=[],
++            scheduler_hints={},
++            config_drive=None,
++        )
++        # ServerManager.create(name, image, flavor, **kwargs)
++        self.servers_mock.create.assert_called_with(
++            compute_fakes.server_name,
++            self.image,
++            self.flavor,
++            **kwargs
++        )
++
++        collist = ('addresses', 'flavor', 'id', 'name', 'properties')
++        self.assertEqual(collist, columns)
++        datalist = (
++            '',
++            'Large ()',
++            compute_fakes.server_id,
++            compute_fakes.server_name,
++            '',
++        )
++        self.assertEqual(datalist, data)
++
+ 
+ class TestServerDelete(TestServer):
+ 
+-- 
+cgit v0.11.2
