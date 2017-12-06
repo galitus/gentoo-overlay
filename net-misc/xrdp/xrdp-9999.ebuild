@@ -49,7 +49,7 @@ src_prepare() {
 	# disallow root login by default
 	#sed -i -e '/^AllowRootLogin/s/1/0/' sesman/sesman.ini || die
 	# Fedora files, not included here
-	sed -i -e '/EnvironmentFile=/d' instfiles/*.service || die
+	sed -i -e '/EnvironmentFile=/d' instfiles/*.service.in || die
 	# reorder so that X11rdp comes last again since it's not supported
 	#sed -i -e '/^\[xrdp1\]$/,/^$/{wxrdp.ini.tmp
 	#	;d}' xrdp/xrdp.ini || die
