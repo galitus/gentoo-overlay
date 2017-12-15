@@ -9,9 +9,9 @@ EAPI=5
 inherit cmake-utils
 
 DESCRIPTION="GeoHashTree for Point Cloud Data"
-HOMEPAGE=""
+HOMEPAGE="https://github.com/pramsey/libght"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/neutrinolabs/xorgxrdp"
+EGIT_REPO_URI="https://github.com/pramsey/libght.git"
 
 
 #LICENSE="GPL-2 gmttria? ( Artistic )"
