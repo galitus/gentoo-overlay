@@ -6,7 +6,7 @@ EAPI=5
 #AUTOTOOLS_AUTORECONF=yes
 
 #inherit autotools-utils multilib
-inherit cmake-utils
+inherit cmake-utils git-r3
 
 DESCRIPTION="GeoHashTree for Point Cloud Data"
 HOMEPAGE="https://github.com/pramsey/libght"
