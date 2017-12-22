@@ -70,7 +70,7 @@ src_prepare() {
 src_configure() {
 	local myargs=""
 	use gtk && myargs+=" --with-gui"
-	use sfcgal && myargs+=" --with-sfcagal"
+	use sfcgal && myargs+=" --with-sfcgal"
 	postgres-multi_foreach econf ${myargs}
 }
 
