@@ -26,6 +26,8 @@ DEPEND=">=dev-util/cmake-3.7.2
 
 REQUIRED_USE=""
 
+S="${WORKDIR}/SFCGAL-1.3.0"
+
 # hand written make files that are not parallel safe
 #MAKEOPTS+=" -j1"
 
