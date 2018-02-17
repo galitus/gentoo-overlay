@@ -21,7 +21,7 @@ KEYWORDS=""
 
 RDEPEND=""
 DEPEND=">=net-dns/avahi-0.7[mdnsresponder-compat]
-	dev-qt/qt:5
+	dev-qt/qtcore:5
 	dev-qt/qtgui:5
 	dev-qt/qtnetwork:5
 	dev-qt/qtserialport:5
