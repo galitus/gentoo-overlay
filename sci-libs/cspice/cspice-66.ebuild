@@ -30,7 +30,10 @@ src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
 	doins ${S}/lib/*.a
-	insinto /usr/include/naif/${PN}/
+	insinto /usr/bin/
+	insopts -m 00755 -o root -g root
+	doins ${S}/exe/*
+	insinto /usr/include/${PN}/
 	insopts -m 0755 -o root -g root
 	doins ${S}/include/*
 
