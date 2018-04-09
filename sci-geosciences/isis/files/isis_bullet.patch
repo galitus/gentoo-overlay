@@ -1,0 +1,25 @@
+--- ./isis/cmake/FindBullet.cmake	2018-04-06 15:12:14.690517125 +0200
++++ ./isis3_cmake_working/isis/cmake/FindBullet.cmake	2018-04-03 13:36:46.109932228 +0200
+@@ -13,10 +13,10 @@
+ find_library(BULLET_OPENCL_LIBRARY NAMES Bullet3OpenCL_clew)
+ find_library(BULLET_SOFTBODY_LIBRARY NAMES BulletSoftBody)
+ find_library(BULLET_INVERSEDYNAMICS_LIBRARY NAMES BulletInverseDynamics)
+-find_library(BULLET_COMMON_LIBRARY NAMES Bullet3Common)
++find_library(BULLET3_COMMON_LIBRARY NAMES Bullet3Common)
+ find_library(BULLET_DYNAMICS_LIBRARY NAMES BulletDynamics)
+-find_library(BULLET3_COLLISION_LIBRARY NAMES BulletCollision)
+-find_library(BULLET3_3GEOMETRY_LIBRARY NAMES Bullet3Geometry)
++find_library(BULLET_COLLISION_LIBRARY NAMES BulletCollision)
++find_library(BULLET3_GEOMETRY_LIBRARY NAMES Bullet3Geometry)
+ find_library(BULLET3_3DYNAMICS_LIBRARY NAMES Bullet3Dynamics)
+ find_library(BULLET3_3COLLISION_LIBRARY NAMES Bullet3Collision)
+ find_library(BULLET3_LINEARMATH_LIBRARY NAMES LinearMath)
+@@ -29,7 +29,7 @@
+ message( "-- BULLET INVERSE DYNAMICS: " ${BULLET_INVERSEDYNAMICS_LIBRARY} )
+ message( "-- BULLET DYNAMICS: " ${BULLET_DYNAMICS_LIBRARY} )
+ message( "-- BULLET COLLISION: " ${BULLET_COLLISION_LIBRARY} )
+-message( "-- BULLET GEOMETRY: " ${BULLET3_GEOMETRY_LIBRARY} )
++message( "-- BULLET3 GEOMETRY: " ${BULLET3_GEOMETRY_LIBRARY} )
+ message( "-- BULLET3 3DYNAMICS: " ${BULLET3_3DYNAMICS_LIBRARY} )
+ message( "-- BULLET3 3COLLISION: " ${BULLET3_3COLLISION_LIBRARY} )
+ message( "-- BULLET3 COMMON: " ${BULLET3_COMMON_LIBRARY} )

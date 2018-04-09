@@ -1,0 +1,36 @@
+--- ./isis/cmake/InstallThirdParty.cmake	2018-04-09 15:10:29.918371913 +0200
++++ ./isis_org/cmake/InstallThirdParty.cmake	2018-04-09 15:18:52.588929363 +0200
+@@ -5,6 +5,8 @@
+ # Library portion of the installation
+ function(install_third_party_libs)
+ 
++set(CMAKE_INSTALL_PREFIX "/var/tmp/portage/sci-geosciences/isis-3/work/isis-3_build/opt/isis3")
++
+   # Where all the library files will go
+   set(installLibFolder "${CMAKE_INSTALL_PREFIX}/3rdParty/lib")
+   execute_process(COMMAND mkdir -p ${installLibFolder})
+@@ -35,6 +37,8 @@
+ # Plugin portion of the installation
+ function(install_third_party_plugins)
+ 
++set(CMAKE_INSTALL_PREFIX "/var/tmp/portage/sci-geosciences/isis-3/work/isis-3_build/opt/isis3")
++
+   # Where all the plugin files will go
+   set(installPluginFolder "${CMAKE_INSTALL_PREFIX}/3rdParty/plugins")
+ 
+@@ -49,6 +53,7 @@
+ 
+ # License portion of the installation
+ function(install_third_party_license)
++set(CMAKE_INSTALL_PREFIX "/var/tmp/portage/sci-geosciences/isis-3/work/isis-3_build/opt/isis3")
+   # Specify top level directories
+   if(APPLE)
+     set(LIC_DIR "/opt/usgs/v007/3rdParty/license")
+@@ -65,6 +70,7 @@
+ 
+ # Install all third party libraries and plugins
+ function(install_third_party)
++set(CMAKE_INSTALL_PREFIX "/var/tmp/portage/sci-geosciences/isis-3/work/isis-3_build/opt/isis3")
+ 
+   # The files are available pre-build but are not copied until make-install is called.
+   message("Setting up 3rd party lib installation...")
