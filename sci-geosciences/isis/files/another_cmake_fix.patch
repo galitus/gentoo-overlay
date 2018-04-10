@@ -1,5 +1,5 @@
---- ./cmake/cmake_install.cmake	2018-04-10 16:28:51.371625776 +0200
-+++ ./cmake/cmake_install.cmake	2018-04-10 16:29:37.442897447 +0200
+--- ./isis/cmake/cmake_install.cmake	2018-04-10 16:28:51.371625776 +0200
++++ ./isis/cmake/cmake_install.cmake	2018-04-10 16:29:37.442897447 +0200
 @@ -33,18 +33,18 @@
  endif()
  
