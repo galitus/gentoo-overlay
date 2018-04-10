@@ -9,7 +9,7 @@
  
  #===============================================================================
  #===============================================================================
-@@ -158,12 +158,12 @@
+@@ -158,12 +158,9 @@
  
  # We will set up some links with these files at the end of the install process so
  #  make sure they are cleared at the start of the install process.
@@ -19,16 +19,13 @@
 -EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/src/base/objs/Preference/TestPreferences ${CMAKE_BINARY_DIR}/)
 -install(CODE "EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/src/base/objs/Preference/TestPreferences ${CMAKE_INSTALL_PREFIX}/)")
 -install(CODE "EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/IsisPreferences ${CMAKE_INSTALL_PREFIX}/)")
-+install(CODE "EXECUTE_PROCESS(COMMAND rm -f ${CMAKE_BINARY_DIR}/lib/libisis3.5.0${SO})")
-+install(CODE "EXECUTE_PROCESS(COMMAND rm -f ${CMAKE_BINARY_DIR}/lib/libisis3.5${SO})")
-+install(CODE "EXECUTE_PROCESS(COMMAND rm -f ${CMAKE_BINARY_DIR}/lib/libisis3.${SO})")
 +install(CODE "EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/src/base/objs/Preference/TestPreferences ${CMAKE_BINARY_DIR}/)")
 +#install(CODE "EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/src/base/objs/Preference/TestPreferences ${CMAKE_INSTALL_PREFIX}/)")
 +install(CODE "EXECUTE_PROCESS(COMMAND cp -f ${CMAKE_SOURCE_DIR}/IsisPreferences ${CMAKE_BINARY_DIR}/)")
  
  # Append CPP flags set in the third party lib file to the string set in this file.
  string(REPLACE ";" " " FLAGS_STR "${thirdPartyCppFlags}")
-@@ -200,7 +200,7 @@
+@@ -200,7 +197,7 @@
  add_subdirectory(src objects)
  
  # Set up third party libraries for installation

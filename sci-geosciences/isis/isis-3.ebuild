@@ -70,17 +70,10 @@ src_configure() {
         cmake-utils_src_configure
 }
 
+src_install() {
+        cmake-utils_src_install
 
-#src_compile() {
-#	cd ${S}
-#	${S}/makeall.csh
-#}
-
-#src_install() {
-#	insinto /usr/lib64/
-#	insopts -m 0644 -o root -g root
-#	doins ${S}/lib/*.a
-	#insinto /usr/include/naif/${PN}/
-	#insopts -m 0755 -o root -g root
-	#doins ${S}/include/*
-#}
+        insinto /opt/isis3/
+        insopts -m 0755 -o root -g root
+        doins -r ${D}/usr/*
+}
