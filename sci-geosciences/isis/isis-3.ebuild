@@ -64,7 +64,7 @@ src_configure() {
 	epatch "${FILESDIR}"/*.patch
         local mycmakeargs=(
                 -DJP2KFLAG=OFF
-		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
+#		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
         )
 
         cmake-utils_src_configure
