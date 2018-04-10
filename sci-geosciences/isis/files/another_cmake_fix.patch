@@ -1,0 +1,25 @@
+--- ./cmake/cmake_install.cmake	2018-04-10 16:28:51.371625776 +0200
++++ ./cmake/cmake_install.cmake	2018-04-10 16:29:37.442897447 +0200
+@@ -33,18 +33,18 @@
+ endif()
+ 
+ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+-  EXECUTE_PROCESS(COMMAND cp -f /scratch/isiscmake/isis/lib/libisis3.so /scratch/isiscmake/isis/build/lib/libisis3.5.0.so)
++  install(EXECUTE_PROCESS(COMMAND cp -f /scratch/isiscmake/isis/lib/libisis3.so /scratch/isiscmake/isis/build/lib/libisis3.5.0.so)")
+ endif()
+ 
+ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+-  EXECUTE_PROCESS(COMMAND ln -sf libisis3.5.0.so /scratch/isiscmake/isis/build/lib/libisis3.5.so)
++  install(EXECUTE_PROCESS(COMMAND ln -sf libisis3.5.0.so /scratch/isiscmake/isis/build/lib/libisis3.5.so)")
+ endif()
+ 
+ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+-  EXECUTE_PROCESS(COMMAND ln -sf libisis3.5.so /scratch/isiscmake/isis/build/lib/libisis3.so)
++  install(EXECUTE_PROCESS(COMMAND ln -sf libisis3.5.so /scratch/isiscmake/isis/build/lib/libisis3.so)")
+ endif()
+ 
+ if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+-  EXECUTE_PROCESS(COMMAND ln -sf libisis3.so /scratch/isiscmake/isis/build/lib/libisis.so)
++  install(EXECUTE_PROCESS(COMMAND ln -sf libisis3.so /scratch/isiscmake/isis/build/lib/libisis.so)")
+ endif()
+ 
