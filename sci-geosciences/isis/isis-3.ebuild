@@ -64,7 +64,7 @@ src_configure() {
 	epatch "${FILESDIR}"/*.patch
         local mycmakeargs=(
                 -DJP2KFLAG=OFF
-#		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
+		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
         )
 
         cmake-utils_src_configure
@@ -73,7 +73,10 @@ src_configure() {
 src_install() {
         cmake-utils_src_install
 
-        insinto /opt/isis3/
-        insopts -m 0755 -o root -g root
-        doins -r ${D}/usr/*
+#        insinto /opt/isis3/
+#        insopts -m 0755 -o root -g root
+#        doins -r ${D}/opt/isis3/*
+#        insinto /
+#        insopts -m 0755 -o root -g root
+#        doins -r ${D}/usr
 }
