@@ -1,5 +1,14 @@
 --- ./isis/CMakeLists.txt	2018-04-09 16:40:08.703579464 +0200
 +++ ./isis/CMakeLists.txt	2018-04-09 17:46:43.184398520 +0200
+@@ -15,7 +15,7 @@
+ include(AddIsisModule)
+ include(Utilities)
+ include(TestSetup)
+-include(InstallThirdParty)
++#include(InstallThirdParty)
+ 
+ #===============================================================================
+ #===============================================================================
 @@ -158,12 +158,12 @@
  
  # We will set up some links with these files at the end of the install process so
@@ -19,3 +28,12 @@
  
  # Append CPP flags set in the third party lib file to the string set in this file.
  string(REPLACE ";" " " FLAGS_STR "${thirdPartyCppFlags}")
+@@ -200,7 +200,7 @@
+ add_subdirectory(src objects)
+ 
+ # Set up third party libraries for installation
+-install_third_party()
++#install_third_party()
+ 
+ # # Create a link from the build/objects directory to each folder in 3rdPartyLibs/plugins.
+ # # - This is required so that the plugins can be found during unit tests.
