@@ -73,6 +73,9 @@ src_configure() {
 src_install() {
         cmake-utils_src_install
 
+	insinto /etc/env.d/
+	insopts -m 0644 -o root -g root
+	doins "${FILESDIR}"/91isis.env
 #        insinto /opt/isis3/
 #        insopts -m 0755 -o root -g root
 #        doins -r ${D}/opt/isis3/*
