@@ -11,7 +11,9 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	>=x11-libs/libXp-1.0.3
+       "
 RDEPEND="${DEPEND}"
 #WORKDIR="${PN}"
 S="${WORKDIR}/vicar_open_${PV}"
