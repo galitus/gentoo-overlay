@@ -14,7 +14,7 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 #WORKDIR="${PN}"
-S="${WORKDIR}/${PN}_open_${PV}"
+S="${WORKDIR}/vicar_open_${PV}"
 
 #src_compile() {
 #	econf || die "econf failed"
