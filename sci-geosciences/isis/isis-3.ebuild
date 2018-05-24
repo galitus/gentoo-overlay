@@ -46,7 +46,7 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	>=sci-libs/superlu-4.3-r1
 	>=sci-libs/tnt-3.0.12
 	>=dev-libs/xerces-c-3.1.4-r1
-	>=sci-libs/geos-3.5.0-r2
+	<=sci-libs/geos-3.5.0-r2
 	>=media-libs/libpng-1.6.29
 	"
 

@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
+EAPI=6
+
 DESCRIPTION="VICAR - Binary Edition"
 HOMEPAGE="https://www-mipl.jpl.nasa.gov/vicar_open.html"
 SRC_URI="https://github.com/nasa/VICAR/releases/download/2.0/vicar_open_bin_x86-64-linx_2.0.tar.gz"
@@ -13,6 +15,7 @@ IUSE=""
 
 DEPEND="
 	>=x11-libs/libXp-1.0.3
+	media-libs/tiff:3
        "
 RDEPEND="${DEPEND}"
 #WORKDIR="${PN}"
