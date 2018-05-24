@@ -1,7 +1,7 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit eutils versionator multilib toolchain-funcs multiprocessing
 
@@ -73,7 +73,9 @@ src_compile() {
 #	export WM_NCOMPPROCS=$(makeopts_jobs)
 
 	export FOAM_INST_DIR=${WORKDIR}
+	SAVEPATH=${PATH}
 	source etc/bashrc
+
 #
 #	find wmake -name dirToString -exec rm -rf {} +
 #	find wmake -name wmkdep -exec rm -rf {}+
@@ -83,6 +85,7 @@ src_compile() {
 		doc/Allwmake || die "could not build"
 	fi
 	source etc/config.sh/unset
+	export PATH=${SAVEPATH}
 }
 
 # Doesn't do anything sane
@@ -95,14 +98,14 @@ src_install() {
 	insinto ${INSDIR}
 	doins -r etc || die "Install failed!"
 
-	use examples && doins -r tutorials 
+	use examples && doins -r tutorials
 
 	use src && doins -r src
 
 	insopts -m0755
 	doins -r bin applications platforms wmake || die "Install failed!"
 
-	dodoc README.html doc/Guides/*.pdf
+	dodoc README.org doc/Guides/*.pdf
 
 	if use doc ; then
 		dohtml -r doc/Doxygen
