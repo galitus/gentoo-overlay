@@ -40,7 +40,7 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	>=sci-libs/suitesparseconfig-4.2.1-r1
 	>=sci-libs/lapack-reference-3.2.1-r4
 	>=sci-libs/blas-reference-20070226-r4
-	>=x11-libs/qwt-6.1.3-r1[qt5]
+	>=x11-libs/qwt-6.1.3-r2
 	>=sci-libs/hdf5-1.8.18[-threads]
 	>=media-libs/tiff-4.0.9-r3
 	>=sci-libs/superlu-4.3-r1
