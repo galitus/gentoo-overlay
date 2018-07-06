@@ -38,6 +38,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	epatch "${FILESDIR}"/shtools_www.patch
 	append-ldflags -shared # needed by f2py
 	# needed by f2py in fortran 77 mode
 	append-fflags -fPIC
@@ -54,11 +55,11 @@ src_prepare() {
 		PYTHON_VERSION=${_pyver}
 	)
 
-	sed \
-		-e '/mv/s:.so:*.so:g' \
-		-e "/SYSDOCPATH/s:${PN}:${PF}:g" \
-		-e "/www/s:/$:/html/:g" \
-		-i Makefile || die
+#	sed \
+#		-e '/mv/s:.so:*.so:g' \
+#		-e "/SYSDOCPATH/s:${PN}:${PF}:g" \
+#		-e "/www/s:/$:/html/:g" \
+#		-i Makefile || die
 	sed -i s/f2py3/f2py/g Makefile
 
 	default

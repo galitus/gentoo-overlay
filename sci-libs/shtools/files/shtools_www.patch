@@ -1,0 +1,11 @@
+--- SHTOOLS-4.2/Makefile	2018-06-15 13:56:28.415109308 +0200
++++ SHTOOLS-4.2_b/Makefile	2018-07-05 18:03:04.179525196 +0200
+@@ -411,8 +411,6 @@
+ 	mkdir -pv $(DESTDIR)$(SYSSHAREPATH)/man/man1
+ 	cp -R man/man1/ $(DESTDIR)$(SYSSHAREPATH)/man/man1/
+ 	mkdir -pv $(DESTDIR)$(SYSDOCPATH)/shtools
+-	cp index.html $(DESTDIR)$(SYSDOCPATH)/shtools/index.html
+-	cp -R www $(DESTDIR)$(SYSDOCPATH)/shtools/
+ 	awk '{gsub("../../lib","$(PREFIX)/lib");print}' "examples/fortran/Makefile" > "temp.txt"
+ 	awk '{gsub("../../modules","$(PREFIX)/include");print}' "temp.txt" > "temp2.txt"
+ 	cp temp2.txt "$(DESTDIR)$(SYSSHAREPATH)/shtools/examples/fortran/Makefile"
