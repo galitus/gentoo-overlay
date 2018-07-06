@@ -1,0 +1,131 @@
+diff -Naur openafs-1.6.22.2/Makefile.in openafs-1.6.22.2_b/Makefile.in
+--- openafs-1.6.22.2/Makefile.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/Makefile.in	2018-06-25 15:52:20.763452422 +0200
+@@ -32,6 +32,9 @@
+ COMPILE_DEPINSTALL  = ${COMPILE_PART2A} depinstall
+ COMPILE_GENERATED  = ${COMPILE_PART2A} generated
+ 
++INCS   = -I. @RPC_CFLAGS@
++LIBS   = @LIBS@ -L$(srcdir) @RPC_LIBS@
++
+ all: force
+ 	$(MAKE) build
+ 
+diff -Naur openafs-1.6.22.2/configure-libafs.ac openafs-1.6.22.2_b/configure-libafs.ac
+--- openafs-1.6.22.2/configure-libafs.ac	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/configure-libafs.ac	2018-06-25 16:23:10.557589634 +0200
+@@ -24,3 +24,21 @@
+ src/libafs/Makefile.common \
+ src/libafs/MakefileProto \
+ )
++
++AC_ARG_WITH([libtirpc],
++      [AS_HELP_STRING([--with-libtirpc], [Use libtirpc as RPC implementation (instead of sunrpc)])])
++
++AS_IF([test "x$with_libtirpc" = xyes], 
++      [PKG_CHECK_MODULES([TIRPC], 
++                         [libtirpc], 
++                         [RPC_CFLAGS=$TIRPC_CFLAGS; RPC_LIBS=$TIRPC_LIBS;],
++                        [AC_MSG_ERROR([libtirpc requested, but library not found.])]
++                       )], 
++      [AC_CHECK_HEADER(rpc/rpc.h, 
++                      [RPC_CFLAGS=""; RPC_LIBS="";],
++                      [AC_MSG_ERROR([sunrpc requested, but headers are not present.])]
++                     )]
++)
++
++AC_SUBST(RPC_CFLAGS)
++AC_SUBST(RPC_LIBS)
+diff -Naur openafs-1.6.22.2/configure.ac openafs-1.6.22.2_b/configure.ac
+--- openafs-1.6.22.2/configure.ac	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/configure.ac	2018-06-25 15:52:11.805451757 +0200
+@@ -8,6 +8,24 @@
+ MACOS_VERSION=1.6.23d2
+ LINUX_PKGVER=1.6.22.2
+ 
++AC_ARG_WITH([libtirpc],
++      [AS_HELP_STRING([--with-libtirpc], [Use libtirpc as RPC implementation (instead of sunrpc)])])
++
++AS_IF([test "x$with_libtirpc" = xyes], 
++      [PKG_CHECK_MODULES([TIRPC], 
++                         [libtirpc], 
++                         [RPC_CFLAGS=$TIRPC_CFLAGS; RPC_LIBS=$TIRPC_LIBS;],
++                        [AC_MSG_ERROR([libtirpc requested, but library not found.])]
++                       )], 
++      [AC_CHECK_HEADER(rpc/rpc.h, 
++                      [RPC_CFLAGS=""; RPC_LIBS="";],
++                      [AC_MSG_ERROR([sunrpc requested, but headers are not present.])]
++                     )]
++)
++
++AC_SUBST(RPC_CFLAGS)
++AC_SUBST(RPC_LIBS)
++
+ dnl Debian wants the release candidate version in the main upstream version,
+ dnl and wants ~ before it.
+ DEB_PKGVER=m4_esyscmd([build-tools/git-version .])
+
+diff -Naur openafs-1.6.22.2/src/config/Makefile.config.in openafs-1.6.22.2_b/src/config/Makefile.config.in
+--- openafs-1.6.22.2/src/config/Makefile.config.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/src/config/Makefile.config.in	2018-06-25 16:05:47.838512288 +0200
+@@ -46,6 +46,7 @@
+ DEST = @DEST@
+ FSINCLUDES = @FSINCLUDES@
+ GENCAT = @GENCAT@
++INCS   = -I. @RPC_CFLAGS@
+ INCLUDE_LIBINTL = @INCLUDE_libintl@
+ KERN_DBG = @KERN_DBG@
+ KERN_OPTMZ = @KERN_OPTMZ@
+@@ -55,7 +56,7 @@
+ LIB_AFSDB = @LIB_AFSDB@
+ LIB_crypt = @LIB_crypt@
+ LIB_curses = @LIB_curses@
+-LIBS = @LIBS@
++LIBS = @LIBS@ -L$(srcdir) @RPC_LIBS@
+ LIB_LIBINTL = @LIB_libintl@
+ LINUX_KERNEL_PATH = @LINUX_KERNEL_PATH@
+ LINUX_KERNEL_BUILD = @LINUX_KERNEL_BUILD@
+diff -Naur openafs-1.6.22.2/src/config/Makefile.in openafs-1.6.22.2_b/src/config/Makefile.in
+--- openafs-1.6.22.2/src/config/Makefile.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/src/config/Makefile.in	2018-06-25 15:52:31.915453249 +0200
+@@ -14,6 +14,9 @@
+ 
+ CFLAGS=${DBG} ${OPTMZ} -I${TOP_INCDIR} ${XCFLAGS} ${ARCHFLAGS}
+ 
++INCS   = -I. @RPC_CFLAGS@
++LIBS   = @LIBS@ -L$(srcdir) @RPC_LIBS@
++
+ all: config mkvers \
+ 	${TOP_INCDIR}/afs/param.h \
+ 	${TOP_INCDIR}/afs/stds.h \
+diff -Naur openafs-1.6.22.2/src/platform/LINUX/Makefile.in openafs-1.6.22.2_b/src/platform/LINUX/Makefile.in
+--- openafs-1.6.22.2/src/platform/LINUX/Makefile.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/src/platform/LINUX/Makefile.in	2018-06-25 15:51:21.744448044 +0200
+@@ -1,3 +1,5 @@
++INCS   = -I. @RPC_CFLAGS@
++LIBS   = @LIBS@ -L$(srcdir) @RPC_LIBS@
+ # Copyright 2000, International Business Machines Corporation and others.
+ # All Rights Reserved.
+ # 
+diff -Naur openafs-1.6.22.2/src/platform/Makefile.in openafs-1.6.22.2_b/src/platform/Makefile.in
+--- openafs-1.6.22.2/src/platform/Makefile.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/src/platform/Makefile.in	2018-06-25 15:51:21.737448043 +0200
+@@ -1,3 +1,5 @@
++INCS   = -I. @RPC_CFLAGS@
++LIBS   = @LIBS@ -L$(srcdir) @RPC_LIBS@
+ # Copyright 2000, International Business Machines Corporation and others.
+ # All Rights Reserved.
+ # 
+diff -Naur openafs-1.6.22.2/src/libuafs/Makefile.common.in openafs-1.6.22.2_b/src/libuafs/Makefile.common.in 
+--- openafs-1.6.22.2/src/libuafs/Makefile.common.in	2018-02-01 12:52:02.000000000 +0100
++++ openafs-1.6.22.2_b/src/libuafs/Makefile.common.in	2018-06-29 15:23:54.289961337 +0200
+@@ -50,7 +50,8 @@
+         -I${TOP_OBJDIR}/src/vlserver \
+ 	-I${TOP_OBJDIR}/src/libuafs \
+         -I${TOP_INCDIR} \
+-        -I${TOP_INCDIR}/afs @INCLUDE_libintl@
++        -I${TOP_INCDIR}/afs @INCLUDE_libintl@ \
++	@RPC_CFLAGS@
+ 
+ # Build rules - CC and CFLAGS are defined in system specific MakefileProtos.
+
