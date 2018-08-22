@@ -13,7 +13,7 @@ else
 	S="${WORKDIR}"/${PN^^}-${PV/_/-}
 fi
 
-PYTHON_COMPAT=( python{2_7,3_{4,5}} )
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
 
 inherit fortran-2 flag-o-matic python-single-r1 toolchain-funcs ${_ECLASS}
 
