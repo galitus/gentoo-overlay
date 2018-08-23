@@ -27,7 +27,8 @@ COMMON_DEP="dev-java/eclipse-ecj:${ECJ_SLOT}
 	>=dev-java/tomcat-servlet-api-${SLOT}:${SAPI_SLOT}"
 RDEPEND="${COMMON_DEP}
 	!<dev-java/tomcat-native-1.1.24
-	>=virtual/jre-1.7"
+	>=virtual/jre-1.7
+	>=dev-java/ant-core-1.9.13"
 DEPEND="${COMMON_DEP}
 	app-admin/pwgen
 	>=virtual/jdk-1.7
