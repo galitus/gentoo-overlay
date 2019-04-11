@@ -1,0 +1,11 @@
+--- a/OpenFOAM-6/etc/bashrc	2019-03-01 12:52:07.422338379 +0100
++++ b/OpenFOAM-6/etc/bashrc	2019-02-28 17:52:10.191419697 +0100
+@@ -190,6 +190,8 @@
+ #- Clean MANPATH (trailing ':' to find system pages)
+ cleaned=`$foamClean "$MANPATH"`: && MANPATH="$cleaned"
+ 
++LD_LIBRARY_PATH="/usr/lib/opengl/nvidia/lib:$LD_LIBRARY_PATH"
++
+ export PATH LD_LIBRARY_PATH MANPATH
+ 
+ #- Clean LD_PRELOAD

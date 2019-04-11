@@ -12,7 +12,7 @@ GSHHS="gshhs-2.2.0"
 
 DESCRIPTION="Powerful map generator"
 HOMEPAGE="http://gmt.soest.hawaii.edu/"
-SRC_URI="ftp://ftp.iris.washington.edu/pub/gmt/${P}-src.tar.gz"
+SRC_URI="ftp://ftp.iris.washington.edu/pub/gmt/legacy/${P}-src.tar.gz"
 #	gmttria? ( mirror://gmt/legacy/${P}-non-gpl.tar.bz2 )"
 
 #LICENSE="GPL-2 gmttria? ( Artistic )"
