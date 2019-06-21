@@ -6,7 +6,9 @@ EAPI=5
 #AUTOTOOLS_AUTORECONF=yes
 
 #inherit autotools-utils multilib
-inherit cmake-utils git-r3
+inherit autotools-utils git-r3
+
+AUTOTOOLS_IN_SOURCE_BUILD=1
 
 DESCRIPTION="A PostgreSQL extension for storing point cloud (LIDAR) data."
 HOMEPAGE="https://github.com/pgpointcloud/pointcloud"
@@ -24,11 +26,12 @@ RDEPEND=""
 DEPEND=">=dev-db/postgresql-9.5.7
 	>=dev-libs/libght-9999
 	>=sci-geosciences/laz_perf-9999
-	>=dev-util/cmake-3.7.2
 	>=dev-util/cunit-2.1
 	>=dev-libs/libxml2-2.9.4"
 
 REQUIRED_USE=""
+
+#S="${WORKDIR}/${P}"
 
 # hand written make files that are not parallel safe
 #MAKEOPTS+=" -j1"
@@ -51,9 +54,17 @@ REQUIRED_USE=""
 #	eautoreconf
 #}
 
-#src_configure() {
-#	local myeconfargs=(
-#		--libdir=/usr/$(get_libdir)/${P}
+src_prepare() {
+	default
+	eautoreconf
+}
+
+src_configure() {
+	local myeconfargs=(
+		--with-lazperf=/usr/include/laz-perf
+	)
+	autotools-utils_src_configure
+}
 #		--includedir=/usr/include/${P}
 #		--datadir=/usr/share/${P}
 #		--docdir=/usr/share/doc/${PF}

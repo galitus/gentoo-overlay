@@ -36,7 +36,6 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	>=dev-libs/protobuf-3.5.1.1
 	>=sci-libs/amd-2.3.1[fortran]
 	>=sci-physics/bullet-2.86[bullet3]
-	>=media-libs/opencv-3.3.0-r5[jpeg2k,xine,gphoto2,gstreamer,ffmpeg,gdal,lapack,webp,gtk,contrib_xfeatures2d,contrib,cuda]
 	>=sci-libs/suitesparseconfig-4.2.1-r1
 	>=sci-libs/lapack-reference-3.2.1-r4
 	>=sci-libs/blas-reference-20070226-r4
@@ -49,6 +48,7 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	<=sci-libs/geos-3.5.0-r2
 	>=media-libs/libpng-1.6.29
 	"
+	#>=media-libs/opencv-3.3.0-r5[jpeg2k,xine,gphoto2,gstreamer,ffmpeg,gdal,lapack,webp,gtk,contrib_xfeatures2d,contrib,cuda]
 
 RDEPEND="${DEPEND}"
 #WORKDIR="${PN}"
