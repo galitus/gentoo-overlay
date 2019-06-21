@@ -1,0 +1,24 @@
+diff -Naur a/setup.py b/setup.py
+--- a/setup.py	2019-06-19 18:07:36.137166605 +0200
++++ b/setup.py	2019-06-21 17:23:56.205872217 +0200
+@@ -72,7 +72,19 @@
+     @staticmethod
+     def check_for_spice():
+         print('Checking the path', cspice_dir)
+-        if not os.path.exists(cspice_dir):
++        if os.path.exists("%s/cspice.a" % os.environ['CSPICE_DIR']):
++                if not os.path.isdir(lib_dir):
++                        os.makedirs (lib_dir)
++                print("cspice.a is installed in the system, so checking for the spice.so lib")
++                if not os.path.exists("lib_dir/spice.so"):
++                        print("spice.so does not exist, so I start compiling spice.so")
++                        shutil.copyfile("%s/cspice.a" % os.environ['CSPICE_DIR'], "%s/cspice.a" % lib_dir)
++                        shutil.copyfile("%s/csupport.a" % os.environ['CSPICE_DIR'], "%s/csupport.a" % lib_dir)
++                        InstallCSpice.unpack_cspice()
++                        InstallCSpice.build_library()
++                        InstallCSpice.move_to_root_directory()
++                return True
++        elif not os.path.exists(cspice_dir):
+             import getspice
+             message = 'Unable to find CSPICE at {0}. Attempting to Download CSPICE For you:'.format(cspice_dir)
+             print(message)
