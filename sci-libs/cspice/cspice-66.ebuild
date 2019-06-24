@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
+EAPI=7
+
 DESCRIPTION="CSpice - NAIF Toolkit for C"
 HOMEPAGE="https://naif.jpl.nasa.gov/naif/toolkit_C_PC_Linux_GCC_64bit.html"
 SRC_URI="http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z"
@@ -36,6 +38,7 @@ src_install() {
 	insinto /usr/include/${PN}/
 	insopts -m 0755 -o root -g root
 	doins ${S}/include/*
+	doenvd ${FILESDIR}/97cspice
 
 #	dopammod .libs/pam_afs_session.so
 #	doman pam_afs_session.5
