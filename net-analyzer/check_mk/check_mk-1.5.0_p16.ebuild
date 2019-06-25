@@ -1,9 +1,9 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 
-inherit systemd
+inherit systemd epatch
 
 DESCRIPTION="Check_MK Server part for monitoring your systems"
 HOMEPAGE="https://checkmk.com/"
@@ -104,7 +104,15 @@ src_unpack() {
 	cd "${WORKDIR}"/${MY_P}/omd/packages/python/
 	unpack "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15.tgz
 	cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
-	epatch "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/patches/*
+#	EPATCH_SOURCE="${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/" EPATCH_SUFFIX="patch" \
+#		EPATCH_FORCE="yes" epatch
+	pwd
+	ls
+	cd "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/"
+	pwd
+	ls
+	for patches in $(ls "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/");do eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/${patches}";done
+#	eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/0001-Install-libpythonX.Y.a-in-usr-lib-instead-of-usr-lib.patch"
 
 	#mkdir -p "${S}" || die
 	#cd "${S}" || die
