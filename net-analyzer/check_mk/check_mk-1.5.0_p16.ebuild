@@ -94,6 +94,7 @@ src_unpack() {
 #	unpack "${WORKDIR}"/${MY_P}/packages/check_mk/check_mk-${MY_PV}.tar.gz
 	cp ${FILESDIR}/Gentoo_.mk "${WORKDIR}"/${MY_P}/omd/distros/
 	rm "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/version-*
+	ls "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
 	mv ${FILESDIR}/version-0.9924.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
 
 	cp ${FILESDIR}/Makefile_boost "${WORKDIR}"/${MY_P}/omd/packages/boost/Makefile
@@ -108,9 +109,10 @@ src_unpack() {
 	#unpack "${WORKDIR}"/check_mk-${MY_PV}/doc.tar.gz
 }
 
+src_configure() { :; }
 
 src_compile() {
-	S="${WORKDIR}/${MY_P}/omd/"
+	WORKDIR="${WORKDIR}/${MY_P}/omd/"
 	emake
 	cp ${FILESDIR}/nagvis_install.sh "${WORKDIR}"/${MY_P}/omd/packages/nagvis/nagvis-1.9.11/install.sh
 	emake pack
