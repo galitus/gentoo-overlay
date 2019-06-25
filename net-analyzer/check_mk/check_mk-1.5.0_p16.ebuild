@@ -94,8 +94,8 @@ src_unpack() {
 #	unpack "${WORKDIR}"/${MY_P}/packages/check_mk/check_mk-${MY_PV}.tar.gz
 	cp ${FILESDIR}/Gentoo_.mk "${WORKDIR}"/${MY_P}/omd/distros/
 	rm "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/version-*
-	ls "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
-	mv ${FILESDIR}/version-0.9924.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
+	#ls "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
+	cp ${FILESDIR}/version-0.9924.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
 
 	cp ${FILESDIR}/Makefile_boost "${WORKDIR}"/${MY_P}/omd/packages/boost/Makefile
 	cp ${FILESDIR}/Makefile_python_modules "${WORKDIR}"/${MY_P}/omd/packages/python-modules/Makefile
