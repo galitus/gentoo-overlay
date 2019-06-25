@@ -100,10 +100,11 @@ src_unpack() {
 
 	cp ${FILESDIR}/Makefile_boost "${WORKDIR}"/${MY_P}/omd/packages/boost/Makefile
 	cp ${FILESDIR}/Makefile_python_modules "${WORKDIR}"/${MY_P}/omd/packages/python-modules/Makefile
+	cp ${FILESDIR}/Makefile_perl_modules "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/Makefile
 	cp ${FILESDIR}/Pillow-5.1.0.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/python-modules/src/
 	cd "${WORKDIR}"/${MY_P}/omd/packages/python/
 	unpack "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15.tgz
-	cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
+	#cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
 #	EPATCH_SOURCE="${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/" EPATCH_SUFFIX="patch" \
 #		EPATCH_FORCE="yes" epatch
 	pwd
@@ -111,7 +112,7 @@ src_unpack() {
 	cd "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/"
 	pwd
 	ls
-	for patches in $(ls "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/");do eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/${patches}";done
+	for patches in $(ls "${WORKDIR}/patches/");do eapply "${WORKDIR}/patches/${patches}";done
 #	eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/0001-Install-libpythonX.Y.a-in-usr-lib-instead-of-usr-lib.patch"
 
 	#mkdir -p "${S}" || die
