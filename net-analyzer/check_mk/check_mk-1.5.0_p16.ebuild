@@ -112,7 +112,8 @@ src_unpack() {
 src_configure() { :; }
 
 src_compile() {
-	WORKDIR="${WORKDIR}/${MY_P}/omd/"
+	S="${WORKDIR}/${MY_P}/omd/"
+	cd ${S}
 	emake
 	cp ${FILESDIR}/nagvis_install.sh "${WORKDIR}"/${MY_P}/omd/packages/nagvis/nagvis-1.9.11/install.sh
 	emake pack
