@@ -84,7 +84,8 @@ RDEPEND="dev-perl/XML-SAX-Expat
 	"
 DEPEND="${RDEPEND}"
 
-SRC_URI="https://checkmk.com/support/${MY_PV}/${MY_P}.tar.gz"
+SRC_URI="https://checkmk.com/support/${MY_PV}/${MY_P}.tar.gz
+	https://dev.gentoo.org/~floppym/python/python-gentoo-patches-2.7.15.tar.xz"
 #SRC_URI="http://mathias-kettner.de/support/${MY_PV}/${MY_P}.tar.gz"
 
 src_unpack() {
@@ -100,6 +101,8 @@ src_unpack() {
 	cp ${FILESDIR}/Makefile_boost "${WORKDIR}"/${MY_P}/omd/packages/boost/Makefile
 	cp ${FILESDIR}/Makefile_python_modules "${WORKDIR}"/${MY_P}/omd/packages/python-modules/Makefile
 	cp ${FILESDIR}/Pillow-5.1.0.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/python-modules/src/
+	cp -r ${S}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
+	epatch "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/patches/*
 
 	#mkdir -p "${S}" || die
 	#cd "${S}" || die
