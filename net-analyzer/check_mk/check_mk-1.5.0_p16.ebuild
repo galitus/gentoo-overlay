@@ -90,6 +90,7 @@ SRC_URI="https://checkmk.com/support/${MY_PV}/${MY_P}.tar.gz"
 src_unpack() {
 	# check_mk is a tarball containing tarballs
 	unpack ${A}
+	S="${WORKDIR}/${MY_P}"
 #	unpack "${WORKDIR}"/${MY_P}/packages/check_mk/check_mk-${MY_PV}.tar.gz
 	cp ${FILESDIR}/Gentoo_.mk "${WORKDIR}"/${MY_P}/omd/distros/
 	rm "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/version-*
