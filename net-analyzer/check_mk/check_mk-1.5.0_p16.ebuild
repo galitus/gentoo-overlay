@@ -102,7 +102,7 @@ src_unpack() {
 	cp ${FILESDIR}/Makefile_python_modules "${WORKDIR}"/${MY_P}/omd/packages/python-modules/Makefile
 	cp ${FILESDIR}/Pillow-5.1.0.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/python-modules/src/
 	cd "${WORKDIR}"/${MY_P}/omd/packages/python/
-	unpack Python-2.7.15.tgz
+	unpack "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15.tgz
 	cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
 	epatch "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/patches/*
 
