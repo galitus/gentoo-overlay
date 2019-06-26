@@ -1,0 +1,22 @@
+diff -Naur a/Makefile.pre.in b/Makefile.pre.in
+--- a/Makefile.pre.in	2019-06-26 16:44:10.553702452 +0200
++++ b/Makefile.pre.in	2019-06-26 16:44:22.139702636 +0200
+@@ -425,7 +425,6 @@
+ 	$(MAKE) build_all_generate_profile
+ 	$(MAKE) profile-removal
+ 	@echo "Running code to generate profile data (this can take a while):"
+-	$(MAKE) run_profile_task
+ 	$(MAKE) build_all_merge_profile
+ 	@echo "Rebuilding with profile guided optimizations:"
+ 	$(MAKE) clean
+@@ -435,10 +434,6 @@
+ build_all_generate_profile:
+ 	$(MAKE) @DEF_MAKE_RULE@ CFLAGS="$(CFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LDFLAGS="$(LDFLAGS) $(PGO_PROF_GEN_FLAG) @LTOFLAGS@" LIBS="$(LIBS)"
+ 
+-run_profile_task:
+-	: # FIXME: can't run for a cross build
+-	$(LLVM_PROF_FILE) $(RUNSHARED) ./$(BUILDPYTHON) $(PROFILE_TASK) || true
+-
+ build_all_merge_profile:
+ 	$(LLVM_PROF_MERGER)
+ 

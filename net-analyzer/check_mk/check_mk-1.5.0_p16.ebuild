@@ -106,7 +106,7 @@ src_unpack() {
 	cp ${FILESDIR}/Pillow-5.1.0.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/python-modules/src/
 	cd "${WORKDIR}"/${MY_P}/omd/packages/python/
 	unpack "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15.tgz
-	cp ${FILESDIR}/Makefile.pre.in_python "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/Makefile.pre.in
+	#cp ${FILESDIR}/Makefile.pre.in_python "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/Makefile.pre.in
 	#cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
 #	EPATCH_SOURCE="${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/" EPATCH_SUFFIX="patch" \
 #		EPATCH_FORCE="yes" epatch
@@ -120,6 +120,8 @@ src_unpack() {
 	eapply "${FILESDIR}/python-2.7.9-ncurses-pkg-config.patch"
 	eapply "${FILESDIR}/python-2.7.10-cross-compile-warn-test.patch"
 	eapply "${FILESDIR}/python-2.7.10-system-libffi.patch"
+	eapply "${FILESDIR}/Makefile_python.patch"
+
 
         sed -i -e "s:@@GENTOO_LIBDIR@@:$(get_libdir):g" \
                 Lib/distutils/command/install.py \
