@@ -20,15 +20,3 @@ diff -Naur a/Makefile.pre.in b/Makefile.pre.in
  build_all_merge_profile:
  	$(LLVM_PROF_MERGER)
  
-diff -Naur a/Makefile b/Makefile
---- ../Makefile	2019-06-26 17:23:15.074739726 +0200
-+++ ../Makefile	2019-06-26 17:23:23.968739868 +0200
-@@ -7,7 +7,7 @@
- .PHONY: build install skel clean
- 
- build: bin/gcc bin/g++
--	tar xzf $(DIR).tgz
-+	#tar xzf $(DIR).tgz
- 
- 	set -e ; for p in patches/*.dif ; do \
- 	    echo "applying $$p..." ; \

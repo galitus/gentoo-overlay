@@ -1,0 +1,12 @@
+diff -Naur a/Makefile b/Makefile
+--- a/Makefile	2019-06-26 17:23:15.074739726 +0200
++++ b/Makefile	2019-06-26 17:23:23.968739868 +0200
+@@ -7,7 +7,7 @@
+ .PHONY: build install skel clean
+ 
+ build: bin/gcc bin/g++
+-	tar xzf $(DIR).tgz
++	#tar xzf $(DIR).tgz
+ 
+ 	set -e ; for p in patches/*.dif ; do \
+ 	    echo "applying $$p..." ; \

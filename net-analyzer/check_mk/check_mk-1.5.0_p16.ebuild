@@ -134,6 +134,9 @@ src_unpack() {
                 Modules/getpath.c \
                 setup.py || die "sed failed to replace @@GENTOO_LIBDIR@@"
 
+	cd "${WORKDIR}/${MY_P}/omd/packages/python/"
+	eapply "${FILESDIR}/Makefile_python2.patch"
+
 #        eautoreconf
 
 #	eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/0001-Install-libpythonX.Y.a-in-usr-lib-instead-of-usr-lib.patch"
