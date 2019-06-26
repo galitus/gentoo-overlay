@@ -93,7 +93,7 @@ src_unpack() {
 	unpack ${A}
 	S="${WORKDIR}/${MY_P}"
 #	unpack "${WORKDIR}"/${MY_P}/packages/check_mk/check_mk-${MY_PV}.tar.gz
-	rm "${WORKDIR}/patches/0006*"
+	rm "${WORKDIR}/patches/0006-Regenerate-platform-specific-modules.patch"
 	cp ${FILESDIR}/Gentoo_.mk "${WORKDIR}"/${MY_P}/omd/distros/
 	rm "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/version-*
 	#ls "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
