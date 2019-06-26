@@ -115,6 +115,24 @@ src_unpack() {
 	pwd
 	ls
 	for patches in $(ls "${WORKDIR}/patches/");do eapply "${WORKDIR}/patches/${patches}";done
+	eapply "${FILESDIR}/python-2.7.5-nonfatal-compileall.patch"
+	eapply "${FILESDIR}/python-2.7.9-ncurses-pkg-config.patch"
+	eapply "${FILESDIR}/python-2.7.10-cross-compile-warn-test.patch"
+	eapply "${FILESDIR}/python-2.7.10-system-libffi.patch"
+
+        sed -i -e "s:@@GENTOO_LIBDIR@@:$(get_libdir):g" \
+                Lib/distutils/command/install.py \
+                Lib/distutils/sysconfig.py \
+                Lib/site.py \
+                Lib/sysconfig.py \
+                Lib/test/test_site.py \
+                Makefile.pre.in \
+                Modules/Setup.dist \
+                Modules/getpath.c \
+                setup.py || die "sed failed to replace @@GENTOO_LIBDIR@@"
+
+#        eautoreconf
+
 #	eapply "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/0001-Install-libpythonX.Y.a-in-usr-lib-instead-of-usr-lib.patch"
 
 	#mkdir -p "${S}" || die
