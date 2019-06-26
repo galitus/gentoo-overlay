@@ -110,11 +110,11 @@ src_unpack() {
 	#cp -r ${WORKDIR}/patches "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
 #	EPATCH_SOURCE="${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/patches/" EPATCH_SUFFIX="patch" \
 #		EPATCH_FORCE="yes" epatch
-	pwd
-	ls
+#	pwd
+#	ls
 	cd "${WORKDIR}/${MY_P}/omd/packages/python/Python-2.7.15/"
-	pwd
-	ls
+#	pwd
+#	ls
 	for patches in $(ls "${WORKDIR}/patches/");do eapply "${WORKDIR}/patches/${patches}";done
 	eapply "${FILESDIR}/python-2.7.5-nonfatal-compileall.patch"
 	eapply "${FILESDIR}/python-2.7.9-ncurses-pkg-config.patch"
