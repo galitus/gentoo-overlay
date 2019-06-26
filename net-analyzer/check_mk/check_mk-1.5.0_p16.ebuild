@@ -100,6 +100,7 @@ src_unpack() {
 	cp ${FILESDIR}/version-0.9924.tar.gz "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/src/
 
 	#cp ${FILESDIR}/Makefile_omd "${WORKDIR}"/${MY_P}/omd/Makefile
+	cp ${FILESDIR}/Makefile.pre.in_python "${WORKDIR}"/${MY_P}/omd/packages/python/Python-2.7.15/
 	cp ${FILESDIR}/Makefile_boost "${WORKDIR}"/${MY_P}/omd/packages/boost/Makefile
 	cp ${FILESDIR}/Makefile_python_modules "${WORKDIR}"/${MY_P}/omd/packages/python-modules/Makefile
 	cp ${FILESDIR}/Makefile_perl_modules "${WORKDIR}"/${MY_P}/omd/packages/perl-modules/Makefile
