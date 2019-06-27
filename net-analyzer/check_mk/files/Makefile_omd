@@ -11,11 +11,15 @@ include Makefile.omd
 #
 # You can also create a file named .config and override the
 # PACKAGES variable there to customzie the list of packages.
+#    python-modules \
 PACKAGES=\
     libgsf \
     perl-modules \
+    python \
     freetds \
     re2 \
+    boost \
+    rrdtool \
     msitools \
     net-snmp \
     apache-omd \
