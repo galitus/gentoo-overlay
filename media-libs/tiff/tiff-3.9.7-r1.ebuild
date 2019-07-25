@@ -9,7 +9,7 @@ inherit eutils libtool multilib multilib-minimal
 
 DESCRIPTION="Library for manipulation of TIFF (Tag Image File Format) images"
 HOMEPAGE="http://libtiff.maptools.org"
-SRC_URI="ftp://ftp.remotesensing.org/pub/libtiff/${P}.tar.gz"
+SRC_URI="http://download.osgeo.org/libtiff/${P}.tar.gz"
 
 LICENSE="libtiff"
 SLOT="3"
