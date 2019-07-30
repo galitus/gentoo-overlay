@@ -1,0 +1,23 @@
+diff -rupN kopanocore-8.3.0/ECtools/search/Makefile.am kopanocore-8.3.0.automake/ECtools/search/Makefile.am
+--- kopanocore-8.3.0/ECtools/search/Makefile.am	2017-04-26 17:13:49.000000000 +0200
++++ kopanocore-8.3.0.automake/ECtools/search/Makefile.am	2017-04-27 20:32:40.965749958 +0200
+@@ -16,7 +16,7 @@ install-exec-local:
+ 	rm -Rf build
+ 
+ install-data-local:
+-	mkdir -p "${DESTDIR}${localstatedir}/lib/kopano/search"
++	mkdir -p "${DESTDIR}${localstatedir}/kopano/search"
+ 
+ uninstall-local:
+ 	rm -Rf ${DESTDIR}${pythondir}/kopano_search \
+diff -rupN kopanocore-8.3.0/spooler/python/Makefile.am kopanocore-8.3.0.automake/spooler/python/Makefile.am
+--- kopanocore-8.3.0/spooler/python/Makefile.am	2017-04-26 17:13:49.000000000 +0200
++++ kopanocore-8.3.0.automake/spooler/python/Makefile.am	2017-04-27 20:35:41.698340936 +0200
+@@ -9,5 +9,5 @@ kopano_spoolerdir = ${datadir}/kopano-sp
+ kopano_spooler_DATA = mapiplugin.py pluginmanager.py plugintemplates.py wraplogger.py zconfig.py zinterval.py zunit.py
+ 
+ install-data-hook:
+-	mkdir -p ${DESTDIR}/${localstatedir}/lib/kopano/dagent/plugins/
+-	mkdir -p ${DESTDIR}/${localstatedir}/lib/kopano/spooler/plugins/
++	mkdir -p ${DESTDIR}/${localstatedir}/kopano/dagent/plugins/
++	mkdir -p ${DESTDIR}/${localstatedir}/kopano/spooler/plugins/
