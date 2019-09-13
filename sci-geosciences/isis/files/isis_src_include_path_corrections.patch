@@ -1,6 +1,6 @@
 diff -Naur isis/src/base/apps/ckwriter/SpiceSegment.h ../isis3_cmake_working/isis/src/base/apps/ckwriter/SpiceSegment.h
---- isis/src/base/apps/ckwriter/SpiceSegment.h	2018-04-06 15:12:14.724517336 +0200
-+++ ./isis3_cmake_working/isis/src/base/apps/ckwriter/SpiceSegment.h	2018-04-03 13:26:47.739150275 +0200
+--- isis/src/base/apps/ckwriter/CkSpiceSegment.h	2018-04-06 15:12:14.724517336 +0200
++++ ./isis3_cmake_working/isis/src/base/apps/ckwriter/CkSpiceSegment.h	2018-04-03 13:26:47.739150275 +0200
 @@ -36,10 +36,10 @@
  
  #include <SpiceZdf.h>

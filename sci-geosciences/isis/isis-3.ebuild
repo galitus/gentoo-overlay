@@ -9,7 +9,8 @@ inherit cmake-utils git-r3
 DESCRIPTION="ISIS3 - Integrated Software for Imagers and Spectrometers ISIS3 public release site"
 HOMEPAGE="https://github.com/USGS-Astrogeology/isis3_cmake"
 SRC_URI=""
-EGIT_REPO_URI="https://github.com/USGS-Astrogeology/isis3_cmake.git"
+#EGIT_REPO_URI="https://github.com/USGS-Astrogeology/isis3_cmake.git"
+EGIT_REPO_URI="https://github.com/USGS-Astrogeology/ISIS3"
 
 
 LICENSE=""
@@ -61,7 +62,9 @@ CMAKE_USE_DIR="${S}/isis"
 #}
 
 src_configure() {
-	epatch "${FILESDIR}"/*.patch
+#	epatch "${FILESDIR}"/*.patch
+	epatch "${FILESDIR}"/isis_cmake_and_include.patch
+	epatch "${FILESDIR}"/fix_cmake_part2.patch
         local mycmakeargs=(
                 -DJP2KFLAG=OFF
 		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
