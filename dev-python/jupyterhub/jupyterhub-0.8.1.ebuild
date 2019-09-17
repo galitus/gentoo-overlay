@@ -29,6 +29,7 @@ DEPEND="net-libs/nodejs
 	dev-python/requests
 	>=dev-python/sqlalchemy-1.1
 	<=www-servers/tornado-5.0
+	net-misc/configurable-http-proxy
 	=dev-python/pyzmq-16.0.2
 	dev-python/traitlets"
 RDEPEND="${DEPEND}"
