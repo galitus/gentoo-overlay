@@ -1,6 +1,15 @@
 diff -Naur ./isis/CMakeLists.txt ./isis/CMakeLists.txt
 --- ./isis/CMakeLists.txt  2019-09-13 15:21:51.068195513 +0200
 +++ ./isis/CMakeLists.txt  2019-09-13 15:41:44.621734025 +0200
+@@ -270,7 +270,7 @@
+ find_package(Jama      125     REQUIRED)
+ find_package(NN                REQUIRED)
+ find_package(OpenCV    3.1.0   REQUIRED)
+-find_package(PCL       1.8     REQUIRED)
++find_package(PCL       1.9     REQUIRED)
+ find_package(Protobuf  2.6.1   REQUIRED)
+ find_package(Qwt       6       REQUIRED)
+ find_package(SuperLU   4.3     REQUIRED)
 @@ -418,10 +418,10 @@
  
  # We will set up some links with these files at the end of the install process so
