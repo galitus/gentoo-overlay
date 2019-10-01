@@ -26,6 +26,9 @@ KEYWORDS="~amd64"
 IUSE="static-libs"
 
 RDEPEND="
+	dev-python/xarray
+	sci-libs/scipy
+	dev-python/astropy
 	dev-python/numpy[${PYTHON_USEDEP},lapack]
 	dev-python/matplotlib[${PYTHON_USEDEP}]
 	sci-libs/fftw:3.0=
