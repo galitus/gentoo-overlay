@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-DEPEND="
+DEPEND="=x11-libs/libXp-1.0.3
 	media-libs/tiff:3
        "
 RDEPEND="${DEPEND}"
