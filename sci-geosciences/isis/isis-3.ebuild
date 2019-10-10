@@ -9,7 +9,8 @@ inherit cmake-utils git-r3
 DESCRIPTION="ISIS3 - Integrated Software for Imagers and Spectrometers ISIS3 public release site"
 HOMEPAGE="https://github.com/USGS-Astrogeology/isis3_cmake"
 SRC_URI=""
-EGIT_REPO_URI="https://github.com/USGS-Astrogeology/isis3_cmake.git"
+#EGIT_REPO_URI="https://github.com/USGS-Astrogeology/isis3_cmake.git"
+EGIT_REPO_URI="https://github.com/USGS-Astrogeology/ISIS3"
 
 
 LICENSE=""
@@ -19,6 +20,8 @@ IUSE=""
 
 DEPEND=">=dev-libs/boost-1.65[context]
         >=dev-cpp/eigen-3.2.8-r2
+	sci-libs/nanoflann
+	sci-libs/armadillo[blas,hdf5,lapack,tbb]
         >=sci-libs/cspice-66
         >=sci-libs/fspice-66
         >=sci-libs/nn-1.86.2
@@ -32,7 +35,7 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	>=sci-libs/libgeotiff-1.4.0
 	>=sci-mathematics/gmm-5.1
 	>=sci-libs/hdf5-1.8.18
-	>=sci-libs/pcl-1.8.1
+	>=sci-libs/pcl-1.9.1
 	>=dev-libs/protobuf-3.5.1.1
 	>=sci-libs/amd-2.3.1[fortran]
 	>=sci-physics/bullet-2.86[bullet3]
@@ -61,7 +64,9 @@ CMAKE_USE_DIR="${S}/isis"
 #}
 
 src_configure() {
-	epatch "${FILESDIR}"/*.patch
+#	epatch "${FILESDIR}"/*.patch
+	epatch "${FILESDIR}"/isis_cmake_and_include.patch
+	epatch "${FILESDIR}"/fix_cmake_part2.patch
         local mycmakeargs=(
                 -DJP2KFLAG=OFF
 		-DCMAKE_INSTALL_PREFIX=/opt/isis3/
