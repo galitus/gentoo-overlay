@@ -10,7 +10,7 @@ inherit cmake-utils
 
 DESCRIPTION="SFCGAL is a C++ wrapper library around CGAL with the aim of supporting "
 HOMEPAGE="http://www.sfcgal.org/"
-SRC_URI="https://github.com/Oslandia/SFCGAL/archive/v1.3.0.tar.gz"
+SRC_URI="https://github.com/Oslandia/SFCGAL/archive/v1.3.4.tar.gz"
 #EGIT_REPO_URI="https://github.com/hobu/laz-perf.git"
 
 
@@ -22,11 +22,14 @@ KEYWORDS=""
 
 RDEPEND=""
 DEPEND=">=dev-util/cmake-3.7.2
-	>=dev-util/cunit-2.1"
+	>=dev-util/cunit-2.1
+	>=sci-mathematics/cgal-4.11
+	<=sci-mathematics/cgal-4.12"
+
 
 REQUIRED_USE=""
 
-S="${WORKDIR}/SFCGAL-1.3.0"
+S="${WORKDIR}/SFCGAL-1.3.4"
 
 # hand written make files that are not parallel safe
 #MAKEOPTS+=" -j1"
