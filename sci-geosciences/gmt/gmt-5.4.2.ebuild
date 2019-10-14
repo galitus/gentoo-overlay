@@ -1,14 +1,14 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 #AUTOTOOLS_AUTORECONF=yes
 
 #inherit autotools-utils multilib
 inherit cmake-utils
 
-GSHHS="gshhs-2.2.0"
+#GSHHS="gshhs-2.2.0"
 
 DESCRIPTION="Powerful map generator"
 HOMEPAGE="http://gmt.soest.hawaii.edu/"
@@ -20,11 +20,12 @@ LICENSE="GPL-2 ( Artistic )"
 SLOT="0"
 KEYWORDS="amd64"
 #IUSE="debug +gdal gmttria +metric mex +netcdf octave postscript"
-IUSE="debug +gdal +metric mex +netcdf octave postscript"
+IUSE="debug +gdal +gshhg +metric mex +netcdf octave postscript"
 
 RDEPEND="
 	!sci-biology/probcons
 	gdal? ( sci-libs/gdal )
+	gshhg? ( sci-geosciences/gshhg-gmt )
 	netcdf? ( >=sci-libs/netcdf-4.1 )
 	octave? ( sci-mathematics/octave )"
 DEPEND="${RDEPEND}"
@@ -37,7 +38,7 @@ REQUIRED_USE="
 "
 
 # hand written make files that are not parallel safe
-MAKEOPTS+=" -j1"
+#MAKEOPTS+=" -j1"
 
 #PATCHES=(
 #	"${FILESDIR}"/${PN}-4.5.9-no-strip.patch
@@ -81,22 +82,29 @@ MAKEOPTS+=" -j1"
 
 src_configure() {
         local mycmakeargs=(
-		-DGMT_OPENMP=ON
+		-DGMT_OPENMP=ON \
+		-DGMT_DATADIR=share/${P}
+#		-DCMAKE_INSTALL_DATADIR:PATH=/usr/share/${P}
+#                --libdir=/usr/$(get_libdir)/${P} \
+#                --includedir=/usr/include/${P} \
+#                --datadir=/usr/share/${P} \
+#                --docdir=/usr/share/doc/${PF} \
         )
 
         cmake-utils_src_configure
 }
 
-#src_install() {
+src_install() {
 #	autotools-utils_src_install install-all
 
+	cmake-utils_src_install
 	# remove static libs
 #	find "${ED}/usr/$(get_libdir)" -name '*.a' -exec rm -f {} +
 
-#	cat <<- _EOF_ > "${T}/99gmt"
-#	GMTHOME="${EPREFIX}/usr/share/${P}"
-#	GMT_SHAREDIR="${EPREFIX}/usr/share/${P}"
-#	_EOF_
-#	doenvd "${T}/99gmt"
+	cat <<- _EOF_ > "${T}/99gmt"
+	GMTHOME="${EPREFIX}/usr/share/${P}"
+	GMT_SHAREDIR="${EPREFIX}/usr/share/${P}"
+	_EOF_
+	doenvd "${T}/99gmt"
 #
-#}
+}
