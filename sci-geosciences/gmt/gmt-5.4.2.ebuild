@@ -106,5 +106,10 @@ src_install() {
 	GMT_SHAREDIR="${EPREFIX}/usr/share/${P}"
 	_EOF_
 	doenvd "${T}/99gmt"
+
+        if use gshhg; then
+		dosym /usr/share/gshhg /usr/share/gmt-5.4.2/coast
+        fi
+
 #
 }
