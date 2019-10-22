@@ -8,10 +8,10 @@ inherit cmake-utils git-r3
 
 DESCRIPTION="ISIS3 - Integrated Software for Imagers and Spectrometers ISIS3 public release site"
 HOMEPAGE="https://github.com/USGS-Astrogeology/isis3_cmake"
-SRC_URI=""
+#SRC_URI="https://github.com/USGS-Astrogeology/ISIS3/archive/3.9.0.tar.gz"
 #EGIT_REPO_URI="https://github.com/USGS-Astrogeology/isis3_cmake.git"
 EGIT_REPO_URI="https://github.com/USGS-Astrogeology/ISIS3"
-
+EGIT_COMMIT="28969bb1b6833575dc19549549ef9897fced443c"
 
 LICENSE=""
 SLOT="0"
@@ -50,12 +50,13 @@ DEPEND=">=dev-libs/boost-1.65[context]
 	>=dev-libs/xerces-c-3.1.4-r1
 	<=sci-libs/geos-3.5.0-r2
 	>=media-libs/libpng-1.6.29
+	sys-devel/gcc:6.4.0
 	"
 	#>=media-libs/opencv-3.3.0-r5[jpeg2k,xine,gphoto2,gstreamer,ffmpeg,gdal,lapack,webp,gtk,contrib_xfeatures2d,contrib,cuda]
 
 RDEPEND="${DEPEND}"
-#WORKDIR="${PN}"
-#S=${WORKDIR}/toolkit
+#WORKDIR="ISIS-3.9.0"
+#S="${WORKDIR}/ISIS3-3.9.0"
 CMAKE_USE_DIR="${S}/isis"
 
 #src_compile() {
