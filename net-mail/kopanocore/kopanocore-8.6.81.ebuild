@@ -86,6 +86,7 @@ src_prepare() {
         done
 
 	epatch "${FILESDIR}/kopanocore-8.6.80-automake.patch"
+	epatch "${FILESDIR}/new_fix.patch"
 	use kerberos && epatch "${FILESDIR}/kopanocore-8.2.0-kerberos.patch"
 	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.3.0-python2_7.patch"
 	epatch "${FILESDIR}/kopanocore-8.2.0-search.patch"
