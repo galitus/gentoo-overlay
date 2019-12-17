@@ -1,0 +1,12 @@
+diff -Naur /tmp/patch/a/setup.py /tmp/patch/b/setup.py
+--- a/setup.py	2019-09-10 11:51:04.142975018 +0200
++++ b/setup.py	2019-09-10 11:51:54.056409177 +0200
+@@ -29,7 +29,7 @@
+ 
+ setup(
+     name='json5',
+-    packages=find_packages(),
++    packages=find_packages(exclude=['tests*']),
+     package_data={'': ['../README.md']},
+     entry_points={
+         'console_scripts': [
