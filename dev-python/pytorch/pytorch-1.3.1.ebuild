@@ -4,7 +4,8 @@
 EAPI="7"
 PYTHON_COMPAT=( python3_5 python3_6 python3_7 )
 
-inherit cmake-utils git-r3
+#inherit cmake-utils git-r3
+inherit git-r3 distutils-r1 toolchain-funcs python-r1
 #inherit distutils-r1 toolchain-funcs git-r3
 
 DESCRIPTION="Tensors and Dynamic neural networks in Python with strong GPU acceleration"
@@ -25,7 +26,9 @@ DEPEND="dev-python/future\
 	dev-python/setuptools\
 	dev-python/pyyaml\
 	dev-python/numpy\
-	dev-python/requests"
+	dev-python/requests\
+	dev-libs/nccl
+	dev-cpp/gflags"
 RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
@@ -46,19 +49,51 @@ RDEPEND="${DEPEND}"
 #}
 
 src_prepare() {
+	NCCL_INCLUDE_DIRS="/usr/include"
+	NCCL_LIBRARIES="/usr/lib64"
+	CUDA_GPU_DETECT_OUTPUT=7.5
+	NCCL_EXTERNAL=TRUE
+	USE_SYSTEM_NCCL=1
+	USE_GFLAGS=ON
+	USE_GLOG=ON
 	eapply "${FILESDIR}/fix_autodetection.patch"
+#	eapply "${FILESDIR}/fix_sleef_include_for_aten.patch"
+	eapply_user
+	sed -i 's#^  ${CMAKE_CURRENT_SOURCE_DIR}/tensor_iterator_test.cpp##g' aten/src/ATen/test/CMakeLists.txt
 
-	cmake-utils_src_prepare
+
+#	cmake-utils_src_prepare
 }
 
-src_configure(){
-       local mycmakeargs=(
-		-DCUDA_GPU_DETECT_OUTPUT=7.5
+#src_configure(){
+#	local mycmakeargs=(
+#		-DCUDA_GPU_DETECT_OUTPUT=7.5
+#		-DNCCL_EXTERNAL=TRUE
 #		-DUSE_SYSTEM_NCCL=1
-	)
-        cmake-utils_src_configure
-}
+#	)
+#        cmake-utils_src_configure
+#	sed -i s/"\.\.\/\.\.\/\.\.\/\.\.\/"/"\.\.\/\.\.\/"/g ${S}_build/install_manifest.txt
+#	sed -i s/"\/usr\/lib\/"/"\/usr\/lib64\/"/g ${S}_build/install_manifest.txt
+#}
 
+#src_compile(){ :; }
+#	cmake-utils_src_compile
+#	;;
+#	sed -i s/"\.\.\/\.\.\/\.\.\/\.\.\/"/"\.\.\/\.\.\/"/g ${S}_build/install_manifest.txt
+#	sed -i s/"\/usr\/lib\/"/"\/usr\/lib64\/"/g ${S}_build/install_manifest.txt
+#}
+
+#src_install()
+#{
+#	sed -i s/"\.\.\/\.\.\/\.\.\/\.\.\/"/"\.\.\/\.\.\/"/g ${S}_build/install_manifest.txt
+#	cmake-utils_src_install
+#}
+
+pkg_preinst(){
+	mv ${D}/torch ${D}/usr/include/
+	mv ${D}/usr/lib/* ${D}/usr/lib64/
+	rm -R ${D}/usr/lib/
+}
 
 #src_compile(){
 #	npm install
