@@ -16,8 +16,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-#DEPEND="net-libs/nodejs"
-#RDEPEND="${DEPEND}"
+DEPEND="dev-python/pytorch"
+RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
