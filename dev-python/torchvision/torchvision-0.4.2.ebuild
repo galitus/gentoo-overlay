@@ -26,7 +26,7 @@ IUSE=""
 
 S="${WORKDIR}/vision-${PV}"
 
-#src_prepare(){
+src_prepare(){
 #	mv ${S}/../node_modules ${S}
 #	eapply_user
 #	eapply "${FILESDIR}/pyjson5-0.8.5_exclude_tests_from_install.patch"
@@ -34,7 +34,9 @@ S="${WORKDIR}/vision-${PV}"
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-#}
+	CUDA_HOME=/opt/cuda
+	distutils-r1_python_prepare_all
+}
 
 #src_compile(){
 #	npm install
