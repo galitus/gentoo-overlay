@@ -12,8 +12,10 @@ HOMEPAGE="http://www.wps.cn/product/wpslinux/ http://wps-community.org/"
 KEYWORDS="~amd64 ~x86"
 
 SRC_URI="
-	amd64? ( http://kdl.cc.ksosoft.com/wps-community/download/${MY_PV}/${PN}_${PV}_amd64.deb )
+	amd64? ( http://wdl1.pcfg.cache.wpscdn.com/wpsdl/wpsoffice/download/linux/${MY_PV}/${PN}_${PV}.XA_amd64.deb )
 "
+#http://kdl.cc.ksosoft.com/wps-community/download/${MY_PV}/${PN}_${PV}_amd64.deb 
+
 
 SLOT="0"
 RESTRICT="strip mirror" # mirror as explained at bug #547372
