@@ -28,7 +28,8 @@ DEPEND="dev-python/future\
 	dev-python/numpy\
 	dev-python/requests\
 	dev-libs/nccl
-	dev-cpp/gflags"
+	dev-cpp/gflags
+	dev-cpp/glog"
 RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
@@ -51,12 +52,12 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	NCCL_INCLUDE_DIRS="/usr/include"
 	NCCL_LIBRARIES="/usr/lib64"
-	CUDA_GPU_DETECT_OUTPUT=7.5
+#	CUDA_GPU_DETECT_OUTPUT=7.5
 	NCCL_EXTERNAL=TRUE
 	USE_SYSTEM_NCCL=1
 	USE_GFLAGS=ON
 	USE_GLOG=ON
-	eapply "${FILESDIR}/fix_autodetection.patch"
+#	eapply "${FILESDIR}/fix_autodetection.patch"
 #	eapply "${FILESDIR}/fix_sleef_include_for_aten.patch"
 	eapply_user
 	sed -i 's#^  ${CMAKE_CURRENT_SOURCE_DIR}/tensor_iterator_test.cpp##g' aten/src/ATen/test/CMakeLists.txt
