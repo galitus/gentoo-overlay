@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-#DEPEND="net-libs/nodejs"
-#RDEPEND="${DEPEND}"
+DEPEND="dev-util/lastools"
+RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
