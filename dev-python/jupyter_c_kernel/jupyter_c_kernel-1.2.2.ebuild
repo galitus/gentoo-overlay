@@ -50,7 +50,7 @@ S="${WORKDIR}/jupyter-c-kernel-${PV}"
 src_install(){
 #	python_export_best
 	python_setup
-	distutils-r1_python_install
+#	distutils-r1_python_install
 	insinto /usr/share/jupyter/kernels/c/
 	doins ${FILESDIR}/kernel.json
 #	python_doscript ${S}/jupyter_c_kernel/install_c_kernel

@@ -90,11 +90,12 @@ src_prepare() {
 #	cmake-utils_src_install
 #}
 
-pkg_preinst(){
-	mv ${D}/torch ${D}/usr/include/
-	mv ${D}/usr/lib/* ${D}/usr/lib64/
-	rm -R ${D}/usr/lib/
-}
+#pkg_preinst(){
+#	mv ${D}/torch ${D}/usr/include/
+#	mkdir ${D}/usr/lib64/
+#	mv ${D}/usr/lib/* ${D}/usr/lib64/
+#	rm -R ${D}/usr/lib/
+#}
 
 #src_compile(){
 #	npm install
