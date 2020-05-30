@@ -6,7 +6,7 @@ EAPI="7"
 #WANT_AUTOCONF="2.5"
 
 #GENTOO_DEPEND_ON_PERL="no"
-PYTHON_COMPAT=( python3_6 )
+PYTHON_COMPAT=( python3_6 python3_7 )
 #DISTUTILS_OPTIONAL=1
 
 inherit cmake-utils
