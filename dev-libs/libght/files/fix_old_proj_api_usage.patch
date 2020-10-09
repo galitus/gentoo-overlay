@@ -1,0 +1,12 @@
+diff -Naur ./a/CMakeLists.txt ./b/CMakeLists.txt
+--- ./a/CMakeLists.txt	2020-06-10 23:21:04.693996166 +0200
++++ ./b/CMakeLists.txt	2020-06-10 23:22:04.445998210 +0200
+@@ -20,6 +20,8 @@
+ # API breaking changes can happen at minor version update
+ set (GHT_LIB_SOVERSION "${GHT_VERSION_MAJOR}.${GHT_VERSION_MINOR}")
+ 
++ADD_DEFINITIONS(-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H=1)
++
+ #------------------------------------------------------------------------------
+ # internal cmake settings
+ #------------------------------------------------------------------------------
