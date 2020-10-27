@@ -49,6 +49,7 @@ src_install(){
 	newins ${FILESDIR}/${PN}.conf ${PN}
 	insinto /etc/init.d/
 	newins ${FILESDIR}/${PN}.init ${PN}
+	fperms +x /etc/init.d/${PN}
 	insinto /usr/lib64/node_modules/${PN}
 	doins -r node_modules
 	doins -r bin
