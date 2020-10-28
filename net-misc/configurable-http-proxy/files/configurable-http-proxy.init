@@ -14,7 +14,7 @@ start() {
 						--api-ip 127.0.0.1 \
 						--api-port 8001 \
 						--error-target http://${JUPYTERHUB_IP}:8081/jhub/hub/error \
-		&> /var/log/configurable-http-proxy-log &
+		&> /var/log/configurable-http-proxy.log &
 #	jupyterhub -f /etc/jupyterhub/jupyterhub_config.py \
 #		--pid-file /var/run/jupyterhub.pid \
 #		--db /etc/jupyterhub/jupyterhub.sqlite \
