@@ -45,11 +45,8 @@ src_compile(){
 }
 
 src_install(){
-	insinto /etc/conf.d/
-	newins ${FILESDIR}/${PN}.conf ${PN}
-	insinto /etc/init.d/
-	newins ${FILESDIR}/${PN}.init ${PN}
-	fperms +x /etc/init.d/${PN}
+	newconfd ${FILESDIR}/${PN}.conf ${PN}
+	newinitd ${FILESDIR}/${PN}.init ${PN}
 	insinto /usr/lib64/node_modules/${PN}
 	doins -r node_modules
 	doins -r bin
