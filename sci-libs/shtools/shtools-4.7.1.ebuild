@@ -5,7 +5,7 @@ EAPI=6
 
 if [[ ${PV} == 9999 ]]; then
 	_ECLASS="git-r3"
-	EGIT_REPO_URI="https://github.com/heroxbd/${PN^^}.git"
+	EGIT_REPO_URI="https://github.com/${PN^^}/${PN^^}.git"
 	S="${WORKDIR}"/${P}
 else
 	SRC_URI="https://github.com/${PN^^}/${PN^^}/archive/v${PV/_/-}.tar.gz -> ${P}.tar.gz"
@@ -79,11 +79,12 @@ src_compile() {
 	emake fortran "${OPTS[@]}"
 #	distutils-r1_python_compile
 #	default
-	#"${PYTHON}" setup.py build || die
+	"${PYTHON}" setup.py build || die
 #	${EPYTHON} setup.py build
 #	${EPYTHON} setup.py install
 #	python_build
 #	emake python${_pyver} "${OPTS[@]}"
+	default
 }
 
 src_install() {

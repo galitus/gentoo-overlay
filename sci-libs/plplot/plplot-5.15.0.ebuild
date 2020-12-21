@@ -6,7 +6,7 @@ EAPI=6
 WX_GTK_VER=3.0-gtk3
 FORTRAN_NEEDED=fortran
 FORTRAN_STANDARD=95
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6,7} )
 
 inherit cmake-utils flag-o-matic fortran-2 java-pkg-opt-2 python-single-r1 toolchain-funcs virtualx wxwidgets
 
@@ -19,8 +19,14 @@ SLOT="0/14" # SONAME of libplplot.so
 KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
 IUSE="cairo cxx doc +dynamic examples fortran gd java jpeg latex lua ocaml octave pdf
 	pdl png python qhull qt5 shapefile svg tcl test	threads tk truetype wxwidgets X"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} ) qt5? ( dynamic ) test? ( latex ) tk? ( tcl )"
-RESTRICT="octave? ( test )"
+REQUIRED_USE="
+	python? ( ${PYTHON_REQUIRED_USE} )
+	qt5? ( dynamic )
+	test? ( latex )
+	tk? ( tcl )"
+RESTRICT="
+	octave? ( test )
+	"
 
 RDEPEND="
 	cairo? ( x11-libs/cairo:0=[svg?,X] )
@@ -44,8 +50,10 @@ RDEPEND="
 	)
 	python? (
 		${PYTHON_DEPS}
-		dev-python/numpy[${PYTHON_USEDEP}]
-		qt5? ( dev-python/PyQt5[${PYTHON_USEDEP}] )
+		$(python_gen_cond_dep '
+			dev-python/numpy[${PYTHON_MULTI_USEDEP}]
+			qt5? ( dev-python/PyQt5[${PYTHON_MULTI_USEDEP}] )
+		')
 	)
 	qhull? ( media-libs/qhull:0= )
 	qt5? (

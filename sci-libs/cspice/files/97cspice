@@ -1,1 +1,2 @@
 CSPICE_DIR="/usr/lib64/"
+CSPICE_SHARED_LIB="/usr/lib64/spice.so"
