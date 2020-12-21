@@ -2,38 +2,34 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python3_5 python3_6 python3_7 )
+PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="An extensible environment for interactive and reproducible computing, based on the Jupyter Notebook and Architecture."
-HOMEPAGE="https://github.com/jupyterlab/jupyterlab/"
-SRC_URI="https://github.com/jupyterlab/jupyterlab/archive/v1.1.2.tar.gz -> jupyterlab-1.1.2.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/jupyterlab-nodemodules.tar.gz"
+DESCRIPTION="JSON5 – JSON for Humans"
+HOMEPAGE="https://github.com/json5/json5"
+SRC_URI="https://github.com/dpranke/pyjson5/archive/v${PV}.tar.gz -> pyjson5-${PV}.tar.gz"
+#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RESTRICT=network-sandbox
-
-DEPEND="net-libs/nodejs
-	>=dev-python/notebook-4.3.1
-	=dev-python/jupyterlab_server-1.0.6
-	>=dev-python/jinja-2.10
-	<=www-servers/tornado-6.0"
-
-RDEPEND="${DEPEND}"
+#DEPEND="net-libs/nodejs"
+#RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
+#S=${WORKDIR}
+
 #src_prepare(){
-#	mv ${S}/../node_modules ${S}/jupyterlab/staging/
+#	mv ${S}/../node_modules ${S}
 #	eapply_user
+#	eapply "${FILESDIR}/pyjson5-0.8.5_exclude_tests_from_install.patch"
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
@@ -41,10 +37,16 @@ RDEPEND="${DEPEND}"
 #}
 
 #src_compile(){
-#	distutils-r1_python_compile
+#	npm install
+#	npm install --global
+#	npm install json5
 #}
-#python_compile() {
-#    distutils-r1_python_compile
+
+#src_install(){
+#	insinto /usr/lib64/node_modules/json5/
+#	doins -r *
+#	dosym /usr/lib64/node_modules/json5/lib/cli.js /usr/bin/json5
+#	fperms +x /usr/bin/json5
 #}
 
 #python_configure_all() {

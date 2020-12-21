@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python3_5 python3_6 python3_7 )
+PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="An extensible environment for interactive and reproducible computing, based on the Jupyter Notebook and Architecture."
-HOMEPAGE="https://github.com/jupyterlab/jupyterlab/"
-SRC_URI="https://github.com/jupyterlab/jupyterlab/archive/v1.1.2.tar.gz -> jupyterlab-1.1.2.tar.gz"
+DESCRIPTION="JupyterLab Server"
+HOMEPAGE="https://github.com/jupyterlab/jupyterlab_server"
+SRC_URI="https://github.com/jupyterlab/jupyterlab_server/archive/${PV}.tar.gz -> jupyterlab_server-${PV}.tar.gz"
 #	https://roofn3d.gis.tu-berlin.de/jupyterlab-nodemodules.tar.gz"
 
 LICENSE="BSD"
@@ -18,13 +18,16 @@ IUSE=""
 
 RESTRICT=network-sandbox
 
-DEPEND="net-libs/nodejs
-	>=dev-python/notebook-4.3.1
-	=dev-python/jupyterlab_server-1.0.6
+DEPEND="dev-python/pyjson5
+	>=dev-python/jsonschema-3.0.1
+	>=dev-python/notebook-4.2.0
 	>=dev-python/jinja-2.10
-	<=www-servers/tornado-6.0"
-
+	=dev-python/jupyter_server-1.1.0
+	dev-python/requests
+	dev-python/packaging
+	dev-python/Babel"
 RDEPEND="${DEPEND}"
+#	>=www-servers/tornado-5.0
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
@@ -38,13 +41,6 @@ RDEPEND="${DEPEND}"
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-#}
-
-#src_compile(){
-#	distutils-r1_python_compile
-#}
-#python_compile() {
-#    distutils-r1_python_compile
 #}
 
 #python_configure_all() {

@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python3_5 python3_6 python3_7 )
+PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="An extensible environment for interactive and reproducible computing, based on the Jupyter Notebook and Architecture."
-HOMEPAGE="https://github.com/jupyterlab/jupyterlab/"
-SRC_URI="https://github.com/jupyterlab/jupyterlab/archive/v1.1.2.tar.gz -> jupyterlab-1.1.2.tar.gz"
+DESCRIPTION="JupyterLab Server"
+HOMEPAGE="https://github.com/jupyter-server/jupyter_server"
+SRC_URI="https://github.com/jupyter-server/jupyter_server/archive/${PV}.tar.gz -> jupyter_server-${PV}.tar.gz"
 #	https://roofn3d.gis.tu-berlin.de/jupyterlab-nodemodules.tar.gz"
 
 LICENSE="BSD"
@@ -18,34 +18,35 @@ IUSE=""
 
 RESTRICT=network-sandbox
 
-DEPEND="net-libs/nodejs
-	>=dev-python/notebook-4.3.1
-	=dev-python/jupyterlab_server-1.0.6
-	>=dev-python/jinja-2.10
-	<=www-servers/tornado-6.0"
-
+DEPEND="dev-python/ipython_genutils
+	>=dev-python/jupyter_core-4.4.0
+	>=dev-python/jupyter_client-6.1.1
+	>=dev-python/pyzmq-17
+	>=dev-python/jinja-2.0
+	dev-python/nbformat
+	dev-python/nbconvert
+	dev-python/anyio
+	dev-python/prometheus_client
+	>=dev-python/terminado-0.8.3
+	dev-python/send2trash
+	>=dev-python/traitlets-4.2.1"
 RDEPEND="${DEPEND}"
+#	>=www-servers/tornado-5.0
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-#src_prepare(){
+src_prepare(){
 #	mv ${S}/../node_modules ${S}/jupyterlab/staging/
-#	eapply_user
+	eapply "${FILESDIR}/jupter_server-1.1.0_find_packages.patch"
+	eapply_user
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-#}
-
-#src_compile(){
-#	distutils-r1_python_compile
-#}
-#python_compile() {
-#    distutils-r1_python_compile
-#}
+}
 
 #python_configure_all() {
 #        tc-export CC
