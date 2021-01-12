@@ -31,6 +31,7 @@ RDEPEND="
 	dev-python/astropy
 	dev-python/numpy[${PYTHON_USEDEP},lapack]
 	dev-python/matplotlib[${PYTHON_USEDEP}]
+	dev-python/pooch
 	sci-libs/fftw:3.0=
 	virtual/lapack
 	virtual/blas
