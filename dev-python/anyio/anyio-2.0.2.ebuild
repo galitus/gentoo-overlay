@@ -8,8 +8,10 @@ inherit distutils-r1 toolchain-funcs
 
 DESCRIPTION="AnyIO is a asynchronous compatibility API that allows applications and libraries written against it to run unmodified on asyncio, curio and trio."
 HOMEPAGE="https://github.com/agronholm/anyio"
-SRC_URI="https://github.com/agronholm/anyio/archive/${PV}.tar.gz -> anyio-${PV}.tar.gz"
+#SRC_URI="https://github.com/agronholm/anyio/archive/${PV}.tar.gz -> anyio-${PV}.tar.gz"
 #	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
+
 
 LICENSE="BSD"
 SLOT="0"

@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python3_5 python3_6 python3_7 )
+PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
 DESCRIPTION="Pamela: yet another Python wrapper for PAM"
 HOMEPAGE="https://github.com/minrk/pamela"
-SRC_URI="https://github.com/minrk/pamela/archive/1.0.0.tar.gz -> pamela-1.0.0.tar.gz"
+SRC_URI="https://github.com/minrk/pamela/archive/${PV}.tar.gz -> pamela-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
