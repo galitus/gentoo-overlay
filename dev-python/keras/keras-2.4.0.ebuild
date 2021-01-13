@@ -6,48 +6,29 @@ PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="Python tools for geographic data"
-HOMEPAGE="https://github.com/geopandas/geopandas"
-SRC_URI="https://github.com/geopandas/geopandas/releases/download/v${PV}/geopandas-${PV}.tar.gz -> geopandas-${PV}.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+DESCRIPTION="Keras: Deep Learning for humans"
+HOMEPAGE="https://github.com/keras-team/keras/"
+SRC_URI="https://github.com/keras-team/keras/archive/${PV}.tar.gz -> keras-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pyproj
-	sci-libs/shapely"
-RDEPEND="${DEPEND}"
+#DEPEND="net-libs/nodejs"
+#RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-#S=${WORKDIR}
-
 #src_prepare(){
-#	mv ${S}/../node_modules ${S}
 #	eapply_user
-#	eapply "${FILESDIR}/pyjson5-0.8.5_exclude_tests_from_install.patch"
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-#}
-
-#src_compile(){
-#	npm install
-#	npm install --global
-#	npm install json5
-#}
-
-#src_install(){
-#	insinto /usr/lib64/node_modules/json5/
-#	doins -r *
-#	dosym /usr/lib64/node_modules/json5/lib/cli.js /usr/bin/json5
-#	fperms +x /usr/bin/json5
 #}
 
 #python_configure_all() {

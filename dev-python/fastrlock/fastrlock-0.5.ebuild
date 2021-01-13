@@ -4,21 +4,20 @@
 EAPI="7"
 PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
-inherit distutils-r1 toolchain-funcs
+#inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1
 
-DESCRIPTION="Python tools for geographic data"
-HOMEPAGE="https://github.com/geopandas/geopandas"
-SRC_URI="https://github.com/geopandas/geopandas/releases/download/v${PV}/geopandas-${PV}.tar.gz -> geopandas-${PV}.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+DESCRIPTION="A fast RLock implementation for CPython"
+HOMEPAGE="https://github.com/scoder/fastrlock/"
+SRC_URI="https://github.com/scoder/fastrlock/archive/${PV}.tar.gz -> fastrlock-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pyproj
-	sci-libs/shapely"
-RDEPEND="${DEPEND}"
+#DEPEND="net-libs/nodejs"
+#RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(

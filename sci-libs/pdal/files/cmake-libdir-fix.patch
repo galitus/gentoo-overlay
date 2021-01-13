@@ -1,0 +1,10 @@
+diff -Naur a/cmake/config.cmake b/cmake/config.cmake
+--- a/cmake/config.cmake	2020-09-09 17:14:16.000000000 +0200
++++ b/cmake/config.cmake	2021-01-04 12:25:19.809583363 +0100
+@@ -1,5 +1,5 @@
+ set(INCLUDE_INSTALL_DIR include/ CACHE PATH "include")
+-set(LIB_INSTALL_DIR lib/ CACHE PATH "lib")
++set(LIB_INSTALL_DIR lib64/ CACHE PATH "lib")
+ 
+ include(CMakePackageConfigHelpers)
+ 

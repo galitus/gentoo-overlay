@@ -6,48 +6,35 @@ PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="Python tools for geographic data"
-HOMEPAGE="https://github.com/geopandas/geopandas"
-SRC_URI="https://github.com/geopandas/geopandas/releases/download/v${PV}/geopandas-${PV}.tar.gz -> geopandas-${PV}.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+DESCRIPTION="Tools to help build and install Jupyter Python packages"
+HOMEPAGE="https://github.com/jupyter/jupyter-packaging"
+SRC_URI="https://github.com/jupyter/jupyter-packaging/archive/${PV}.tar.gz -> jupyter-packaging-${PV}.tar.gz"
+#	https://roofn3d.gis.tu-berlin.de/jupyterlab-nodemodules.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pyproj
-	sci-libs/shapely"
+#RESTRICT=network-sandbox
+
+DEPEND="dev-python/packaging"
 RDEPEND="${DEPEND}"
+#	>=www-servers/tornado-5.0
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-#S=${WORKDIR}
-
 #src_prepare(){
-#	mv ${S}/../node_modules ${S}
+#	mv ${S}/../node_modules ${S}/jupyterlab/staging/
+#	eapply "${FILESDIR}/jupter_server-1.1.0_find_packages.patch"
 #	eapply_user
-#	eapply "${FILESDIR}/pyjson5-0.8.5_exclude_tests_from_install.patch"
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-#}
-
-#src_compile(){
-#	npm install
-#	npm install --global
-#	npm install json5
-#}
-
-#src_install(){
-#	insinto /usr/lib64/node_modules/json5/
-#	doins -r *
-#	dosym /usr/lib64/node_modules/json5/lib/cli.js /usr/bin/json5
-#	fperms +x /usr/bin/json5
 #}
 
 #python_configure_all() {

@@ -6,49 +6,51 @@ PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="Multi-user server for Jupyter notebooks"
-HOMEPAGE="https://github.com/jupyterhub/jupyterhub"
-SRC_URI="https://github.com/jupyterhub/jupyterhub/archive/1.1.0.tar.gz -> jupyterhub-1.1.0.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/nodemodules.tar.gz"
-
-RESTRICT=network-sandbox
+DESCRIPTION="PDAL's Python Extension"
+HOMEPAGE="https://github.com/PDAL/python"
+SRC_URI="https://github.com/PDAL/python/archive/${PV}.tar.gz -> pypdal-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="net-libs/nodejs
-	dev-python/alembic
-	>=dev-python/async_generator-1.8
-	dev-python/certipy
-	dev-python/entrypoints
-	>=dev-python/jinja-2.0
-	>=dev-python/oauthlib-3.0
-	dev-python/pamela
-	dev-python/prometheus_client
-	dev-python/python-dateutil
-	dev-python/requests
-	dev-python/sqlalchemy
-	net-misc/configurable-http-proxy
-	>=www-servers/tornado-5.0
-	dev-python/traitlets
-	dev-python/jupyter-telemetry"
+DEPEND="sci-libs/pdal[python]
+	dev-python/packaging
+	dev-python/scikit-build"
 RDEPEND="${DEPEND}"
+
+S=${WORKDIR}/python-${PV}
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-src_prepare(){
+#S=${WORKDIR}
+
+#src_prepare(){
 #	mv ${S}/../node_modules ${S}
-	eapply_user
+#	eapply_user
+#	eapply "${FILESDIR}/pyjson5-0.8.5_exclude_tests_from_install.patch"
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-}
+#}
+
+#src_compile(){
+#	npm install
+#	npm install --global
+#	npm install json5
+#}
+
+#src_install(){
+#	insinto /usr/lib64/node_modules/json5/
+#	doins -r *
+#	dosym /usr/lib64/node_modules/json5/lib/cli.js /usr/bin/json5
+#	fperms +x /usr/bin/json5
+#}
 
 #python_configure_all() {
 #        tc-export CC
@@ -60,9 +62,3 @@ src_prepare(){
 #        insinto /usr/share/doc/${PF}/examples
 #        doins test/*
 #}
-
-
-
-
-
-

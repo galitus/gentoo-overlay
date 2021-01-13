@@ -6,49 +6,48 @@ PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
 inherit distutils-r1 toolchain-funcs
 
-DESCRIPTION="Multi-user server for Jupyter notebooks"
-HOMEPAGE="https://github.com/jupyterhub/jupyterhub"
-SRC_URI="https://github.com/jupyterhub/jupyterhub/archive/1.1.0.tar.gz -> jupyterhub-1.1.0.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/nodemodules.tar.gz"
-
-RESTRICT=network-sandbox
+DESCRIPTION="JupyterLab Server"
+HOMEPAGE="https://github.com/jupyter-server/jupyter_server"
+SRC_URI="https://github.com/jupyter-server/jupyter_server/archive/${PV}.tar.gz -> jupyter_server-${PV}.tar.gz"
+#	https://roofn3d.gis.tu-berlin.de/jupyterlab-nodemodules.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="net-libs/nodejs
-	dev-python/alembic
-	>=dev-python/async_generator-1.8
-	dev-python/certipy
-	dev-python/entrypoints
+RESTRICT=network-sandbox
+
+DEPEND="dev-python/ipython_genutils
+	>=www-servers/tornado-6.1
+	>=dev-python/jupyter_core-4.4.0
+	>=dev-python/jupyter_client-6.1.1
+	>=dev-python/pyzmq-17
 	>=dev-python/jinja-2.0
-	>=dev-python/oauthlib-3.0
-	dev-python/pamela
+	dev-python/nbformat
+	dev-python/nbconvert
+	dev-python/anyio
 	dev-python/prometheus_client
-	dev-python/python-dateutil
-	dev-python/requests
-	dev-python/sqlalchemy
-	net-misc/configurable-http-proxy
-	>=www-servers/tornado-5.0
-	dev-python/traitlets
-	dev-python/jupyter-telemetry"
+	>=dev-python/terminado-0.8.3
+	dev-python/send2trash
+	>=dev-python/traitlets-4.2.1"
 RDEPEND="${DEPEND}"
+#	>=www-servers/tornado-5.0
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-src_prepare(){
-#	mv ${S}/../node_modules ${S}
-	eapply_user
+##src_prepare(){
+#	mv ${S}/../node_modules ${S}/jupyterlab/staging/
+##	eapply "${FILESDIR}/jupter_server-1.1.0_find_packages.patch"
+##	eapply_user
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-}
+##}
 
 #python_configure_all() {
 #        tc-export CC

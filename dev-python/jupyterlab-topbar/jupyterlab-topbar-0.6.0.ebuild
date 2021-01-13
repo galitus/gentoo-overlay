@@ -3,22 +3,22 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
+#PYTHON=python3.6
+#EPYTHON=python3.6
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1
 
-DESCRIPTION="Python tools for geographic data"
-HOMEPAGE="https://github.com/geopandas/geopandas"
-SRC_URI="https://github.com/geopandas/geopandas/releases/download/v${PV}/geopandas-${PV}.tar.gz -> geopandas-${PV}.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+DESCRIPTION="Top space statusbar for JupyterLab."
+HOMEPAGE="https://github.com/jtpio/jupyterlab-topbar"
+SRC_URI="https://github.com/jtpio/jupyterlab-topbar/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pyproj
-	sci-libs/shapely"
-RDEPEND="${DEPEND}"
+#DEPEND="net-libs/nodejs"
+#RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )
 #PATCHES=(
@@ -26,6 +26,7 @@ RDEPEND="${DEPEND}"
 #)
 
 #S=${WORKDIR}
+#S="${WORKDIR}/jupyter-c-kernel-${PV}"
 
 #src_prepare(){
 #	mv ${S}/../node_modules ${S}
@@ -38,12 +39,25 @@ RDEPEND="${DEPEND}"
 #}
 
 #src_compile(){
+#	default
+#	python_doscript jupyter_c_kernel/install_c_kernel
 #	npm install
 #	npm install --global
 #	npm install json5
 #}
 
 #src_install(){
+#	python_export_best
+#	python_setup
+#	distutils-r1_python_install
+#	insinto /usr/share/jupyter/kernels/c/
+#	doins ${FILESDIR}/kernel.json
+#	python_doscript ${S}/jupyter_c_kernel/install_c_kernel
+#	python3.6 ${S}/jupyter_c_kernel/install_c_kernel --sys-prefix
+#	PYVERSION=$(echo "${EPYTHON}"|awk -F. '{print $2}')
+#	echo "python version ${PYVERSION}"
+#	PYVERSION=$(ver_rs 2 "${EPYTHON}")
+#	${S}/build/scripts-3.${PYVERSION}/install_c_kernel --prefix /usr/share/jupyter/kernels/ --sys-prefix
 #	insinto /usr/lib64/node_modules/json5/
 #	doins -r *
 #	dosym /usr/lib64/node_modules/json5/lib/cli.js /usr/bin/json5
@@ -60,9 +74,3 @@ RDEPEND="${DEPEND}"
 #        insinto /usr/share/doc/${PF}/examples
 #        doins test/*
 #}
-
-
-
-
-
-

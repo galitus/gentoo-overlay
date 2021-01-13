@@ -22,7 +22,7 @@ DEPEND="dev-python/pyjson5
 	>=dev-python/jsonschema-3.0.1
 	>=dev-python/notebook-4.2.0
 	>=dev-python/jinja-2.10
-	=dev-python/jupyter_server-1.1.0
+	~dev-python/jupyter_server-1.1
 	dev-python/requests
 	dev-python/packaging
 	dev-python/Babel"

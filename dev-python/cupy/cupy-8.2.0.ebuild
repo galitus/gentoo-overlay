@@ -4,20 +4,23 @@
 EAPI="7"
 PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
 
-inherit distutils-r1 toolchain-funcs
+#inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 git-r3
 
-DESCRIPTION="Python tools for geographic data"
-HOMEPAGE="https://github.com/geopandas/geopandas"
-SRC_URI="https://github.com/geopandas/geopandas/releases/download/v${PV}/geopandas-${PV}.tar.gz -> geopandas-${PV}.tar.gz"
-#	https://roofn3d.gis.tu-berlin.de/json5-nodemodules.tar.gz"
+DESCRIPTION="NumPy-like API accelerated with CUDA"
+HOMEPAGE="https://github.com/cupy/cupy/"
+#SRC_URI="https://github.com/cupy/cupy/archive/v${PV}.tar.gz -> cupy-${PV}.tar.gz"
+EGIT_REPO_URI="https://github.com/cupy/cupy"
+EGIT_COMMIT="v8.2.0"
+EGIT_SUBMODULES=( '*' )
+#EGIT_CLONE_TYPE="single+tags"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pyproj
-	sci-libs/shapely"
+DEPEND="dev-python/fastrlock"
 RDEPEND="${DEPEND}"
 
 #DOCS=( CHANGELOG README )

@@ -8,7 +8,7 @@ inherit distutils-r1 toolchain-funcs
 
 DESCRIPTION="Multi-user server for Jupyter notebooks"
 HOMEPAGE="https://github.com/jupyterhub/jupyterhub"
-SRC_URI="https://github.com/jupyterhub/jupyterhub/archive/1.1.0.tar.gz -> jupyterhub-1.1.0.tar.gz"
+SRC_URI="https://github.com/jupyterhub/jupyterhub/archive/${PV}.tar.gz -> ${P}.tar.gz"
 #	https://roofn3d.gis.tu-berlin.de/nodemodules.tar.gz"
 
 RESTRICT=network-sandbox
@@ -20,10 +20,10 @@ IUSE=""
 
 DEPEND="net-libs/nodejs
 	dev-python/alembic
-	>=dev-python/async_generator-1.8
+	>=dev-python/async_generator-1.9
 	dev-python/certipy
 	dev-python/entrypoints
-	>=dev-python/jinja-2.0
+	>=dev-python/jinja-2.11
 	>=dev-python/oauthlib-3.0
 	dev-python/pamela
 	dev-python/prometheus_client
@@ -31,8 +31,8 @@ DEPEND="net-libs/nodejs
 	dev-python/requests
 	dev-python/sqlalchemy
 	net-misc/configurable-http-proxy
-	>=www-servers/tornado-5.0
-	dev-python/traitlets
+	>=www-servers/tornado-5.1
+	>=dev-python/traitlets-4.3.2
 	dev-python/jupyter-telemetry"
 RDEPEND="${DEPEND}"
 
@@ -41,14 +41,14 @@ RDEPEND="${DEPEND}"
 #	"${FILESDIR}/cspice_system.patch"
 #)
 
-src_prepare(){
+#src_prepare(){
 #	mv ${S}/../node_modules ${S}
-	eapply_user
+#	eapply_user
 #	wget http://naif.jpl.nasa.gov/pub/naif/toolkit//C/PC_Linux_GCC_64bit/packages/cspice.tar.Z
 #	echo "S: ${S}"
 #	echo "W: ${W}"
 #	mv ${S}/../cspice ${S}
-}
+#}
 
 #python_configure_all() {
 #        tc-export CC

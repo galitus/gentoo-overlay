@@ -16,13 +16,17 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RESTRICT=network-sandbox
+#RESTRICT=network-sandbox
 
-DEPEND="net-libs/nodejs
-	>=dev-python/notebook-4.3.1
-	=dev-python/jupyterlab_server-1.2.0
-	>=dev-python/jinja-2.10
-	>www-servers/tornado-6.0.4"
+DEPEND="dev-python/ipython
+	dev-python/jupyter-packaging
+        dev-python/jupyter_core
+	~dev-python/jupyter_server-1.1.0
+        =dev-python/jupyterlab_server-2.0.0
+        >=dev-python/jinja-2.10
+        >=www-servers/tornado-6.1
+	>=dev-python/nbclassic-0.2"
+#       >=dev-python/notebook-4.3.1
 
 RDEPEND="${DEPEND}"
 
