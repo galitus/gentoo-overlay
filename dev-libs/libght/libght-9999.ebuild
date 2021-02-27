@@ -39,6 +39,14 @@ REQUIRED_USE=""
 
 #AUTOTOOLS_IN_SOURCE_BUILD=1
 
+PATCHES=(
+	"${FILESDIR}/fix_old_proj_api_usage.patch"
+)
+
+#src_prepare() {
+#	eapply ${FILESDIR}/fix_old_proj_api_usage.patch
+#}
+
 #src_prepare() {
 #	mv -f "${WORKDIR}/share/"* "${S}/share/" || die
 #

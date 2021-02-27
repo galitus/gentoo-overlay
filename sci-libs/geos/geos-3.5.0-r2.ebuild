@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=7
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -11,7 +11,7 @@ PHP_EXT_NAME="geos"
 PHP_EXT_OPTIONAL_USE="php"
 PHP_EXT_SKIP_PHPIZE="yes"
 
-inherit php-ext-source-r2 autotools eutils python-single-r1 python-utils-r1
+inherit php-ext-source-r3 autotools eutils python-single-r1 python-utils-r1
 
 DESCRIPTION="Geometry engine library for Geographic Information Systems"
 HOMEPAGE="http://trac.osgeo.org/geos/"

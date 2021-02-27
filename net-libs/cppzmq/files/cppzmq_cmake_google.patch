@@ -1,0 +1,20 @@
+diff -Naur /tmp/a/tests/CMakeLists.txt /tmp/b/tests/CMakeLists.txt
+--- ./tests/CMakeLists.txt	2019-10-02 18:27:32.657430027 +0200
++++ ./tests/CMakeLists.txt	2019-10-02 18:27:19.254429561 +0200
+@@ -9,11 +9,11 @@
+ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
+ 
+-include(cmake/googletest.cmake)
+-fetch_googletest(
+-    ${PROJECT_SOURCE_DIR}/cmake
+-    ${PROJECT_BINARY_DIR}/googletest
+-    )
++#include(cmake/googletest.cmake)
++#fetch_googletest(
++#    ${PROJECT_SOURCE_DIR}/cmake
++#    ${PROJECT_BINARY_DIR}/googletest
++#    )
+ 
+ add_executable(
+     unit_tests

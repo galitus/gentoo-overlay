@@ -1,0 +1,12 @@
+diff -Naur pytorch-1.3.1_org/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake pytorch-1.3.1/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake
+--- pytorch-1.3.1_org/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake	2019-12-17 11:17:40.250011861 +0100
++++ pytorch-1.3.1/cmake/Modules_CUDA_fix/upstream/FindCUDA/select_compute_arch.cmake	2019-12-17 11:18:25.274014008 +0100
+@@ -166,6 +166,8 @@
+   set(cuda_arch_bin)
+   set(cuda_arch_ptx)
+ 
++  set(CUDA_ARCH_LIST "Common")
++
+   if("${CUDA_ARCH_LIST}" STREQUAL "All")
+     set(CUDA_ARCH_LIST ${CUDA_KNOWN_GPU_ARCHITECTURES})
+   elseif("${CUDA_ARCH_LIST}" STREQUAL "Common")

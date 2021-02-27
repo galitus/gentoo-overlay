@@ -1,0 +1,12 @@
+diff -Naur a/src/basegdl.hpp b/src/basegdl.hpp
+--- a/src/basegdl.hpp	2019-06-18 12:28:54.692537028 +0200
++++ b/src/basegdl.hpp	2019-06-18 12:29:29.965152449 +0200
+@@ -24,7 +24,7 @@
+ #if defined(__CYGWIN__) || defined(_WIN32)
+ #  include <rpc/xdr.h>
+ #else
+-#  include <rpc/rpc.h>
++#  include <tirpc/rpc/rpc.h>
+ #endif
+ 
+ #include <algorithm>

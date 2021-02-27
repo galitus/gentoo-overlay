@@ -1,0 +1,33 @@
+#!/sbin/openrc-run
+# Copyright 1999-2006 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+depend() {
+	use logger dns net
+}
+
+start() {
+	ebegin "Starting configurable-http-proxy"
+	start-stop-daemon --start -m --pidfile /var/run/configurable-http-proxy.pid --env CONFIGPROXY_AUTH_TOKEN=${CONFIGPROXY_AUTH_TOKEN} -- \
+		/usr/bin/configurable-http-proxy --ip $(hostname) \
+						 --port 8000 \
+						--api-ip 127.0.0.1 \
+						--api-port 8001 \
+						--error-target http://${JUPYTERHUB_IP}:8081/jhub/hub/error \
+		&> /var/log/configurable-http-proxy.log &
+#	jupyterhub -f /etc/jupyterhub/jupyterhub_config.py \
+#		--pid-file /var/run/jupyterhub.pid \
+#		--db /etc/jupyterhub/jupyterhub.sqlite \
+#		--JupyterHub.cookie_secret_file=/etc/jupyterhub/jupyterhub_cookie_secret \
+#		&>> /var/log/configurable-http-proxy &
+	eend $?
+}
+
+stop() {
+	local ret
+	ebegin "Stopping configurable-http-proxy"
+	start-stop-daemon --stop --retry 3 --pidfile /var/run/configurable-http-proxy.pid
+	ret=$?
+	rm -f /var/run/configurable-http-proxy.pid
+	eend ${ret}
+}

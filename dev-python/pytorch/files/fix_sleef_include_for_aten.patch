@@ -1,0 +1,13 @@
+diff -Naur pytorch-1.3.1_org/aten/CMakeLists.txt pytorch-1.3.1/aten/CMakeLists.txt
+--- pytorch-1.3.1_org/aten/CMakeLists.txt	2019-12-19 20:13:32.221351721 +0100
++++ pytorch-1.3.1/aten/CMakeLists.txt	2019-12-19 21:06:48.349170869 +0100
+@@ -2,6 +2,9 @@
+   return()
+ endif()
+ 
++include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../build/include/)
++message("!!! aten: ${CMAKE_CURRENT_SOURCE_DIR} !!!")
++
+ # Find modules
+ if (NOT INTERN_BUILD_MOBILE)
+   list(APPEND CMAKE_MODULE_PATH /usr/lib/x86_64-linux-gnu/)

@@ -31,10 +31,17 @@ S=${WORKDIR}/${P}/nn
 #	${S}/makeall.csh
 #}
 
+src_prepare() {
+	eapply ${FILESDIR}/nn_shared.patch
+
+	eapply_user
+}
+
 src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
 	doins ${S}/*.a
+	doins ${S}/*.o
 	insinto /usr/include/nn/
 	insopts -m 0755 -o root -g root
 	doins ${S}/*.h

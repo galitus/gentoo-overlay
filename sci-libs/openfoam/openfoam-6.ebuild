@@ -53,10 +53,16 @@ src_unpack() {
 
 src_configure() {
 	epatch ${FILESDIR}/openfoam-6-bashrc_nvidia_libgl.patch
+	export VTK_INSTALL_PREFIX=/usr
+	export MPI_ARCH_PATH=/usr
+#	export MPI_ARCH_INC="-isystem /usr/include"
 	if has_version sys-cluster/mpich2 ; then
 		export WM_MPLIB=MPICH
 	elif has_version sys-cluster/openmpi ; then
 		export WM_MPLIB=OPENMPI
+#		export MPI_ROOT=/usr
+#		export MPI_ARCH_PATH=/usr
+		export MPI_ARCH_INC=/usr
 	else
 		die "You need one of the following mpi implementations: openmpi or mpich2"
 	fi
