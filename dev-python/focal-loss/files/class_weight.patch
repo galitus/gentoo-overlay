@@ -1,0 +1,141 @@
+From 5b2ca680aefc519e091d8e3abc9cba314ce02e51 Mon Sep 17 00:00:00 2001
+From: Artem Mavrin <artemmavrin@users.noreply.github.com>
+Date: Sun, 1 Nov 2020 01:37:00 -0700
+Subject: [PATCH] Added class_weight parameter (#11)
+
+* Added class_weight parameter to sparse_categorical_focal_loss
+
+* Added class_weight to SparseCategoricalFocalLoss
+---
+ src/focal_loss/_categorical_focal_loss.py     | 28 +++++++++++++++++--
+ .../test_sparse_categorical_focal_loss.py     | 23 +++++++++++++++
+ 2 files changed, 49 insertions(+), 2 deletions(-)
+
+diff --git a/src/focal_loss/_categorical_focal_loss.py b/src/focal_loss/_categorical_focal_loss.py
+index 4ea1149..ca9dc5b 100644
+--- a/src/focal_loss/_categorical_focal_loss.py
++++ b/src/focal_loss/_categorical_focal_loss.py
+@@ -7,6 +7,7 @@
+ #  |_|    \___/   \___|  \__,_| |_|   |_|  \___/  |___/ |___/
+ 
+ import itertools
++from typing import Any, Optional
+ 
+ import tensorflow as tf
+ 
+@@ -14,6 +15,7 @@
+ 
+ 
+ def sparse_categorical_focal_loss(y_true, y_pred, gamma, *,
++                                  class_weight: Optional[Any] = None,
+                                   from_logits: bool = False, axis: int = -1
+                                   ) -> tf.Tensor:
+     r"""Focal loss function for multiclass classification with integer labels.
+@@ -65,6 +67,10 @@ def sparse_categorical_focal_loss(y_true, y_pred, gamma, *,
+         one-dimensional tensor, in which case it specifies a focusing parameter
+         for each class.
+ 
++    class_weight: tensor-like of shape (K,)
++        Weighting factor for each of the :math:`k` classes. If not specified,
++        then all classes are weighted equally.
++
+     from_logits : bool, optional
+         Whether `y_pred` contains logits or probabilities.
+ 
+@@ -116,6 +122,11 @@ def sparse_categorical_focal_loss(y_true, y_pred, gamma, *,
+     gamma_rank = gamma.shape.rank
+     scalar_gamma = gamma_rank == 0
+ 
++    # Process class weight
++    if class_weight is not None:
++        class_weight = tf.convert_to_tensor(class_weight,
++                                            dtype=tf.dtypes.float32)
++
+     # Process prediction tensor
+     y_pred = tf.convert_to_tensor(y_pred)
+     y_pred_rank = y_pred.shape.rank
+@@ -165,6 +176,11 @@ def sparse_categorical_focal_loss(y_true, y_pred, gamma, *,
+     focal_modulation = (1 - probs) ** gamma
+     loss = focal_modulation * xent_loss
+ 
++    if class_weight is not None:
++        class_weight = tf.gather(class_weight, y_true, axis=0,
++                                 batch_dims=y_true_rank)
++        loss *= class_weight
++
+     if reshape_needed:
+         loss = tf.reshape(loss, y_pred_shape[:-1])
+ 
+@@ -193,6 +209,10 @@ class SparseCategoricalFocalLoss(tf.keras.losses.Loss):
+         one-dimensional tensor, in which case it specifies a focusing parameter
+         for each class.
+ 
++    class_weight: tensor-like of shape (K,)
++        Weighting factor for each of the :math:`k` classes. If not specified,
++        then all classes are weighted equally.
++
+     from_logits : bool, optional
+         Whether model prediction will be logits or probabilities.
+ 
+@@ -238,9 +258,11 @@ class SparseCategoricalFocalLoss(tf.keras.losses.Loss):
+         tensor and a prediction tensor and outputting a loss.
+     """
+ 
+-    def __init__(self, gamma, from_logits: bool = False, **kwargs):
++    def __init__(self, gamma, class_weight: Optional[Any] = None,
++                 from_logits: bool = False, **kwargs):
+         super().__init__(**kwargs)
+         self.gamma = gamma
++        self.class_weight = class_weight
+         self.from_logits = from_logits
+ 
+     def get_config(self):
+@@ -256,7 +278,8 @@ def get_config(self):
+             This layer's config.
+         """
+         config = super().get_config()
+-        config.update(gamma=self.gamma, from_logits=self.from_logits)
++        config.update(gamma=self.gamma, class_weight=self.class_weight,
++                      from_logits=self.from_logits)
+         return config
+ 
+     def call(self, y_true, y_pred):
+@@ -283,5 +306,6 @@ def call(self, y_true, y_pred):
+             :meth:`~focal_loss.SparseCateogiricalFocalLoss.__call__` method.
+         """
+         return sparse_categorical_focal_loss(y_true=y_true, y_pred=y_pred,
++                                             class_weight=self.class_weight,
+                                              gamma=self.gamma,
+                                              from_logits=self.from_logits)
+diff --git a/src/focal_loss/tests/test_sparse_categorical_focal_loss.py b/src/focal_loss/tests/test_sparse_categorical_focal_loss.py
+index d5a2fc1..afbd31e 100644
+--- a/src/focal_loss/tests/test_sparse_categorical_focal_loss.py
++++ b/src/focal_loss/tests/test_sparse_categorical_focal_loss.py
+@@ -355,4 +355,27 @@ def test_with_dynamic_ranks(self, gamma, from_logits):
+ 
+         self.assertAllClose(loss, loss_numpy)
+ 
++    @named_parameters_with_testcase_names(y_true=Y_TRUE, y_pred=Y_PRED_PROB,
++                                          gamma=[0, 1, 2])
++    def test_class_weight(self, y_true, y_pred, gamma):
++        rng = np.random.default_rng(0)
++        for _ in range(10):
++            class_weight = rng.uniform(size=np.shape(y_pred)[-1])
++
++            loss_without_weight = sparse_categorical_focal_loss(
++                y_true=y_true,
++                y_pred=y_pred,
++                gamma=gamma,
++            )
++            loss_with_weight = sparse_categorical_focal_loss(
++                y_true=y_true,
++                y_pred=y_pred,
++                gamma=gamma,
++                class_weight=class_weight,
++            )
++
++            # Apply class weights to loss computed without class_weight
++            loss_without_weight = loss_without_weight.numpy()
++            loss_without_weight *= np.take(class_weight, y_true)
+ 
++            self.assertAllClose(loss_with_weight, loss_without_weight)
