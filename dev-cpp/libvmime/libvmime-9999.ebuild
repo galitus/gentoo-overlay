@@ -1,10 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI=5
+EAPI=7
 
-inherit cmake-utils flag-o-matic git-r3
+inherit cmake flag-o-matic git-r3
 
 DESCRIPTION="Library for working with MIME messages and Internet messaging services like IMAP, POP or SMTP"
 HOMEPAGE="http://www.vmime.org"
@@ -43,20 +42,20 @@ src_prepare() {
 	sed -i \
 		-e 's|ADD_SUBDIRECTORY(viewer)||' \
 		examples/CMakeLists.txt || die "sed failed"
-	cmake-utils_src_prepare
+	cmake_src_prepare
 }
 
 src_configure() {
 	append-cppflags -DVMIME_ALWAYS_GENERATE_7BIT_PARAMETER=1
 
 	local mycmakeargs=(
-		$(cmake-utils_use c++11 VMIME_SHARED_PTR_USE_CXX)
-		$(cmake-utils_use sasl VMIME_HAVE_SASL_SUPPORT)
-		$(cmake-utils_use pop VMIME_HAVE_MESSAGING_PROTO_POP3)
-		$(cmake-utils_use smtp VMIME_HAVE_MESSAGING_PROTO_SMTP)
-		$(cmake-utils_use imap VMIME_HAVE_MESSAGING_PROTO_IMAP)
-		$(cmake-utils_use maildir VMIME_HAVE_MESSAGING_PROTO_MAILDIR )
-		$(cmake-utils_use sendmail VMIME_HAVE_MESSAGING_PROTO_SENDMAIL)
+		$(cmake_use c++11 VMIME_SHARED_PTR_USE_CXX)
+		$(cmake_use sasl VMIME_HAVE_SASL_SUPPORT)
+		$(cmake_use pop VMIME_HAVE_MESSAGING_PROTO_POP3)
+		$(cmake_use smtp VMIME_HAVE_MESSAGING_PROTO_SMTP)
+		$(cmake_use imap VMIME_HAVE_MESSAGING_PROTO_IMAP)
+		$(cmake_use maildir VMIME_HAVE_MESSAGING_PROTO_MAILDIR )
+		$(cmake_use sendmail VMIME_HAVE_MESSAGING_PROTO_SENDMAIL)
 		'-DVMIME_BUILD_SAMPLES=OFF'
 	)
 
@@ -79,18 +78,18 @@ src_configure() {
 	else
 		CMAKE_BUILD_TYPE="Release"
 	fi
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 	if use doc ; then
 		doxygen vmime.doxygen || die "doxygen failed"
 	fi
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	dodoc AUTHORS README
 	if use doc ; then
 		dohtml doc/html/*

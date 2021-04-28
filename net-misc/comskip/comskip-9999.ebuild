@@ -1,8 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=6
+EAPI=7
 
 inherit autotools eutils git-r3
 
@@ -17,8 +16,6 @@ SLOT="0"
 LICENSE="GPL-2 LGPL-2"
 KEYWORDS=""
 IUSE="static-libs"
-
-
 
 RDEPEND=""
 DEPEND="dev-libs/argtable \
@@ -38,5 +35,5 @@ src_configure() {
 src_install() {
 	default
 	insinto /etc/comskip
-	doins ${FILESDIR}/comskip.ini
+	doins "${FILESDIR}"/comskip.ini
 }

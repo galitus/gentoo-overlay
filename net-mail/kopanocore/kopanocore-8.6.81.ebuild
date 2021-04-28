@@ -1,19 +1,17 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI="6"
+EAPI=7
 
 PHP_EXT_NAME="mapi"
 PHP_EXT_INI="yes"
-USE_PHP="php7-1"
+USE_PHP="php7-4"
 
-PYTHON_COMPAT=( python2_7 python3_5 python3_6 )
+PYTHON_COMPAT=( python3_7 python3_8 )
 
-inherit autotools eutils flag-o-matic user php-ext-source-r3 python-single-r1
+inherit autotools eutils flag-o-matic php-ext-source-r3 python-single-r1
 
 PHP_EXT_S="${S}/php7-ext"
-
 
 DESCRIPTION="Open Source Groupware Solution"
 HOMEPAGE="http://kopano.io/"
@@ -23,9 +21,8 @@ SRC_URI_TAG="kopanocore-8.6.81"
 SRC_URI="https://stash.kopano.io/rest/api/latest/projects/KC/repos/kopanocore/archive?at=refs%2Fheads%2Fkc-8.6.x&prefix=${P}&format=tar.gz -> ${P}.tar.gz"
 #SRC_URI="https://stash.kopano.io/rest/archive/latest/projects/KC/repos/kopanocore/archive?at=refs%2Ftags%2F${SRC_URI_TAG}&prefix=${P}&format=tar.gz -> ${P}.tar.gz"
 
-
-KOPANO_USER=${KOPANO_USER:-kopano}
-KOPANO_GROUP=${KOPANO_GROUP:-kopano}
+#KOPANO_USER=${KOPANO_USER:-kopano}
+#KOPANO_GROUP=${KOPANO_GROUP:-kopano}
 
 KOPANO_SERVICES="dagent gateway ical monitor presence search server spooler"
 
@@ -35,8 +32,9 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
 IUSE="debug icu kerberos ldap logrotate s3 static tcmalloc"
 
-RDEPEND="!net-mail/zcp
-	${PYTHON_DEPS}
+RDEPEND="${PYTHON_DEPS}
+	acct-group/kopano
+	acct-user/kopano
 	logrotate? ( app-admin/logrotate )
 	app-arch/unzip
 	app-text/catdoc
@@ -45,7 +43,7 @@ RDEPEND="!net-mail/zcp
 	dev-libs/boost
 	icu? ( dev-libs/icu )
 	>=dev-cpp/libvmime-0.9.2[smtp]
-	dev-lang/python
+	dev-lang/python:2.7
 	dev-lang/swig
 	>=dev-libs/libical-0.44
 	dev-libs/libxml2
@@ -55,7 +53,6 @@ RDEPEND="!net-mail/zcp
 	net-misc/curl
 	sys-libs/e2fsprogs-libs
 	sys-libs/zlib
-	python_single_target_python2_7? ( dev-python/bsddb3 )
 	dev-python/flask
 	>=dev-python/python-daemon-1.6
 	dev-python/python-dateutil
@@ -63,13 +60,14 @@ RDEPEND="!net-mail/zcp
 	tcmalloc? ( dev-util/google-perftools )
 	s3? ( net-libs/libs3 )
 	ldap? ( net-nds/openldap )
-	virtual/httpd-php
+	virtual/httpd-php:7.1
 	kerberos? ( virtual/krb5 )
 	virtual/mysql
 	dev-libs/jsoncpp"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	sys-devel/gettext"
+#	python_single_target_python2_7? ( dev-python/bsddb3 )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
@@ -79,16 +77,16 @@ pkg_setup() {
 }
 
 src_prepare() {
-        local slot
-        for slot in $(php_get_slots); do
-                rm -rf "${WORKDIR}/${slot}" || die
-                ln -s "${PHP_EXT_S}" "${WORKDIR}/${slot}" || die
-        done
+	local slot
+	for slot in $(php_get_slots); do
+		rm -rf "${WORKDIR}/${slot}" || die
+		ln -s "${PHP_EXT_S}" "${WORKDIR}/${slot}" || die
+	done
 
 	epatch "${FILESDIR}/kopanocore-8.6.80-automake.patch"
 	epatch "${FILESDIR}/new_fix.patch"
 	use kerberos && epatch "${FILESDIR}/kopanocore-8.2.0-kerberos.patch"
-	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.3.0-python2_7.patch"
+#	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.3.0-python2_7.patch"
 	epatch "${FILESDIR}/kopanocore-8.2.0-search.patch"
 	eapply_user
 	eautoreconf

@@ -1,6 +1,7 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
+
+EAPI=7
 
 DESCRIPTION="Spice - NAIF Toolkit for Fortran"
 HOMEPAGE="https://naif.jpl.nasa.gov/naif/toolkit_FORTRAN_PC_Linux_gfortran_64bit.html"
@@ -13,24 +14,15 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-#WORKDIR="${PN}"
-S=${WORKDIR}/toolkit
-
-#src_compile() {
-#	econf || die "econf failed"
-#	emake || die "emake failed"
-#}
+S="${WORKDIR}"/toolkit
 
 src_compile() {
-	cd ${S}
-	${S}/makeall.csh
+#	cd "${S}"
+	"${S}"/makeall.csh
 }
 
 src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
-	doins ${S}/lib/*.a
-	#insinto /usr/include/naif/${PN}/
-	#insopts -m 0755 -o root -g root
-	#doins ${S}/include/*
+	doins "${S}"/lib/*.a
 }

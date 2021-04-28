@@ -1,34 +1,35 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI="6"
+EAPI=7
 
 PHP_EXT_NAME="mapi"
 PHP_EXT_INI="yes"
-USE_PHP="php5-6 php7-0 php7-1"
+USE_PHP="php7-4"
 
-PYTHON_COMPAT=( python2_7 python3_3 python3_4 python3_5 )
+PYTHON_COMPAT=( python3_7 python3_8 )
 
-inherit autotools eutils flag-o-matic git-r3 user php-ext-source-r3 python-single-r1
+inherit autotools eutils flag-o-matic git-r3 php-ext-source-r3 python-single-r1
 
 DESCRIPTION="Open Source Groupware Solution"
 HOMEPAGE="http://kopano.io/"
 
 EGIT_REPO_URI="https://stash.kopano.io/git/KC/kopanocore.git"
 
-KOPANO_USER=${KOPANO_USER:-kopano}
-KOPANO_GROUP=${KOPANO_GROUP:-kopano}
+#KOPANO_USER=${KOPANO_USER:-kopano}
+#KOPANO_GROUP=${KOPANO_GROUP:-kopano}
 
 KOPANO_SERVICES="dagent gateway ical monitor presence search server spooler"
 
 LICENSE="AGPL-3"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 RESTRICT="mirror"
 IUSE="debug icu kerberos ldap logrotate s3 static tcmalloc"
 
-RDEPEND="!net-mail/zcp
+RDEPEND="${PYTHON_DEPS}
+	acct-group/kopano
+	acct-user/kopano
 	logrotate? ( app-admin/logrotate )
 	app-arch/unzip
 	app-text/catdoc
@@ -37,7 +38,7 @@ RDEPEND="!net-mail/zcp
 	dev-libs/boost
 	icu? ( dev-libs/icu )
 	>=dev-cpp/libvmime-0.9.2[smtp]
-	dev-lang/python
+	dev-lang/python:3.8
 	dev-lang/swig
 	>=dev-libs/libical-0.44
 	dev-libs/libxml2
@@ -47,7 +48,6 @@ RDEPEND="!net-mail/zcp
 	net-misc/curl
 	sys-libs/e2fsprogs-libs
 	sys-libs/zlib
-	python_single_target_python2_7? ( dev-python/bsddb3 )
 	dev-python/flask
 	>=dev-python/python-daemon-1.6
 	dev-python/python-dateutil
@@ -55,12 +55,13 @@ RDEPEND="!net-mail/zcp
 	tcmalloc? ( dev-util/google-perftools )
 	s3? ( net-libs/libs3 )
 	ldap? ( net-nds/openldap )
-	virtual/httpd-php
+	virtual/httpd-php:7.4
 	kerberos? ( virtual/krb5 )
 	virtual/mysql"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	sys-devel/gettext"
+#	python_single_target_python2_7? ( dev-python/bsddb3 )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
@@ -82,7 +83,7 @@ src_prepare() {
 	epatch "${FILESDIR}/kopanocore-8.2.0-automake.patch"
 	use kerberos && epatch "${FILESDIR}/kopanocore-8.2.0-kerberos.patch"
 	epatch "${FILESDIR}/kopanocore-8.2.0-php.patch"
-	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.2.0-python2_7.patch"
+#	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.2.0-python2_7.patch"
 	epatch "${FILESDIR}/kopanocore-8.2.0-search.patch"
 	eapply_user
 	eautoreconf

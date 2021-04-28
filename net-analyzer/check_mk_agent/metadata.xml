@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>darthm.gentoo@darthm.de</email>
+		<name>darthm</name>
+	</maintainer>
+	<longdescription lang="en">
+		Agent to report data to Check_MK for monitoring
+Agent to report data to Check_MK for monitoring
+	</longdescription>
+</pkgmetadata>

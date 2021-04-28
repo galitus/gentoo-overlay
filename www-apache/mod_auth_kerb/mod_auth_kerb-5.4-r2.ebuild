@@ -1,6 +1,7 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-apache/mod_auth_kerb/mod_auth_kerb-5.4-r1.ebuild,v 1.4 2014/12/17 10:58:17 pacho Exp $
+
+EAPI=7
 
 inherit apache-module eutils
 
@@ -26,10 +27,9 @@ need_apache2
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
+}
 
-#	epatch "${FILESDIR}"/${P}-fixes.patch
-#	epatch "${FILESDIR}"/${P}-delegation.patch
-#	epatch "${FILESDIR}"/${P}-cachedir.patch
+src_prepare() {
 	epatch "${FILESDIR}"/${P}-apache24.patch
 	epatch "${FILESDIR}/v5.4-to-latest-cvs.patch"
 }

@@ -1,12 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-#AUTOTOOLS_AUTORECONF=yes
-
-#inherit autotools-utils multilib
-inherit autotools-utils git-r3
+inherit autotools git-r3
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
@@ -15,12 +12,9 @@ HOMEPAGE="https://github.com/pgpointcloud/pointcloud"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/pgpointcloud/pointcloud.git"
 
-
-#LICENSE="GPL-2 gmttria? ( Artistic )"
 SLOT="0"
 LICENSE="BSD-3"
 KEYWORDS=""
-#IUSE="static-libs"
 
 RDEPEND=""
 DEPEND=">=dev-db/postgresql-9.5.7
@@ -31,29 +25,6 @@ DEPEND=">=dev-db/postgresql-9.5.7
 
 REQUIRED_USE=""
 
-#S="${WORKDIR}/${P}"
-
-# hand written make files that are not parallel safe
-#MAKEOPTS+=" -j1"
-
-#PATCHES=(
-#	"${FILESDIR}"/${PN}-4.5.9-no-strip.patch
-#	"${FILESDIR}"/${PN}-4.5.6-respect-ldflags.patch
-#	"${FILESDIR}"/${PN}-4.5.9-unistd.h.patch
-#	)
-
-#AUTOTOOLS_IN_SOURCE_BUILD=1
-
-#src_prepare() {
-#	mv -f "${WORKDIR}/share/"* "${S}/share/" || die
-#
-#	tc-export AR RANLIB
-#
-#	autotools-utils_src_prepare
-#
-#	eautoreconf
-#}
-
 src_prepare() {
 	default
 	eautoreconf
@@ -63,45 +34,5 @@ src_configure() {
 	local myeconfargs=(
 		--with-lazperf=/usr/include/laz-perf
 	)
-	autotools-utils_src_configure
+	autotools_src_configure
 }
-#		--includedir=/usr/include/${P}
-#		--datadir=/usr/share/${P}
-#		--docdir=/usr/share/doc/${PF}
-#		--disable-update
-#		--disable-matlab
-#		--disable-xgrid
-#		--disable-debug
-#		$(use_enable gdal)
-#		$(use_enable netcdf)
-#		$(use_enable octave)
-#		$(use_enable debug devdebug)
-#		$(use_enable !metric US)
-#		$(use_enable postscript eps)
-#		$(use_enable mex)
-#		$(use_enable gmttria triangle)
-#		)
-#	autotools-utils_src_configure
-#}
-
-#src_configure() {
-#        local mycmakeargs=(
-#		-DGMT_OPENMP=ON
-#        )
-#
-#        cmake-utils_src_configure
-#}
-
-#src_install() {
-#	autotools-utils_src_install install-all
-
-	# remove static libs
-#	find "${ED}/usr/$(get_libdir)" -name '*.a' -exec rm -f {} +
-
-#	cat <<- _EOF_ > "${T}/99gmt"
-#	GMTHOME="${EPREFIX}/usr/share/${P}"
-#	GMT_SHAREDIR="${EPREFIX}/usr/share/${P}"
-#	_EOF_
-#	doenvd "${T}/99gmt"
-#
-#}

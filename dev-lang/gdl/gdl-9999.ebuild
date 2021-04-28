@@ -1,12 +1,12 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 WX_GTK_VER="3.0"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_7 python3_8 )
 
-inherit cmake-utils eutils python-r1 wxwidgets toolchain-funcs virtualx git-r3
+inherit cmake eutils python-r1 wxwidgets toolchain-funcs virtualx git-r3
 
 DESCRIPTION="GNU Data Language"
 HOMEPAGE="https://github.com/gnudatalanguage/gdl"
@@ -42,7 +42,7 @@ RDEPEND="
 		dev-python/numpy[${PYTHON_USEDEP}]
 	)
 	udunits? ( sci-libs/udunits )
-	wxwidgets? ( x11-libs/wxGTK:${WX_GTK_VER}[X] )"
+	wxwidgets? ( x11-libs/wxGTK:${WX_GTK_VER}-gtk3[X] )"
 DEPEND="${RDEPEND}
 	sci-libs/shapelib
 	dev-java/antlr:0[java(+),script(+)]
@@ -90,7 +90,7 @@ src_prepare() {
 	# gentoo: avoid install files in datadir directory
 	# and manually install them in src_install
 	sed -e '/AUTHORS/d' -i CMakeLists.txt || die
-	cmake-utils_src_prepare
+	cmake_src_prepare
 }
 
 src_configure() {
@@ -127,15 +127,15 @@ src_configure() {
 
 	configuration() {
 		mycmakeargs+=( $@ )
-		cmake-utils_src_configure
+		cmake_src_configure
 	}
 	configuration -DPYTHON_MODULE=OFF -DPYTHON=OFF
 	use python && python_foreach_impl configuration -DPYTHON_MODULE=ON -DPYTHON=ON
 }
 
 src_compile() {
-	cmake-utils_src_compile
-	use python && python_foreach_impl cmake-utils_src_make
+	cmake_src_compile
+	use python && python_foreach_impl cmake_src_make
 }
 
 src_test() {
@@ -144,7 +144,7 @@ src_test() {
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	if use python; then
 		installation() {
 			python_domodule src/GDL.so

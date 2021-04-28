@@ -1,6 +1,5 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=7
 
@@ -15,37 +14,27 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-#WORKDIR="${PN}"
-S=${WORKDIR}/${PN}
-
-#src_compile() {
-#	econf || die "econf failed"
-#	emake || die "emake failed"
-#}
+S="${WORKDIR}/${PN}"
 
 src_compile() {
-	cd ${WORKDIR}/${PN}/lib/
+	cd "${WORKDIR}"/"${PN}"/lib/
 	ar -x cspice.a
 	ar -x csupport.a
 	gcc -shared -fPIC -lm *.o -o spice.so
-	cd ${WORKDIR}/${PN}
-	${WORKDIR}/${PN}/makeall.csh
+	cd "${WORKDIR}"/"${PN}"
+	"${WORKDIR}"/"${PN}"/makeall.csh
 }
 
 src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
-	doins ${S}/lib/*.a
-	doins ${S}/lib/spice.so
+	doins "${S}"/lib/*.a
+	doins "${S}"/lib/spice.so
 	insinto /usr/bin/
 	insopts -m 00755 -o root -g root
-	doins ${S}/exe/*
-	insinto /usr/include/${PN}/
+	doins "${S}"/exe/*
+	insinto /usr/include/"${PN}"/
 	insopts -m 0755 -o root -g root
-	doins ${S}/include/*
-	doenvd ${FILESDIR}/97cspice
-
-#	dopammod .libs/pam_afs_session.so
-#	doman pam_afs_session.5
-#	dodoc NEWS README TODO
+	doins "${S}"/include/*
+	doenvd "${FILESDIR}"/97cspice
 }

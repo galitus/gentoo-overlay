@@ -1,6 +1,7 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
+
+EAPI=7
 
 DESCRIPTION="Spice - NAIF Toolkit for IDL"
 HOMEPAGE="https://naif.jpl.nasa.gov/naif/toolkit_IDL_PC_Linux_GCC_IDL8.x_64bit.html"
@@ -13,31 +14,15 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-#WORKDIR="${PN}"
-S=${WORKDIR}/icy
-
-#src_compile() {
-#	econf || die "econf failed"
-#	emake || die "emake failed"
-#}
+S="${WORKDIR}"/icy
 
 src_compile() {
-	cd ${S}
-	${S}/makeall.csh
+#	cd "${S}"
+	"${S}"/makeall.csh
 }
 
 src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
-	doins ${S}/lib/icy*
-#	insinto /usr/bin/
-#	insopts -m 00755 -o root -g root
-#	doins ${S}/exe/*
-#	insinto /usr/include/${PN}/
-#	insopts -m 0755 -o root -g root
-#	doins ${S}/include/*
-
-#	dopammod .libs/pam_afs_session.so
-#	doman pam_afs_session.5
-#	dodoc NEWS README TODO
+	doins "${S}"/lib/icy*
 }

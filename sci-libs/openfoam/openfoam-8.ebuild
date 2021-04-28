@@ -1,18 +1,19 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit eutils versionator multilib toolchain-funcs multiprocessing
+inherit eutils multilib toolchain-funcs multiprocessing
+#versionator
 
 MY_PN="OpenFOAM"
-MY_PV=$(get_version_component_range 1-2)
+#MY_PV=$(get_version_component_range 1-2)
+MY_PV=80
 MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Open Field Operation and Manipulation - CFD Simulation Toolbox"
 HOMEPAGE="http://www.openfoam.org"
 SRC_URI="https://github.com/OpenFOAM/OpenFOAM-8/archive/version-8.tar.gz"
-#SRC_URI="https://github.com/OpenFOAM/OpenFOAM-5.x/archive/version-5.0.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="8.0"
@@ -47,11 +48,11 @@ pkg_setup() {
 
 src_unpack() {
 	unpack ${A}
-	mv OpenFOAM-8-version-8 ${MY_P}
+	mv OpenFOAM-8-version-8 "${MY_P}"
 }
 
 src_configure() {
-	epatch ${FILESDIR}/openfoam-6-bashrc_nvidia_libgl.patch
+	epatch "${FILESDIR}"/openfoam-6-bashrc_nvidia_libgl.patch
 	export VTK_INSTALL_PREFIX=/usr
 	export MPI_ARCH_PATH=/usr
 #	export MPI_ARCH_INC="-isystem /usr/include"

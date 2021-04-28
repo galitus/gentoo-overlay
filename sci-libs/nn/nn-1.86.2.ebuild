@@ -1,8 +1,7 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=6
+EAPI=7
 
 inherit autotools eutils git-r3
 
@@ -18,21 +17,10 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-#WORKDIR="${PN}"
 S=${WORKDIR}/${P}/nn
 
-#src_compile() {
-#	econf || die "econf failed"
-#	emake || die "emake failed"
-#}
-
-#src_compile() {
-#	cd ${S}
-#	${S}/makeall.csh
-#}
-
 src_prepare() {
-	eapply ${FILESDIR}/nn_shared.patch
+	eapply "${FILESDIR}"/nn_shared.patch
 
 	eapply_user
 }
@@ -40,12 +28,12 @@ src_prepare() {
 src_install() {
 	insinto /usr/lib64/
 	insopts -m 0644 -o root -g root
-	doins ${S}/*.a
-	doins ${S}/*.o
+	doins "${S}"/*.a
+	doins "${S}"/*.o
 	insinto /usr/include/nn/
 	insopts -m 0755 -o root -g root
-	doins ${S}/*.h
+	doins "${S}"/*.h
 	insinto /usr/bin/
 	insopts -m 0755 -o root -g root
-	doins ${S}/nnbathy
+	doins "${S}"/nnbathy
 }

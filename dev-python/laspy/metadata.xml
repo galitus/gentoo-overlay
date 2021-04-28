@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>darthm.gentoo@darthm.de</email>
+		<name>darthm</name>
+	</maintainer>
+	<longdescription lang="en">
+		Laspy is a pythonic interface for reading/modifying/creating .LAS LIDAR files matching specification 1.0-1.4.
+	</longdescription>
+</pkgmetadata>
