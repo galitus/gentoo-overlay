@@ -43,7 +43,7 @@ RDEPEND="${PYTHON_DEPS}
 	app-text/xmlto[text]
 	dev-libs/boost
 	icu? ( dev-libs/icu )
-	>=dev-cpp/libvmime-0.9.2[smtp]
+	=dev-cpp/libvmime-0.9.2-r4[smtp]
 	dev-lang/python:3.8
 	<=dev-lang/swig-4
 	>=dev-libs/libical-0.44
@@ -109,12 +109,12 @@ src_configure() {
 		--with-quotatemplate-prefix=/etc/kopano/quotamails \
 		--with-searchscripts-prefix=/etc/kopano/searchscripts \
 		PHP_EXT_S="${S}/php7-ext" \
-		vmime_CFLAGS="$(pkg-config vmime --cflags)" \
-		vmime_LIBS="$(pkg-config vmime --libs)" \
 		$(use_enable debug)
 		$(use_enable static)
 #		$(use_enable icu) \
 #		--enable-unicode \
+#		VMIME_CFLAGS="$(pkg-config vmime --cflags)" \
+#		VMIME_LIBS="$(pkg-config vmime --libs)" \
 }
 
 src_compile() {

@@ -3,7 +3,8 @@
 
 EAPI=7
 
-inherit java-pkg-2 java-ant-2 webapp
+inherit webapp
+#java-pkg-2 java-ant-2 webapp
 
 DESCRIPTION="Open Source Groupware Solution"
 HOMEPAGE="http://kopano.io/"
@@ -18,13 +19,8 @@ RESTRICT="mirror"
 
 WEBAPP_CORE_PLUGINS="
 	contactfax
-	folderwidgets
 	gmaps
 	pimfolder
-	quickitems
-	titlecounter
-	webappmanual
-	zdeveloper
 "
 
 IUSE="
@@ -67,7 +63,10 @@ src_compile() {
 	# php lint calls during build may trigger these
 	addpredict /var/lib/net-snmp/mib_indexes/0
 
-	java-pkg-2_src_compile
+#	java-pkg-2_src_compile
+	if [ -f Makefile ] || [ -f GNUmakefile ] || [ -f makefile ] ; then
+		emake || die "emake failed"
+	fi
 
 	# remove unwanted files
 	rm "deploy/kopano-webapp.conf"
@@ -85,6 +84,7 @@ src_compile() {
 	else
 		rm "deploy/debug.php.dist"
 	fi
+
 }
 
 src_install() {
