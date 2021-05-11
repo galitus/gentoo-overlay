@@ -3,19 +3,19 @@
 
 EAPI=7
 
-inherit cmake flag-o-matic git-r3
+inherit cmake flag-o-matic
 
 DESCRIPTION="Library for working with MIME messages and Internet messaging services like IMAP, POP or SMTP"
 HOMEPAGE="http://www.vmime.org"
 
-#SRC_URI="https://github.com/kisli/vmime/archive/v0.9.2.tar.gz -> vmime-${PV}.tar.gz"
-EGIT_REPO_URI="https://github.com/kisli/vmime"
+SRC_URI="https://github.com/Kopano-dev/vmime/archive/refs/tags/v0.9.2k4.tar.gz -> vmime-${PV}.tar.gz"
+#EGIT_REPO_URI="https://github.com/kisli/vmime"
 
-S="${WORKDIR}/${P}"
+S="${WORKDIR}/vmime-0.9.2k4"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 RESTRICT="mirror"
 
 IUSE="+c++11 debug doc examples gnutls icu imap maildir pop sasl sendmail smtp ssl"
@@ -34,6 +34,7 @@ DEPEND="${RDEPEND}
 CMAKE_WARN_UNUSED_CLI="yes"
 
 src_prepare() {
+	eapply "${FILESDIR}/icu-68.patch"
 	sed -i \
 		-e 's|SET(VMIME_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR}${LIB_SUFFIX})|SET(VMIME_INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR})|' \
         -e 's|SET(VMIME_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}${LIB_SUFFIX})|SET(VMIME_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})|' \

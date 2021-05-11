@@ -36,6 +36,7 @@ RDEPEND="${PYTHON_DEPS}
 	acct-group/kopano
 	acct-user/kopano
 	logrotate? ( app-admin/logrotate )
+	sys-libs/libhx
 	app-arch/unzip
 	app-text/catdoc
 	app-text/poppler[utils]
@@ -44,7 +45,7 @@ RDEPEND="${PYTHON_DEPS}
 	icu? ( dev-libs/icu )
 	>=dev-cpp/libvmime-0.9.2[smtp]
 	dev-lang/python:3.8
-	dev-lang/swig
+	<=dev-lang/swig-4
 	>=dev-libs/libical-0.44
 	dev-libs/libxml2
 	dev-libs/openssl
@@ -72,8 +73,15 @@ DEPEND="${RDEPEND}
 pkg_setup() {
 	python-single-r1_pkg_setup
 
-	enewgroup "${KOPANO_GROUP}"
-	enewuser "${KOPANO_USER}" -1 -1 "/var/lib/kopano" "${KOPANO_GROUP}"
+#	enewgroup "${KOPANO_GROUP}"
+#	enewuser "${KOPANO_USER}" -1 -1 "/var/lib/kopano" "${KOPANO_GROUP}"
+}
+
+src_unpack() {
+	mkdir ${S}
+	mv ${P}.tar.gz ${S}/
+	cd ${S}
+	unpack ${P}.tar.gz
 }
 
 src_prepare() {
@@ -83,11 +91,11 @@ src_prepare() {
 		ln -s "${PHP_EXT_S}" "${WORKDIR}/${slot}" || die
 	done
 
-	epatch "${FILESDIR}/kopanocore-8.6.80-automake.patch"
-	epatch "${FILESDIR}/new_fix.patch"
+	eapply "${FILESDIR}/kopanocore-8.6.80-automake.patch"
+	eapply "${FILESDIR}/new_fix.patch"
 	use kerberos && epatch "${FILESDIR}/kopanocore-8.2.0-kerberos.patch"
 #	use python_single_target_python2_7 && epatch "${FILESDIR}/kopanocore-8.3.0-python2_7.patch"
-	epatch "${FILESDIR}/kopanocore-8.2.0-search.patch"
+	eapply "${FILESDIR}/kopanocore-8.2.0-search.patch"
 	eapply_user
 	eautoreconf
 }
@@ -97,14 +105,16 @@ src_configure() {
 	econf \
 		--enable-release \
 		--enable-epoll \
-		--with-userscript-prefix=/etc/kopano/userscripts \
+#		--with-userscript-prefix=/etc/kopano/userscripts \
 		--with-quotatemplate-prefix=/etc/kopano/quotamails \
 		--with-searchscripts-prefix=/etc/kopano/searchscripts \
+		PHP_EXT_S="${S}/php7-ext" \
+		vmime_CFLAGS="$(pkg-config vmime --cflags)" \
+		vmime_LIBS="$(pkg-config vmime --libs)" \
 		$(use_enable debug)
 		$(use_enable static)
 #		$(use_enable icu) \
 #		--enable-unicode \
-		PHP_EXT_S="${S}/php7-ext"
 }
 
 src_compile() {

@@ -1,0 +1,39 @@
+diff -Naur vmime-0.9.2k4/src/vmime/charsetConverter_icu.cpp vmime-0.9.2k4_patch/src/vmime/charsetConverter_icu.cpp
+--- vmime-0.9.2k4/src/vmime/charsetConverter_icu.cpp	2019-10-06 09:52:55.000000000 -0000
++++ vmime-0.9.2k4_patch/src/vmime/charsetConverter_icu.cpp	2021-05-10 14:09:42.884026899 -0000
+@@ -413,7 +413,7 @@
+ 
+ 		ucnv_toUnicode(
+ 			m_from, &uniTarget, uniTargetLimit,
+-			&uniSource, uniSourceLimit, NULL, /* flush */ FALSE, &toErr
++			&uniSource, uniSourceLimit, NULL, /* flush */ UBool(0), &toErr
+ 		);
+ 
+ 		if (U_FAILURE(toErr) && toErr != U_BUFFER_OVERFLOW_ERROR) {
+@@ -453,7 +453,7 @@
+ 
+ 			ucnv_fromUnicode(
+ 				m_to, &cpTarget, cpTargetLimit,
+-				&cpSource, cpSourceLimit, NULL, /* flush */ FALSE, &fromErr
++				&cpSource, cpSourceLimit, NULL, /* flush */ UBool(0), &fromErr
+ 			);
+ 
+ 			if (fromErr != U_BUFFER_OVERFLOW_ERROR && U_FAILURE(fromErr)) {
+@@ -509,7 +509,7 @@
+ 
+ 		ucnv_toUnicode(
+ 			m_from, &uniTarget, uniTargetLimit,
+-			&uniSource, uniSourceLimit, NULL, /* flush */ TRUE, &toErr
++			&uniSource, uniSourceLimit, NULL, /* flush */ UBool(1), &toErr
+ 		);
+ 
+ 		if (U_FAILURE(toErr) && toErr != U_BUFFER_OVERFLOW_ERROR) {
+@@ -540,7 +540,7 @@
+ 
+ 			ucnv_fromUnicode(
+ 				m_to, &cpTarget, cpTargetLimit,
+-				&cpSource, cpSourceLimit, NULL, /* flush */ TRUE, &fromErr
++				&cpSource, cpSourceLimit, NULL, /* flush */ UBool(1), &fromErr
+ 			);
+ 
+ 			if (fromErr != U_BUFFER_OVERFLOW_ERROR && U_FAILURE(fromErr)) {

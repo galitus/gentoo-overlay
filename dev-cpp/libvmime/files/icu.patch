@@ -1,0 +1,43 @@
+From e96aeeb14dc51deeea70e6fdffa95f80af78fdfc Mon Sep 17 00:00:00 2001
+From: 0xd34df00d <0xd34df00d@gmail.com>
+Date: Sun, 22 Sep 2019 08:26:11 -0400
+Subject: [PATCH] Avoid extern "C" blocks around ICU includes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Looks like it's not necessary, and, moreover, I'm getting this with recent ICU (64.2):
+```
+/usr/include/unicode/localpointer.h:67:1: error: template with C linkage
+   67 | template<typename T>
+      | ^~~~~~~~
+/var/tmp/portage/dev-libs/vmime-9999/work/vmime-9999/src/vmime/charsetConverter_icu.cpp:37:1: note: ‘extern "C"’ linkage started here
+   37 | extern "C" {
+      | ^~~~~~~~~~
+```
+
+(there's also an issue about that, #218)
+---
+ src/vmime/charsetConverter_icu.cpp | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/src/vmime/charsetConverter_icu.cpp b/src/vmime/charsetConverter_icu.cpp
+index a7dd474c..55195b78 100644
+--- a/src/vmime/charsetConverter_icu.cpp
++++ b/src/vmime/charsetConverter_icu.cpp
+@@ -34,15 +34,12 @@
+ #include "vmime/utility/outputStreamStringAdapter.hpp"
+ 
+ 
+-extern "C" {
+-
+ #ifndef VMIME_BUILDING_DOC
+ 
+ 	#include <unicode/ucnv.h>
+ 	#include <unicode/ucnv_err.h>
+ 
+ #endif // VMIME_BUILDING_DOC
+-}
+ 
+ 
+ #include <unicode/unistr.h>
