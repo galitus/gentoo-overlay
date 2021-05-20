@@ -15,7 +15,8 @@ ZPUSH_BUILD=""
 ZPUSH_SUFFIX=""
 
 #SRC_URI="http://download.z-push.org/${ZPUSH_RELEASE}/${ZPUSH_BASE_VERSION}/z-push-${ZPUSH_VERSION}${ZPUSH_SUFFIX}${ZPUSH_BUILD}.tar.gz"
-SRC_URI="https://stash.z-hub.io/rest/api/latest/projects/ZP/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
+#SRC_URI="https://stash.z-hub.io/rest/api/latest/projects/ZP/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
+SRC_URI="https://stash.kopano.io/rest/api/latest/projects/ZHUB/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/z-push"
 
 LICENSE="AGPL-3"
@@ -26,6 +27,13 @@ IUSE=""
 BACKENDS="caldav  carddav  combined  imap  ipcmemcached  kopano  ldap  maildir  searchldap  sqlstatemachine  vcarddir"
 
 DEPEND=">=virtual/httpd-php-7.4"
+
+src_unpack() {
+	mkdir ${S}
+        mv ${P}.tar.gz ${S}/
+        cd ${S}
+        unpack ${P}.tar.gz
+}
 
 src_install() {
 	webapp_src_preinst
