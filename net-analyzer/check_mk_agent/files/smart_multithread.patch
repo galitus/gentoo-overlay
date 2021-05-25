@@ -1,0 +1,95 @@
+diff -Naur a/check-mk-raw-1.6.0p24.cre/agents/plugins/smart b/check-mk-raw-1.6.0p24.cre/agents/plugins/smart
+--- a/plugins/smart	2021-05-02 21:13:23.000000000 +0200
++++ b/plugins/smart	2021-05-25 16:55:33.235705892 +0200
+@@ -24,7 +24,44 @@
+ # Boston, MA 02110-1301 USA.
+ 
+ 
++speedup() {
++        CMD=
++        if [ "$VEND" == "AMCC" ] && [ -n "$TWAC" ]; then
++            DNAME=${DNAME#1}
++            [ -z "${!DNAME}" ] && continue
++            CMD="smartctl -d 3ware,${!DNAME} -v 9,raw48 -A /dev/twa0"
++            # create nice device name including model
++            MODEL=$(tw_cli /"$TWAC"/p"${!DNAME}" show model | head -n 1 | awk -F= '{ print $2 }')
++            MODEL=${MODEL## }
++            MODEL=${MODEL// /-}
++            DNAME=${DNAME#AMCC_}
++            DNAME="AMCC_${MODEL}_${DNAME%000000000000}"
++        elif [ "$VEND" != "ATA" ] ; then
++            if [ "$VEND" == "NVME" ] ; then
++                DNAME="/dev/$N"
++                CMD="smartctl -d nvme -A $DNAME"
++            else
++                TEMP=
++                # create temperature output as expected by checks/smart
++                # this is a hack, TODO: change checks/smart to support SCSI-disks
++                eval "$(smartctl -d scsi -i -A "$D" | while read -r a b c d _rest ; do
++                    [ "$a" == Serial ] && echo SN="$c"
++                    [ "$a" == Current ] && [ "$b" == Drive ] && [ "$c" == Temperature: ] && echo TEMP="$d"
++                done)"
++                [ -n "$TEMP" ] && CMD="echo 194 Temperature_Celsius 0x0000 000 000 000 Old_age Always - $TEMP (0 0 0 0)"
++                DNAME="${VEND}_${MODEL}_${SN}"
++            fi
++        else
++            CMD="smartctl -v 9,raw48 -A $D"
++        fi
+ 
++            if [ $VEND == "NVME" ]; then
++                echo "$DNAME $VEND $MODEL"
++                [ -n "$CMD" ] && $CMD | sed -e '1,5d; /^$/d'
++            else
++                [ -n "$CMD" ] && $CMD | grep Always | grep -E -v '^190(.*)Temperature(.*)' | sed "s|^|$DNAME $VEND $MODEL |"
++            fi
++}
+ 
+ # This will be called on LSI based raidcontrollers and accesses
+ # the SMART data of SATA disks attached to a SAS Raid HBA via
+@@ -133,44 +170,9 @@
+         DNAME=${D#/dev/disk/by-id/scsi-}
+         DNAME=${DNAME#/dev/disk/by-id/ata-}
+         # 2012-01-25 Stefan Kaerst CDJ - special option in case vendor is AMCC
+-        CMD=
+-        if [ "$VEND" == "AMCC" ] && [ -n "$TWAC" ]; then
+-            DNAME=${DNAME#1}
+-            [ -z "${!DNAME}" ] && continue
+-            CMD="smartctl -d 3ware,${!DNAME} -v 9,raw48 -A /dev/twa0"
+-            # create nice device name including model
+-            MODEL=$(tw_cli /"$TWAC"/p"${!DNAME}" show model | head -n 1 | awk -F= '{ print $2 }')
+-            MODEL=${MODEL## }
+-            MODEL=${MODEL// /-}
+-            DNAME=${DNAME#AMCC_}
+-            DNAME="AMCC_${MODEL}_${DNAME%000000000000}"
+-        elif [ "$VEND" != "ATA" ] ; then
+-            if [ "$VEND" == "NVME" ] ; then
+-                DNAME="/dev/$N"
+-                CMD="smartctl -d nvme -A $DNAME"
+-            else
+-                TEMP=
+-                # create temperature output as expected by checks/smart
+-                # this is a hack, TODO: change checks/smart to support SCSI-disks
+-                eval "$(smartctl -d scsi -i -A "$D" | while read -r a b c d _rest ; do
+-                    [ "$a" == Serial ] && echo SN="$c"
+-                    [ "$a" == Current ] && [ "$b" == Drive ] && [ "$c" == Temperature: ] && echo TEMP="$d"
+-                done)"
+-                [ -n "$TEMP" ] && CMD="echo 194 Temperature_Celsius 0x0000 000 000 000 Old_age Always - $TEMP (0 0 0 0)"
+-                DNAME="${VEND}_${MODEL}_${SN}"
+-            fi
+-        else
+-            CMD="smartctl -d ata -v 9,raw48 -A $D"
+-        fi
+-
+-            if [ $VEND == "NVME" ]; then
+-                echo "$DNAME $VEND $MODEL"
+-                [ -n "$CMD" ] && $CMD | sed -e '1,5d; /^$/d'
+-            else
+-                [ -n "$CMD" ] && $CMD | grep Always | grep -E -v '^190(.*)Temperature(.*)' | sed "s|^|$DNAME $VEND $MODEL |"
+-            fi
++	speedup &
+     done 2>/dev/null
+-
++    wait
+ 
+     # Call MegaRaid submodule if conditions are met
+     if type MegaCli >/dev/null 2>&1; then
