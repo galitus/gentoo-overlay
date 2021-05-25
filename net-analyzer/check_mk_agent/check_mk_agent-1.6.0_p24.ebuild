@@ -97,4 +97,7 @@ src_install() {
 	fi
 	use nfsiostat && doexe plugins/mk_nfsiostat
 	doexe plugins/mk_logins
+
+	exeinto /usr/bin
+	doexe waitmax waitmax
 }
