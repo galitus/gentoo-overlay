@@ -13,7 +13,7 @@ KEYWORDS="amd64 ~x86"
 IUSE=""
 
 DEPEND="~x11-libs/libXp-1.0.3
-	media-libs/tiff:4
+	media-libs/tiff
 	"
 RDEPEND="${DEPEND}"
 #WORKDIR="${PN}"
