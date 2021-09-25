@@ -38,7 +38,7 @@ RDEPEND="${RDEPEND}"
 #	xrdpvr? ( virtual/ffmpeg:0= )
 
 src_prepare() {
-	epatch_user
+	eapply_user
 
 	# #540630: crypt() unchecked for NULL return
 	#epatch "${FILESDIR}"/${P}-crypt-null-return.patch
