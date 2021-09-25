@@ -93,7 +93,8 @@ src_configure() {
 		# $(usex neutrinordp --enable-neutrinordp '')
 		# $(usex xrdpvr --enable-xrdpvr '')
 
-		"$(systemd_with_unitdir)"
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)"
+		#"$(systemd_with_unitdir)"
 	)
 
 	econf "${myconf[@]}"
