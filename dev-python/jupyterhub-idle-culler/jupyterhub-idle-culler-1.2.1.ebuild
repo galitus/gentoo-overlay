@@ -16,5 +16,5 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-python/jupyterhub
-	dev-python/dateutil"
+	dev-python/python-dateutil"
 RDEPEND="${DEPEND}"

@@ -26,7 +26,7 @@ DEPEND="${RDEPEND}
 	>=dev-python/setuptools-21.0.0
 	>=dev-python/pyyaml-3.12
 	>=dev-python/urllib3-1.24
-	~dev-python/aiohttp-3
+	=dev-python/aiohttp-3*
 "
 
 #S=${WORKDIR}/python-${PV}
