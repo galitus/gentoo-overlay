@@ -1,0 +1,17 @@
+diff --git a/setup.py b/setup.py
+index b4bf03d..4c8fbb1 100644
+--- a/setup.py
++++ b/setup.py
+@@ -281,9 +281,10 @@ else:
+ 
+ # Constant known variables used throughout this file
+ cwd = os.path.dirname(os.path.abspath(__file__))
+-lib_path = os.path.join(cwd, "torch", "lib")
++cmake_build_dir = os.environ.get("CMAKE_BUILD_DIR", os.path.join(cwd, "build"))
++lib_path = os.path.join(cmake_build_dir, "lib")
+ third_party_path = os.path.join(cwd, "third_party")
+-caffe2_build_dir = os.path.join(cwd, "build")
++caffe2_build_dir = cmake_build_dir
+ 
+ # CMAKE: full path to python library
+ if IS_WINDOWS:

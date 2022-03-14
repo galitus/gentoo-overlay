@@ -1,0 +1,13 @@
+diff --git a/torch/__init__.py b/torch/__init__.py
+index 519ea3e..750521c 100644
+--- a/torch/__init__.py
++++ b/torch/__init__.py
+@@ -148,7 +148,7 @@ def _load_global_deps():
+     here = os.path.abspath(__file__)
+     lib_path = os.path.join(os.path.dirname(here), 'lib', lib_name)
+ 
+-    ctypes.CDLL(lib_path, mode=ctypes.RTLD_GLOBAL)
++    ctypes.CDLL(lib_name, mode=ctypes.RTLD_GLOBAL)
+ 
+ 
+ if (USE_RTLD_GLOBAL_WITH_LIBTORCH or os.getenv('TORCH_USE_RTLD_GLOBAL')) and \
