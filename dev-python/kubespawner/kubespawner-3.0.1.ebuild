@@ -18,12 +18,11 @@ KEYWORDS="amd64 x86"
 
 #RDEPEND=">=dev-python/sqlalchemy-0.8[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	>=dev-python/async_generator-1.8
 	dev-python/escapism
 	dev-python/python-slugify
-	>=dev-python/jupyterhub-0.8
+	>=dev-python/jupyterhub-0.9
 	>=dev-python/jinja-2.0
-	>=dev-python/kubernetes-client-10.1.0
+	>=dev-python/kubernetes-asyncio-21
 	dev-python/urllib3
 	dev-python/pyyaml
 "
