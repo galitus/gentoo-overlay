@@ -8,7 +8,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="configurable-http-proxy (CHP) provides you with a way to update and manage a proxy table using a command line interface or REST API."
 HOMEPAGE="https://github.com/jupyterhub/configurable-http-proxy"
-SRC_URI="https://github.com/jupyterhub/configurable-http-proxy/archive/${PV}.tar.gz -> configure-http-proxy-${PV}.tar.gz"
+SRC_URI="https://github.com/jupyterhub/configurable-http-proxy/archive/refs/tags/${PV}.tar.gz -> configure-http-proxy-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
