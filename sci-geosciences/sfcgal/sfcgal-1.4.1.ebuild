@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="SFCGAL is a C++ wrapper library around CGAL with the aim of supporting "
 HOMEPAGE="http://www.sfcgal.org/"
-SRC_URI="https://gitlab.com/Oslandia/SFCGAL/-/archive/v${PV}/SFCGAL-vv${PV}.tar.gz"
+SRC_URI="https://gitlab.com/Oslandia/SFCGAL/-/archive/v${PV}/SFCGAL-v${PV}.tar.gz"
 
 SLOT="0"
 LICENSE="LGPL-2.1"

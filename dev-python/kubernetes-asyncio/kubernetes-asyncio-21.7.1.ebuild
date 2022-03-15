@@ -10,9 +10,6 @@ inherit distutils-r1 git-r3
 DESCRIPTION="Asynchronous (AsyncIO) client library for the Kubernetes API."
 HOMEPAGE="https://github.com/tomplus/kubernetes_asyncio"
 SRC_URI="https://github.com/tomplus/kubernetes_asyncio/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
-#EGIT_REPO_URI="https://github.com/kubernetes-client/python"
-#EGIT_BRANCH="release-11.0"
-#EGIT_SUBMODULES=( '*' )
 
 LICENSE="Apache-2.0"
 SLOT="0"
