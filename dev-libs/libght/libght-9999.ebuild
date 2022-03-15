@@ -24,6 +24,6 @@ DEPEND=">=sci-geosciences/liblas-1.8.0
 
 REQUIRED_USE=""
 
-PATCHES=(
-	"${FILESDIR}/fix_old_proj_api_usage.patch"
-)
+#PATCHES=(
+#	"${FILESDIR}/fix_old_proj_api_usage.patch"
+#)
