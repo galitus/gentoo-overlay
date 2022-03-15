@@ -17,8 +17,8 @@ RDEPEND=""
 DEPEND=">=dev-util/cmake-3.18
 	>=dev-util/cunit-2.1
 	dev-libs/boost
-	sci-mathematics/cgal"
+	>=sci-mathematics/cgal-5.4"
 
 REQUIRED_USE=""
 
-S="${WORKDIR}/SFCGAL-${PV}"
+S="${WORKDIR}/SFCGAL-v${PV}"
