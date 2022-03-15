@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_8 python3_9 python3_10 )
 
-inherit distutils-r1 git-r3
+inherit distutils-r1
 
 DESCRIPTION="Asynchronous (AsyncIO) client library for the Kubernetes API."
 HOMEPAGE="https://github.com/tomplus/kubernetes_asyncio"
