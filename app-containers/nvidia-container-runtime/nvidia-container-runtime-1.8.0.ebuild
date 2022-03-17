@@ -14,7 +14,8 @@ HOMEPAGE="https://github.com/NVIDIA/nvidia-container-toolkit"
 EGIT_REPO_URI="https://gitlab.com/nvidia/container-toolkit/container-toolkit/"
 EGIT_SUBMODULES=( '*' )
 
-WORKDIR="${S}/container-toolkit/cmd/nvidia-container-toolkit"
+#WORKDIR="${S}/container-toolkit/cmd/nvidia-container-toolkit"
+S="${WORKDIR}/cmd/nvidia-container-toolkit"
 
 KEYWORDS="amd64"
 
