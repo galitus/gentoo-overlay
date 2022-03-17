@@ -5,7 +5,7 @@ EAPI=8
 
 EGO_PN="https://gitlab.com/nvidia/container-toolkit/container-toolkit"
 
-inherit go-module git-r3
+inherit go-module
 
 SLOT="0"
 
