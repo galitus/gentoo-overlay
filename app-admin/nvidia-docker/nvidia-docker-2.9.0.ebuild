@@ -1,19 +1,21 @@
 # Copyright 2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 DESCRIPTION="NVIDIA Docker"
 HOMEPAGE="https://github.com/NVIDIA/nvidia-docker"
-SRC_URI="https://github.com/NVIDIA/nvidia-docker/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/NVIDIA/nvidia-docker/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="NVIDIA CORPORATION"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 IUSE=""
 
 DEPEND="
-	app-emulation/docker
+	sys-libs/libnvidia-container
+	app-containers/docker
+	x11-drivers/nvidia-drivers
 "
 RDEPEND="${DEPEND}"
 
@@ -25,9 +27,9 @@ RDEPEND="${DEPEND}"
 #	emake prefix="${D}/usr" install
 #}
 
-src_compile() {
-	true
-}
+#src_compile() {
+#	true
+#}
 
 src_install() {
 	dobin ${PN}
