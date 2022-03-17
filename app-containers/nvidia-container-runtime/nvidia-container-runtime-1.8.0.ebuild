@@ -16,6 +16,8 @@ EGIT_SUBMODULES=( '*' )
 
 WORKDIR="${S}/container-toolkit/cmd/nvidia-container-toolkit"
 
+KEYWORDS="amd64"
+
 src_install() {
 	dobin nvidia-container-runtime
 }
