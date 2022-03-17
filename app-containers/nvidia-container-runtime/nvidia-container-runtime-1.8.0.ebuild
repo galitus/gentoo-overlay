@@ -27,11 +27,17 @@ RDEPEND="
         sys-libs/libnvidia-container
 "
 
+DEPEND="${RDEPEND}"
+
+BDEPEND="dev-lang/go"
+
+S="${WORKDIR}/container-toolkit-v${PV}"
+
 src_compile() {
         cd cmd/nvidia-container-runtime
         go build
 }
 
 src_install() {
-	dobin nvidia-container-runtime
+	dobin cmd/nvidia-container-runtime/nvidia-container-runtime
 }
