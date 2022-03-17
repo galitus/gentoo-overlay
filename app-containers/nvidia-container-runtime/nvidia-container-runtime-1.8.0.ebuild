@@ -40,4 +40,6 @@ src_compile() {
 
 src_install() {
 	dobin cmd/nvidia-container-runtime/nvidia-container-runtime
+	insinto /etc/docker
+	doins ${FILESDIR}/daemon.json
 }
