@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 #AUTOTOOLS_AUTORECONF=yes
 
@@ -22,3 +22,8 @@ DEPEND=">=dev-util/cmake-3.7.2
 	>=dev-util/cunit-2.1"
 
 REQUIRED_USE=""
+
+src_install() {
+	cmake_src_install
+	mv ${D}/usr/lib ${D}/usr/lib64
+}
