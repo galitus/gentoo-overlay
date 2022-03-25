@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit autotools git-r3
 
@@ -17,7 +17,7 @@ LICENSE="BSD-3"
 KEYWORDS=""
 
 RDEPEND=""
-DEPEND=">=dev-db/postgresql-9.5.7
+DEPEND=">=dev-db/postgresql-10
 	>=dev-libs/libght-9999
 	>=sci-geosciences/laz_perf-9999
 	>=dev-util/cunit-2.1
@@ -34,5 +34,5 @@ src_configure() {
 	local myeconfargs=(
 		--with-lazperf=/usr/include/laz-perf
 	)
-	autotools_src_configure
+	default
 }

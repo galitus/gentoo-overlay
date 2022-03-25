@@ -13,14 +13,14 @@ MY_P="check-mk-raw-${MY_PV}.cre"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 IUSE="apache_status dhcpd dnsclient docker inventory iptables logwatch mysql nfsiostat nfsexports oracle postgres smart +xinetd zypper"
 
 RDEPEND="!!net-analyzer/check_mk
 	app-shells/bash:*
 	xinetd? ( || ( sys-apps/xinetd sys-apps/systemd ) )
 	dnsclient? ( net-dns/bind-tools )
-	docker? ( app-emulation/docker )
+	docker? ( app-containers/docker )
 	iptables? ( net-firewall/iptables )
 	nfsiostat? ( net-fs/nfs-utils )
 	dhcpd? ( net-misc/dhcp )

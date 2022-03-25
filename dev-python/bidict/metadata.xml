@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+	<upstream>
+		<remote-id type="pypi">bidict</remote-id>
+		<remote-id type="github">jab/bidict</remote-id>
+	</upstream>
 	<maintainer type="person">
-		<email>darthm.gentoo@darthm.de</email>
-		<name>darthm</name>
+		<email>poncho@spahan.ch</email>
+		<name>Poncho</name>
 	</maintainer>
-	<longdescription lang="en">
-		The bidirectional mapping library for Python.
-	</longdescription>
 </pkgmetadata>
