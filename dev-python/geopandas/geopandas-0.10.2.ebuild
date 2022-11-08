@@ -16,7 +16,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND=">=dev-python/pyproj-2.2.0
-	>=sci-libs/shapely-1.6
-	>=dev-python/fiona-1.8
+	>=dev-python/shapely-1.6
+	>=sci-libs/Fiona-1.8
 	>=dev-python/pandas-0.24.0"
 RDEPEND="${DEPEND}"

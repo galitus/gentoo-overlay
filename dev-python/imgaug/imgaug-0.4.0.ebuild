@@ -22,7 +22,7 @@ RDEPEND="
 	dev-python/matplotlib
 	>=sci-libs/scikit-image-0.14.2
 	dev-python/imageio
-	sci-libs/shapely
+	dev-python/shapely
 	media-libs/opencv
 	"
 DEPEND="

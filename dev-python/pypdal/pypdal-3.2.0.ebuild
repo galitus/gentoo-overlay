@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
+EAPI="8"
 PYTHON_COMPAT=( python3_9 python3_10 )
 
 inherit distutils-r1 toolchain-funcs
@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="sci-libs/pdal[python]
+DEPEND=">=sci-libs/pdal-2.4
 	dev-python/packaging
 	dev-python/scikit-build"
 RDEPEND="${DEPEND}"
