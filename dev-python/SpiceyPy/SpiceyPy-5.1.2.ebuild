@@ -1,8 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-PYTHON_COMPAT=( python3_6 python3_7 python3_8 python3_9 )
+EAPI=8
+
+PYTHON_COMPAT=( python3_9 python3_10 python3_11 )
 
 inherit distutils-r1 toolchain-funcs
 
@@ -18,8 +19,8 @@ IUSE=""
 DEPEND="sci-libs/cspice
 	>=dev-python/numpy-1.17.0
 	>=dev-python/pandas-0.24.0
-	>=dev-python/pytest-5.4.0
+	>=dev-python/pytest-7.0.0
 	>=dev-python/coverage-5.1.0
-	>=dev-python/codecov-2.1.0
 	>=dev-python/setuptools-40.6.3"
 RDEPEND="${DEPEND}"
+#	>=dev-python/codecov-2.1.0

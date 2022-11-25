@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
 if [[ ${PV} == 9999 ]]; then
 	_ECLASS="git-r3"
@@ -45,6 +45,7 @@ src_prepare() {
 	python_setup
 	distutils-r1_python_prepare_all
 #	epatch "${FILESDIR}"/shtools_www.patch
+	eapply "${FILESDIR}"/shtools_ar_instead_libtool.patch
 	append-ldflags -shared # needed by f2py
 	# needed by f2py in fortran 77 mode
 	append-fflags -fPIC
@@ -67,6 +68,7 @@ src_prepare() {
 #		-e "/www/s:/$:/html/:g" \
 #		-i Makefile || die
 	sed -i s/f2py3/f2py/g Makefile
+	cp ${FILESDIR}/site.cfg ${S}/
 
 	default
 }

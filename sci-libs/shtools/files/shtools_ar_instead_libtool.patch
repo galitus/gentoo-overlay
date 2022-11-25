@@ -1,0 +1,17 @@
+diff -Naur /tmp/patch/a/src/Makefile /tmp/patch/b/src/Makefile
+--- a/src/Makefile	2022-11-20 21:34:42.431949876 +0100
++++ b/src/Makefile	2022-11-20 21:35:18.512950450 +0100
+@@ -79,10 +79,10 @@
+ 	@echo "--> Compilation of source files successful"
+ 	@echo
+ 	@rm -f $(PROG)
+-	$(LIBTOOL) $(LIBTOOLFLAGS) -o $(PROG) $(OBJS)
++#	$(LIBTOOL) $(LIBTOOLFLAGS) -o $(PROG) $(OBJS)
+ #	If you prefer to use libtool, uncomment the above line, and comment the two lines below (AR and RLIB)
+-#	$(AR) $(ARFLAGS) $(PROG) $(OBJS)
+-#	$(RLIB) $(RLIBFLAGS) $(PROG)
++	$(AR) $(ARFLAGS) $(PROG) $(OBJS)
++	$(RLIB) $(RLIBFLAGS) $(PROG)
+ 	@echo
+ 	@echo "--> Creation of static library successful"
+ #	@rm -f $(OBJS)
