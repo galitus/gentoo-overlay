@@ -3,7 +3,8 @@
 
 EAPI=7
 
-inherit apache-module eutils
+inherit apache-module depend.apache tmpfiles
+#eutils
 
 DESCRIPTION="An Apache authentication module using Kerberos"
 HOMEPAGE="http://modauthkerb.sourceforge.net/"
@@ -24,17 +25,36 @@ DOCFILES="INSTALL README"
 
 need_apache2
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+#src_unpack() {
+#	unpack ${A}
+#	cd "${S}"
+#}
+
+pkg_setup() {
+	_init_apache2
+	_init_apache2_late
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-apache24.patch
-	epatch "${FILESDIR}/v5.4-to-latest-cvs.patch"
+	eapply "${FILESDIR}"/${P}-apache24.patch
+	eapply "${FILESDIR}/v5.4-to-latest-cvs.patch"
+	# bug #830208
+	eapply "${FILESDIR}"/${P}-api-change-krb5.patch
+	# bug #673066
+	eapply "${FILESDIR}"/${P}-krb5pwd-double-free.patch
+
+	eapply "${FILESDIR}"/mod_auth_kerb-5.4-new-rcopshack.patch
+	default
+}
+
+src_configure() {
+	CFLAGS="" APXS="${APXS}" econf --with-krb5=/usr --without-krb4 || die "econf failed"
 }
 
 src_compile() {
-	CFLAGS="" APXS="${APXS}" econf --with-krb5=/usr --without-krb4 || die "econf failed"
 	emake || die "emake failed"
+}
+
+src_install() {
+        apache-module_src_install
 }
