@@ -8,7 +8,7 @@ inherit autotools eutils git-r3
 DESCRIPTION="XRDP driver for xorg"
 HOMEPAGE="https://github.com/neutrinolabs/xorgxrdp"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/neutrinolabs/xorgxrdp"
+EGIT_REPO_URI="https://github.com/neutrinolabs/xorgxrdp"
 
 #S=${WORKDIR}/${P}/xorgxrdp
 

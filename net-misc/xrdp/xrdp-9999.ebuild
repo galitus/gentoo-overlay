@@ -9,7 +9,7 @@ DESCRIPTION="An open source Remote Desktop Protocol server"
 HOMEPAGE="http://www.xrdp.org/"
 # mirrored from https://github.com/neutrinolabs/xrdp/releases
 #SRC_URI="https://dev.gentoo.org/~mgorny/dist/${P}.tar.xz"
-EGIT_REPO_URI="git://github.com/neutrinolabs/xrdp"
+EGIT_REPO_URI="https://github.com/neutrinolabs/xrdp"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -23,7 +23,7 @@ RDEPEND="dev-libs/openssl:0=
 	fuse? ( sys-fs/fuse:0= )
 	jpeg? ( virtual/jpeg:0= )
 	kerberos? ( virtual/krb5:0= )
-	pam? ( virtual/pam:0= )
+	pam? ( sys-libs/pam )
 	pulseaudio? ( media-sound/pulseaudio:0= )"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
