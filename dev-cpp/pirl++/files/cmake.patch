@@ -1,0 +1,72 @@
+--- pirlplusplus_org/CMakeLists.txt	2019-12-11 18:19:17.316424749 +0100
++++ pirlplusplus_new/CMakeLists.txt	2019-12-11 19:59:26.892533556 +0100
+@@ -1,6 +1,7 @@
+ cmake_minimum_required(VERSION 3.12)
+ 
+ project(PIRL++ VERSION 3.0.0 DESCRIPTION "A Legacy C++ Support Library")
++set(shared_lib "${PROJECT_NAME}")
+ 
+ add_library(obj_lib OBJECT
+         "Binary_IO.cc"
+@@ -16,7 +17,8 @@
+         "Data_Block.hh"
+         "Dimensions.hh"
+         "endian.hh"
+-        "Files.hh")
++        "Files.hh"
++	"Reference_Counted_Pointer.hh")
+ 
+ set_target_properties(obj_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ 
+@@ -25,16 +27,17 @@
+ 	target_compile_options(obj_lib PRIVATE "/W4") # /WX for warnings as errors
+ else()
+     target_compile_options(obj_lib PRIVATE "-Wall")
+-    set(static_lib ${PROJECT_NAME})
++#    set(static_lib "${PROJECT_NAME}")
+ endif()
+ 
+-set(shared_lib "${PROJECT_NAME}")
+ add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
+-add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
++add_library(PIRL_static STATIC $<TARGET_OBJECTS:obj_lib>)
++
++SET_TARGET_PROPERTIES(PIRL_static PROPERTIES VERSION 3.0.0 OUTPUT_NAME PIRL++)
+ 
+ target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
+ 
+-set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
++set_target_properties(${shared_lib} PROPERTIES VERSION 3.0.0 PUBLIC_HEADER "${headers}")
+ 
+ if(WIN32)
+   find_library(WS2_32_LIBRARY_PATH WS2_32)
+@@ -53,23 +56,25 @@
+ endif()
+ 
+ include(CMakePackageConfigHelpers)
+-write_basic_package_version_file("PIRL-config-version.cmake" VERSION ${PACKAGE_VERSION}
++write_basic_package_version_file("pirl-config-version.cmake" VERSION ${PACKAGE_VERSION}
+    COMPATIBILITY SameMajorVersion
+ )
+ 
+ set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
+-export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "PIRL-config.cmake")
++export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "pirl-config.cmake")
+ export(PACKAGE PIRL)
+ 
+ #
+ # TODO install version file
+ #
+ include(GNUInstallDirs)
+-install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
++install(TARGETS ${shared_lib} PIRL_static EXPORT pirl-config
+     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+ 	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCDIR}
+ )
+ 
+-install(EXPORT PIRL-config NAMESPACE PIRL:: DESTINATION ${CMAKE_INSTALL_DATADIR}/PIRL/cmake)
++#install(EXPORT PIRL-config NAMESPACE PIRL:: DESTINATION ${CMAKE_INSTALL_DATADIR}/PIRL/cmake)
++install(EXPORT pirl-config NAMESPACE PIRL:: DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/PIRL")
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pirl-config-version.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/PIRL")
