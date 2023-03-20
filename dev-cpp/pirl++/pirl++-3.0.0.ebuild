@@ -9,7 +9,7 @@ EAPI="7"
 #PYTHON_COMPAT=( python3_6 )
 #DISTUTILS_OPTIONAL=1
 
-inherit cmake-utils git-r3 eutils
+inherit cmake git-r3 eutils
 
 DESCRIPTION="Translator library for raster geospatial data formats (includes OGR support)"
 HOMEPAGE="https://www.github.com/pirl-lpl/pirlpluplus"
@@ -37,5 +37,5 @@ KEYWORDS="amd64 ~arm ~arm64 ~ia64 ppc ppc64 x86 ~amd64-linux ~x86-linux ~ppc-mac
 src_prepare() {
 	eapply ${FILESDIR}/cmake.patch
 
-	cmake-utils_src_prepare
+	cmake_src_prepare
 }
