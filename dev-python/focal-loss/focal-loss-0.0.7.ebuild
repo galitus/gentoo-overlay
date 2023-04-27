@@ -21,4 +21,4 @@ RDEPEND=">=sci-libs/tensorflow-2.2.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 "
 
-PATCHES="${FILESDIR}/class_weight.patch"
+#PATCHES="${FILESDIR}/class_weight.patch"
