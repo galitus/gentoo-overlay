@@ -13,12 +13,12 @@ else
 	S="${WORKDIR}"/${PN^^}-${PV/_/-}
 fi
 
-PYTHON_COMPAT=( python3_{6,7,8,9,10} )
+PYTHON_COMPAT=( python3_{6,7,8,9,10,11,12} )
 
 inherit fortran-2 flag-o-matic toolchain-funcs ${_ECLASS} distutils-r1
 
 DESCRIPTION="Spherical harmonic transforms and reconstructions, rotations"
-HOMEPAGE="http://shtools.ipgp.fr"
+HOMEPAGE="https://github.com/SHTOOLS/SHTOOLS"
 
 LICENSE="BSD-4"
 SLOT="0"
@@ -45,7 +45,7 @@ src_prepare() {
 	python_setup
 	distutils-r1_python_prepare_all
 #	epatch "${FILESDIR}"/shtools_www.patch
-	eapply "${FILESDIR}"/shtools_ar_instead_libtool.patch
+#	eapply "${FILESDIR}"/shtools_ar_instead_libtool.patch
 	append-ldflags -shared # needed by f2py
 	# needed by f2py in fortran 77 mode
 	append-fflags -fPIC
