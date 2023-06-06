@@ -3,13 +3,13 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="The ultimate Python library in building OAuth and OpenID Connect servers."
 HOMEPAGE="https://github.com/authlib https://authlib.org/ https://pypi.org/project/Authlib/"
-SRC_URI="mirror://pypi/${P:0:1}/${PN}/${P}.tar.gz"
+SRC_URI="$(pypi_sdist_url --no-normalize "${PN^}")"
 
 LICENSE="BSD"
 SLOT="0"

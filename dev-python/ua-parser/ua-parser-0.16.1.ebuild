@@ -3,13 +3,13 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..11} )
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="Python port of Browserscope's user agent parser"
 HOMEPAGE="https://github.com/ua-parser/uap-python https://pypi.org/project/ua-parser/"
-SRC_URI="mirror://pypi/${P:0:1}/${PN}/${P}.tar.gz"
+SRC_URI="$(pypi_sdist_url --no-normalize)"
 
 LICENSE="Apache-2.0"
 SLOT="0"

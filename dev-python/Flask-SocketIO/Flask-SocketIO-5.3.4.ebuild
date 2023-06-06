@@ -3,14 +3,14 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8,9} )
-inherit distutils-r1
+PYTHON_COMPAT=( python3_{8..11} )
+inherit distutils-r1 pypi
 
 DESCRIPTION="Socket.IO integration for Flask applications."
 HOMEPAGE="https://flask-socketio.readthedocs.io/
 	https://github.com/miguelgrinberg/Flask-SocketIO/
 	https://pypi.org/project/Flask-SocketIO/"
-SRC_URI="mirror://pypi/F/Flask-SocketIO/Flask-SocketIO-${PV}.tar.gz"
+SRC_URI="$(pypi_sdist_url --no-normalize)"
 
 LICENSE="MIT"
 SLOT="0"

@@ -3,15 +3,14 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8,9,10} )
+PYTHON_COMPAT=( python3_{8..11} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="Lerc"
 HOMEPAGE="https://pypi.org/project/lerc"
-SRC_URI="mirror://pypi/l/${PN}/${P}.tar.gz"
-#SRC_URI="https://files.pythonhosted.org/packages/f2/20/73c8fa29a4ba8f8cbdb037369e6b61ac9253664a8aa0912b52169192447f/lerc-0.1.0.tar.gz"
+SRC_URI="$(pypi_sdist_url)"
 
 LICENSE="Apache"
 SLOT="0"

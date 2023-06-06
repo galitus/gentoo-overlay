@@ -3,13 +3,13 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="A library to identify devices (phones, tablets) and their capabilities by parsing browser user agent strings."
 HOMEPAGE="https://github.com/selwin/python-user-agents https://pypi.org/project/user-agents/"
-SRC_URI="mirror://pypi/${P:0:1}/${PN}/${P}.tar.gz"
+SRC_URI="$(pypi_sdist_url --no-normalize)"
 
 LICENSE="MIT"
 SLOT="0"
