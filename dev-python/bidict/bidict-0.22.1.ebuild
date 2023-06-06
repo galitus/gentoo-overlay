@@ -8,7 +8,6 @@ inherit distutils-r1 pypi
 
 DESCRIPTION="The bidirectional mapping library for Python."
 HOMEPAGE="https://pypi.org/project/bidict/ https://github.com/jab/bidict"
-#SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 SRC_URI="$(pypi_sdist_url "${PN^}")"
 
 LICENSE="MPL-2.0"
