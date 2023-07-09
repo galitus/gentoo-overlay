@@ -25,7 +25,7 @@ DEPEND="dev-python/quantities
 	dev-python/sphinx
 	dev-python/nbsphinx
 	dev-python/bidict
-	sci-libs/scipy
+	dev-python/scipy
 "
 
 RDEPEND="${DEPEND}"
