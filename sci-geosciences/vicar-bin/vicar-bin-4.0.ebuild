@@ -35,7 +35,7 @@ src_install() {
 	dodir /opt/vicar
 #	ls "${S}"
 	cp -aR "${S}"/* "${D}"/opt/vicar
-	rm "${D}"/opt/vicar/external
+	rm -R "${D}"/opt/vicar/external
 	dodir /opt/vicar/external
 	cp -aR "${WORKDIR}"/vicar_open_bin_x86-64-linx_"${PV}"/vicar_open_ext_x86-64-linx_"${PV}"/* "${D}"/opt/vicar/external
 }

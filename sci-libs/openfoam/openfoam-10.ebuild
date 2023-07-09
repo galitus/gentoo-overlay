@@ -13,21 +13,23 @@ MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Open Field Operation and Manipulation - CFD Simulation Toolbox"
 HOMEPAGE="http://www.openfoam.org"
-SRC_URI="https://github.com/OpenFOAM/OpenFOAM-8/archive/version-8.tar.gz"
+SRC_URI="https://github.com/OpenFOAM/OpenFOAM-10/archive/version-10.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="8.0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc examples opendx src paraview"
+#IUSE="doc examples opendx src paraview"
+IUSE="doc examples src paraview"
 
 RDEPEND="sci-mathematics/cgal
 	sci-libs/parmetis
-	>=sci-libs/scotch-6.0.4
+	>=sci-libs/scotch-7.0.0
 	virtual/mpi
-	opendx? ( sci-visualization/opendx )
-	paraview? ( >=sci-visualization/paraview-5.6[development] )"
+	paraview? ( >=sci-visualization/paraview-5.10 )"
 DEPEND="${DEPEND}
 	doc? ( app-doc/doxygen[dot] )"
+
+#	opendx? ( sci-visualization/opendx )
 
 S=${WORKDIR}/${MY_P}
 INSDIR="/usr/lib64/${MY_PN}/${MY_P}"
@@ -48,11 +50,11 @@ pkg_setup() {
 
 src_unpack() {
 	unpack ${A}
-	mv OpenFOAM-8-version-8 "${MY_P}"
+	mv OpenFOAM-10-version-10 "${MY_P}"
 }
 
 src_configure() {
-	epatch "${FILESDIR}"/openfoam-6-bashrc_nvidia_libgl.patch
+#	epatch "${FILESDIR}"/openfoam-6-bashrc_nvidia_libgl.patch
 	export VTK_INSTALL_PREFIX=/usr
 	export MPI_ARCH_PATH=/usr
 #	export MPI_ARCH_INC="-isystem /usr/include"
@@ -73,12 +75,12 @@ src_configure() {
 	sed -i -e "s|^foamInstall=\$HOME|foamInstall=/usr/$(get_libdir)|" etc/bashrc
 	sed -i -e "s|^set foamInstall = \$HOME|set foamInstall = /usr/$(get_libdir)|" etc/cshrc
 
-	sed -i -e 's|^export ParaView_DIR=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$paraviewArchName|export ParaView_DIR=/usr/lib64/paraview-5.6/cmake/paraview-5.6|' etc/config.sh/paraview
-	sed -i -e 's|^setenv ParaView_DIR $WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$paraviewArchName|setenv ParaView_DIR /usr/lib64/paraview-5.6|' etc/config.csh/paraview
+	sed -i -e 's|^export ParaView_DIR=$WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$paraviewArchName|export ParaView_DIR=/usr/lib64/paraview-5.10/cmake/paraview-5.10|' etc/config.sh/paraview
+	sed -i -e 's|^setenv ParaView_DIR $WM_THIRD_PARTY_DIR/platforms/$WM_ARCH$WM_COMPILER/$paraviewArchName|setenv ParaView_DIR /usr/lib64/paraview-5.10|' etc/config.csh/paraview
 
-	sed -i -e 's|^    export ParaView_INCLUDE_DIR=$ParaView_DIR/include/paraview-$ParaView_MAJOR|    export ParaView_INCLUDE_DIR=/usr/include/paraview-5.6|' etc/config.sh/paraview
+	sed -i -e 's|^    export ParaView_INCLUDE_DIR=$ParaView_DIR/include/paraview-$ParaView_MAJOR|    export ParaView_INCLUDE_DIR=/usr/include/paraview-5.10|' etc/config.sh/paraview
 
-	sed -i -e 's|^export ParaView_VERSION=5.4.0|export ParaView_VERSION=5.6.0|' etc/config.sh/paraview
+	sed -i -e 's|^export ParaView_VERSION=5.4.0|export ParaView_VERSION=5.10.0|' etc/config.sh/paraview
 
 }
 
