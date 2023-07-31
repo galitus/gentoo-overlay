@@ -25,7 +25,7 @@ DEPEND="net-libs/nodejs
 	>=dev-python/jinja-2.11
 	>=dev-python/oauthlib-3.0
 	dev-python/pamela
-	dev-python/prometheus_client
+	dev-python/prometheus-client
 	dev-python/python-dateutil
 	dev-python/requests
 	dev-python/sqlalchemy
