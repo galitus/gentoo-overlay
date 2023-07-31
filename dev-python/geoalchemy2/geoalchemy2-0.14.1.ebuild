@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_10 python3_11 python3_12 )
+PYTHON_COMPAT=( python3_{10,11,12} )
 
 inherit distutils-r1 git-r3
 
@@ -37,6 +37,8 @@ python_test() {
 }
 
 python_install() {
-    rm -r "${BUILD_DIR}"/lib/tests || die
+    if use test; then
+	rm -r "${BUILD_DIR}"/lib/tests || die
+    fi
     distutils-r1_python_install
 }
