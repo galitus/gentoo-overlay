@@ -22,6 +22,8 @@ RDEPEND="\
 	dev-python/traitlets[${PYTHON_USEDEP}] \
 "
 
+S=${WORKDIR}/${P}
+
 src_unpack() {
 	default
 	mv * ${P}
