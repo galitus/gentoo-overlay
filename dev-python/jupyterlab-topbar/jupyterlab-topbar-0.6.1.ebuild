@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-PYTHON_COMPAT=( python3_{9,10,11} )
+PYTHON_COMPAT=( python3_{10,11,12} )
 
 inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
@@ -14,7 +14,7 @@ HOMEPAGE="https://github.com/jtpio/jupyterlab-topbar"
 #SRC_URI="$(pypi_sdist_url "${PN^}")"
 #SRC_URI="$(pypi_sdist_url "${PN//-/_}")"
 SRC_URI="$(pypi_sdist_url --no-normalize)"
-S=${WORKDIR}/${P^}
+S=${WORKDIR}/${P}
 
 LICENSE="BSD"
 SLOT="0"
