@@ -17,6 +17,6 @@ IUSE=""
 
 DEPEND=">=dev-python/pyproj-3.0.1
 	>=dev-python/shapely-1.7.1
-	>=sci-libs/fiona-1.8.19
+	>=dev-python/fiona-1.8.19
 	>=dev-python/pandas-1.1.0"
 RDEPEND="${DEPEND}"
