@@ -20,3 +20,7 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
+
+DEPEND="
+	dev-python/jupyter-packaging
+	"
