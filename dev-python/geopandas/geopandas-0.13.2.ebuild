@@ -1,8 +1,8 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="7"
-PYTHON_COMPAT=( python3_9 python3_10 )
+EAPI="8"
+PYTHON_COMPAT=( python3_10 python3_11 python3_12 )
 
 inherit distutils-r1 toolchain-funcs
 
@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=">=dev-python/pyproj-2.2.0
-	>=dev-python/shapely-1.6
-	>=sci-libs/Fiona-1.8
-	>=dev-python/pandas-0.24.0"
+DEPEND=">=dev-python/pyproj-3.0.1
+	>=dev-python/shapely-1.7.1
+	>=sci-libs/Fiona-1.8.19
+	>=dev-python/pandas-1.1.0"
 RDEPEND="${DEPEND}"
