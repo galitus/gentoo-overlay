@@ -3,6 +3,7 @@
 
 EAPI="8"
 PYTHON_COMPAT=( python3_{10,11,12} )
+DISTUTILS_USE_PEP517=hatchling
 
 inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
@@ -20,13 +21,3 @@ DEPEND="
 	dev-python/jupyter-packaging
 	dev-python/jupyterlab
 	"
-
-src_compile(){
-	true
-}
-
-#src_install(){
-#	insinto /usr/share/jupyter/labextensions/
-#        doins -r ${S}/${PN}/labextension
-#        mv ${D}/usr/share/jupyter/labextensions/labextension ${D}/usr/share/jupyter/labextensions/jupyterlab-topbar
-#}
