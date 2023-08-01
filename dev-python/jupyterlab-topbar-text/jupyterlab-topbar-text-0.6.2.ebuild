@@ -3,7 +3,7 @@
 
 EAPI="8"
 PYTHON_COMPAT=( python3_{10,11,12} )
-DISTUTILS_USE_PEP517=setuptools
+DISTUTILS_USE_PEP517=jupyter
 
 inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
