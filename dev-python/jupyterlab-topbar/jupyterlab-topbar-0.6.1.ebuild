@@ -8,11 +8,6 @@ inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
 DESCRIPTION="Top space statusbar for JupyterLab."
 HOMEPAGE="https://github.com/jtpio/jupyterlab-topbar"
-
-#SRC_URI="https://github.com/jtpio/jupyterlab-topbar/archive/${PV}.tar.gz -> ${P}.tar.gz"
-
-#SRC_URI="$(pypi_sdist_url "${PN^}")"
-#SRC_URI="$(pypi_sdist_url "${PN//-/_}")"
 SRC_URI="$(pypi_sdist_url --no-normalize)"
 S=${WORKDIR}/${P}
 
@@ -26,8 +21,12 @@ DEPEND="
 	dev-python/jupyterlab
 	"
 
+src_compile(){
+	true
+}
+
 src_install(){
-	insinto /usr/share/jupyter/labextension/
-	doins -R ${FILESDIR}/labextension
-	mv /usr/share/jupyter/labextension/labextension /usr/share/jupyter/labextension/jupyterlab-topbar
+	insinto /usr/share/jupyter/labextensions/
+        doins -r ${S}/${PN}/labextension
+        mv ${D}/usr/share/jupyter/labextensions/labextension ${D}/usr/share/jupyter/labextensions/jupyterlab-topbar
 }
