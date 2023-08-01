@@ -23,4 +23,11 @@ IUSE=""
 
 DEPEND="
 	dev-python/jupyter-packaging
+	dev-python/jupyterlab
 	"
+
+src_install(){
+	insinto /usr/share/jupyter/labextension/
+	doins -R ${FILESDIR}/labextension
+	mv /usr/share/jupyter/labextension/labextension /usr/share/jupyter/labextension/jupyterlab-topbar
+}
