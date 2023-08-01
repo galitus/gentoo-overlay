@@ -28,5 +28,5 @@ src_compile(){
 src_install(){
 	insinto /usr/share/jupyter/labextensions/
         doins -r ${S}/${PN}/labextension
-        mv ${D}/usr/share/jupyter/labextensions/labextension ${D}/usr/share/jupyter/labextensions/jupyterlab-topbar
+        mv ${D}/usr/share/jupyter/labextensions/labextension ${D}/usr/share/jupyter/labextensions/jupyterlab-logout
 }
