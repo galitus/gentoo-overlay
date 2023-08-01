@@ -10,7 +10,7 @@ inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 DESCRIPTION="Jupyter Notebook Extension for monitoring your own Resource Usage"
 HOMEPAGE="https://github.com/jupyter-server/jupyter-resource-usage"
 SRC_URI="$(pypi_sdist_url)"
-S=${WORKDIR}/${P}
+#S=${WORKDIR}/${P}
 
 LICENSE="BSD"
 SLOT="0"
