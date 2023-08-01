@@ -27,6 +27,6 @@ src_compile(){
 
 src_install(){
 	insinto /usr/share/jupyter/labextensions/
-        doins -r ${S}/${PN}/labextension
+        doins -r ${S}/${PN/-/_}/labextension
         mv ${D}/usr/share/jupyter/labextensions/labextension ${D}/usr/share/jupyter/labextensions/jupyterlab-topbar-text
 }
