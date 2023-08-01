@@ -21,4 +21,4 @@ RESTRICT=""
 RDEPEND="sci-libs/pytorch"
 DEPEND="${RDEPEND}"
 
-MAKEOPTS+=" -j8"
+MAKEOPTS+=" -j6"
