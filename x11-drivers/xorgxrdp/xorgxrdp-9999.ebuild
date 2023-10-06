@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit autotools eutils git-r3
+inherit autotools toolchain git-r3
 
 DESCRIPTION="XRDP driver for xorg"
 HOMEPAGE="https://github.com/neutrinolabs/xorgxrdp"
@@ -24,15 +24,3 @@ src_prepare() {
 	default
 	eautoreconf
 }
-
-#src_configure() {
-#	econf \
-#		--enable-manpages \
-#		--disable-werror \
-#		$(use_enable static-libs static)
-#}
-
-#src_install() {
-#	default
-#	prune_libtool_files
-#}
