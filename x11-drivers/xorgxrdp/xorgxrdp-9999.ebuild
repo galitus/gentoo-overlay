@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit autotools toolchain git-r3
+inherit autotools git-r3
 
 DESCRIPTION="XRDP driver for xorg"
 HOMEPAGE="https://github.com/neutrinolabs/xorgxrdp"
