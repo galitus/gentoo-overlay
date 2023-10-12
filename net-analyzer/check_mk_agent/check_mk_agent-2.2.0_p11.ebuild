@@ -48,9 +48,13 @@ src_prepare() {
 	eapply_user
 }
 
+src_compile() {
+	true
+}
+
 src_install() {
 	# Install agent related files
-	newbin check_mk_agent.linux check_mk_agent
+	newbin agents/check_mk_agent.linux check_mk_agent
 
 	keepdir /usr/lib/check_mk_agent/local
 	dodir /usr/lib/check_mk_agent/plugins
@@ -68,7 +72,7 @@ src_install() {
 	# Install the check_mk_agent logwatch plugin
 	if use logwatch; then
 		insinto /etc/check_mk
-		doins cfg_examples/logwatch.cfg
+		doins agents/cfg_examples/logwatch.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
 		doexe agents/plugins/mk_logwatch.py
 	fi
@@ -87,13 +91,13 @@ src_install() {
 	use dhcpd && doexe agents/plugins/isc_dhcpd.py
 	if use apache_status; then
 		insinto /etc/check_mk
-		doins cfg_examples/apache_status.cfg
+		doins agents/cfg_examples/apache_status.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
 		doexe agents/plugins/apache_status.py
 	fi
 	if use docker; then
 		insinto /etc/check_mk
-		doins cfg_examples/docker*.cfg
+		doins agents/cfg_examples/docker*.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
 		doexe agents/plugins/mk_docker.py
 	fi
