@@ -46,6 +46,7 @@ src_unpack() {
 src_prepare() {
 #	eapply "${FILESDIR}"/smart_multithread.patch
 	eapply_user
+	true
 }
 
 src_compile() {
@@ -60,7 +61,7 @@ src_install() {
 	dodir /usr/lib/check_mk_agent/plugins
 	dodir /etc/check_mk
 
-	dodoc doc/{AUTHORS,COPYING,ChangeLog}
+	#dodoc doc/{AUTHORS,COPYING,ChangeLog}
 	docompress
 
 	if use xinetd; then
@@ -107,5 +108,5 @@ src_install() {
 	doexe agents/plugins/mk_cups_queues
 
 	exeinto /usr/bin
-	doexe waitmax waitmax
+	doexe agents/waitmax waitmax
 }
