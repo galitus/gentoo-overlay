@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
 inherit systemd
 
@@ -13,7 +13,7 @@ MY_P="check-mk-raw-${MY_PV}.cre"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 ~x86"
+KEYWORDS="amd64"
 IUSE="apache_status dhcpd dnsclient docker inventory iptables logwatch mysql nfsiostat nfsexports oracle postgres smart +xinetd zypper"
 
 RDEPEND="!!net-analyzer/check_mk
@@ -27,7 +27,7 @@ RDEPEND="!!net-analyzer/check_mk
 	"
 DEPEND="${RDEPEND}"
 
-SRC_URI="http://mathias-kettner.de/support/${MY_PV}/${MY_P}.tar.gz"
+SRC_URI="https://download.checkmk.com/checkmk/${MY_PV}/${MY_P}.tar.gz"
 
 src_unpack() {
 	# check_mk is a tarball containing tarballs
@@ -42,7 +42,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	eapply "${FILESDIR}"/smart_multithread.patch
+#	eapply "${FILESDIR}"/smart_multithread.patch
 	eapply_user
 }
 
@@ -59,8 +59,8 @@ src_install() {
 
 	if use xinetd; then
 		insinto /etc/xinetd.d
-		newins cfg_examples/xinetd.conf check_mk
-		systemd_dounit cfg_examples/systemd/check_mk{.socket,@.service}
+		newins ${FILESDIR}/xinetd_checkmk check_mk
+#		systemd_dounit cfg_examples/systemd/check_mk{.socket,@.service}
 	fi
 
 	# Install the check_mk_agent logwatch plugin
@@ -68,7 +68,7 @@ src_install() {
 		insinto /etc/check_mk
 		doins cfg_examples/logwatch.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
-		doexe plugins/mk_logwatch
+		doexe plugins/mk_logwatch.py
 	fi
 
 	# Install any other useflag-enabled agent plugins
@@ -76,18 +76,18 @@ src_install() {
 	use inventory && newexe plugins/mk_inventory.linux mk_inventory
 	use smart && doexe plugins/smart
 	use mysql && doexe plugins/mk_mysql
-	use postgres && doexe plugins/mk_postgres
+	use postgres && doexe plugins/mk_postgres.py
 	use zypper && doexe plugins/mk_zypper
 	use oracle && doexe plugins/mk_oracle
 	use nfsexports && doexe plugins/nfsexports
 	use dnsclient && doexe plugins/dnsclient
 	use iptables && doexe plugins/mk_iptables
-	use dhcpd && doexe plugins/isc_dhcpd
+	use dhcpd && doexe plugins/isc_dhcpd.py
 	if use apache_status; then
 		insinto /etc/check_mk
 		doins cfg_examples/apache_status.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
-		doexe plugins/apache_status
+		doexe plugins/apache_status.py
 	fi
 	if use docker; then
 		insinto /etc/check_mk
@@ -97,6 +97,8 @@ src_install() {
 	fi
 	use nfsiostat && doexe plugins/mk_nfsiostat
 	doexe plugins/mk_logins
+	doexe plugins/mk_filestats.py
+	doexe plugins/mk_cups_queues
 
 	exeinto /usr/bin
 	doexe waitmax waitmax
