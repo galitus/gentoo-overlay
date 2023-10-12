@@ -29,6 +29,8 @@ DEPEND="${RDEPEND}"
 
 SRC_URI="https://download.checkmk.com/checkmk/${MY_PV}/${MY_P}.tar.gz"
 
+S="${WORKDIR}/check-mk-raw-${MY_PV}.cre"
+
 src_unpack() {
 	# check_mk is a tarball containing tarballs
 	unpack ${A}
