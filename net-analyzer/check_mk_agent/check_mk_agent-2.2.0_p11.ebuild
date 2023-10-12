@@ -32,13 +32,13 @@ SRC_URI="https://download.checkmk.com/checkmk/${MY_PV}/${MY_P}.tar.gz"
 src_unpack() {
 	# check_mk is a tarball containing tarballs
 	unpack ${A}
-	unpack "${WORKDIR}"/${MY_P}/check_mk-${MY_PV}.tar.gz
-	mkdir -p "${S}" || die
-	cd "${S}" || die
-	unpack "${WORKDIR}"/check_mk-${MY_PV}/agents.tar.gz
-	mkdir -p "${S}"/doc || die
-	cd "${S}"/doc || die
-	unpack "${WORKDIR}"/check_mk-${MY_PV}/doc.tar.gz
+#	unpack "${WORKDIR}"/${MY_P}/check_mk-${MY_PV}.tar.gz
+#	mkdir -p "${S}" || die
+#	cd "${S}" || die
+#	unpack "${WORKDIR}"/check_mk-${MY_PV}/agents.tar.gz
+#	mkdir -p "${S}"/doc || die
+#	cd "${S}"/doc || die
+#	unpack "${WORKDIR}"/check_mk-${MY_PV}/doc.tar.gz
 }
 
 src_prepare() {
@@ -68,37 +68,37 @@ src_install() {
 		insinto /etc/check_mk
 		doins cfg_examples/logwatch.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
-		doexe plugins/mk_logwatch.py
+		doexe agents/plugins/mk_logwatch.py
 	fi
 
 	# Install any other useflag-enabled agent plugins
 	exeinto /usr/lib/check_mk_agent/plugins
-	use inventory && newexe plugins/mk_inventory.linux mk_inventory
-	use smart && doexe plugins/smart
-	use mysql && doexe plugins/mk_mysql
-	use postgres && doexe plugins/mk_postgres.py
-	use zypper && doexe plugins/mk_zypper
-	use oracle && doexe plugins/mk_oracle
-	use nfsexports && doexe plugins/nfsexports
-	use dnsclient && doexe plugins/dnsclient
-	use iptables && doexe plugins/mk_iptables
-	use dhcpd && doexe plugins/isc_dhcpd.py
+	use inventory && newexe agents/plugins/mk_inventory.linux mk_inventory
+	use smart && doexe agents/plugins/smart
+	use mysql && doexe agents/plugins/mk_mysql
+	use postgres && doexe agents/plugins/mk_postgres.py
+	use zypper && doexe agents/plugins/mk_zypper
+	use oracle && doexe agents/plugins/mk_oracle
+	use nfsexports && doexe agents/plugins/nfsexports
+	use dnsclient && doexe agents/plugins/dnsclient
+	use iptables && doexe agents/plugins/mk_iptables
+	use dhcpd && doexe agents/plugins/isc_dhcpd.py
 	if use apache_status; then
 		insinto /etc/check_mk
 		doins cfg_examples/apache_status.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
-		doexe plugins/apache_status.py
+		doexe agents/plugins/apache_status.py
 	fi
 	if use docker; then
 		insinto /etc/check_mk
 		doins cfg_examples/docker*.cfg
 		exeinto /usr/lib/check_mk_agent/plugins
-		doexe plugins/mk_docker.py
+		doexe agents/plugins/mk_docker.py
 	fi
-	use nfsiostat && doexe plugins/mk_nfsiostat
-	doexe plugins/mk_logins
-	doexe plugins/mk_filestats.py
-	doexe plugins/mk_cups_queues
+	use nfsiostat && doexe agents/plugins/mk_nfsiostat
+	doexe agents/plugins/mk_logins
+	doexe agents/plugins/mk_filestats.py
+	doexe agents/plugins/mk_cups_queues
 
 	exeinto /usr/bin
 	doexe waitmax waitmax
