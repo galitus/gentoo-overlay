@@ -108,5 +108,5 @@ src_install() {
 	doexe agents/plugins/mk_cups_queues
 
 	exeinto /usr/bin
-	doexe agents/waitmax waitmax
+	doexe agents/waitmax
 }
