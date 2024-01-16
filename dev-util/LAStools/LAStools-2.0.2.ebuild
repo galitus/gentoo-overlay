@@ -20,25 +20,25 @@ RDEPEND="${DEPEND}"
 
 #S=${WORKDIR}/${P}-1
 
-#src_install(){
-#	insinto /usr/bin
-#	doins src/las2las
-#	doins src/las2txt
-#	doins src/lasdiff
-#	doins src/lasindex
-#	doins src/lasinfo
-#	doins src/lasmerge
-#	doins src/lasprecision
-#	doins src/laszip
-#	doins src/txt2las
-#	fperms +x /usr/bin/las2las
-#	fperms +x /usr/bin/las2txt
-#	fperms +x /usr/bin/lasdiff
-#	fperms +x /usr/bin/lasindex
-#	fperms +x /usr/bin/lasinfo
-#	fperms +x /usr/bin/lasmerge
-#	fperms +x /usr/bin/lasprecision
-#	fperms +x /usr/bin/laszip
-#	fperms +x /usr/bin/txt2las
-#
-#}
+src_install(){
+	insinto /usr/bin
+	doins bin/las2las
+	doins bin/las2txt
+	doins bin/lasdiff
+	doins bin/lasindex
+	doins bin/lasinfo
+	doins bin/lasmerge
+	doins bin/lasprecision
+	doins bin/laszip
+	doins bin/txt2las
+	fperms +x /usr/bin/las2las
+	fperms +x /usr/bin/las2txt
+	fperms +x /usr/bin/lasdiff
+	fperms +x /usr/bin/lasindex
+	fperms +x /usr/bin/lasinfo
+	fperms +x /usr/bin/lasmerge
+	fperms +x /usr/bin/lasprecision
+	fperms +x /usr/bin/laszip
+	fperms +x /usr/bin/txt2las
+
+}
