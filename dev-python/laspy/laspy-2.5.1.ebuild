@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-util/lastools"
+DEPEND="dev-util/LAStools"
 RDEPEND="${DEPEND}"
 
 pkg_preinst()
