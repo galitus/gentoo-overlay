@@ -31,7 +31,7 @@ src_install() {
 	if use doc; then
 		dodoc doc/*.txt
 	else
-		dodoc doc/changelog.txt
+		dodoc doc/changelog.rst
 		rm "${ED}/usr/share/doc/${PF}/"*.pdf || die
 	fi
 
