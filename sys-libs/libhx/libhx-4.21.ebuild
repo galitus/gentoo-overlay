@@ -18,7 +18,7 @@ BDEPEND="app-arch/xz-utils"
 
 S="${WORKDIR}/libHX-${PV}"
 
-PATCHES=( "${FILESDIR}/${PN}-3.22-no-lyx.patch" )
+#PATCHES=( "${FILESDIR}/${PN}-3.22-no-lyx.patch" )
 
 src_prepare() {
 	default
