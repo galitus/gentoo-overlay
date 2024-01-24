@@ -10,7 +10,7 @@ inherit distutils-r1 udev git-r3
 DESCRIPTION="Cross-platform tool and drivers for liquid coolers and other devices"
 HOMEPAGE="https://github.com/liquidctl/liquidctl"
 #SRC_URI="https://github.com/liquidctl/liquidctl/releases/download/v${PV}/${P}.tar.gz"
-EGIT_SRC_URI="https://github.com/liquidctl/liquidctl/"
+EGIT_REPO_URI="https://github.com/liquidctl/liquidctl/"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64"
