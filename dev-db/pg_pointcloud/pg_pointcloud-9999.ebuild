@@ -1,9 +1,11 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=8
+EAPI=7
 
-inherit autotools git-r3
+POSTGRES_COMPAT=( 9.6 {10..14} )
+POSTGRES_USEDEP="server"
+inherit autotools git-r3 postgres-multi
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
@@ -28,11 +30,23 @@ REQUIRED_USE=""
 src_prepare() {
 	default
 	eautoreconf
+
+	postgres-multi_src_prepare
 }
 
 src_configure() {
 	local myeconfargs=(
 		--with-lazperf=/usr/include/laz-perf
 	)
-	default
+#	default
+
+	postgres-multi_foreach econf "${myeconfargs[@]}"
+}
+
+src_compile() {
+        postgres-multi_foreach emake
+}
+
+src_install() {
+        postgres-multi_foreach emake DESTDIR="${D}" install
 }
