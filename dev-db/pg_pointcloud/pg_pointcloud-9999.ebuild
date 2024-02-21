@@ -28,6 +28,7 @@ DEPEND=">=dev-db/postgresql-10
 REQUIRED_USE=""
 
 src_prepare() {
+	eapply "${FILESDIR}/pg_config.patch"
 	default
 	eautoreconf
 

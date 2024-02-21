@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index 08c1920..9c3761e 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -160,7 +160,7 @@ dnl ===========================================================================
+ 
+ AC_ARG_WITH([pgconfig],
+        [AS_HELP_STRING([--with-pgconfig=FILE], [specify an alternative pg_config file])],
+-       [PG_CONFIG="$withval"], [PG_CONFIG=""])
++       [PG_CONFIG="$withval"], [])
+ 
+ if test "x$PG_CONFIG" = "x"; then
+        dnl PG_CONFIG was not specified, so search within the current path
