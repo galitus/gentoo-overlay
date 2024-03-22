@@ -9,7 +9,7 @@ inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
 DESCRIPTION="Logout Button for JupyterLab"
 HOMEPAGE="https://github.com/jupyterlab-contrib/jupyterlab-logout"
-SRC_URI="$(pypi_sdist_url --no-normalize)"
+SRC_URI="$(pypi_sdist_url)"
 S=${WORKDIR}/${P}
 
 LICENSE="BSD"
@@ -19,6 +19,6 @@ IUSE=""
 
 DEPEND="
 	dev-python/jupyter-packaging
-	dev-python/jupyterlab
+	=dev-python/jupyterlab-4*
 	"
 
