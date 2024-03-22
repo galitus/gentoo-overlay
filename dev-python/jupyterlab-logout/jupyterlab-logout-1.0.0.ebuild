@@ -18,6 +18,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="
+	dev-python/hatch-nodejs-version
 	dev-python/jupyter-packaging
 	=dev-python/jupyterlab-4*
 	"
