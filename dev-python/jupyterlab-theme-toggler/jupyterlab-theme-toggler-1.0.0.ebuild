@@ -3,13 +3,14 @@
 
 EAPI="8"
 PYTHON_COMPAT=( python3_{10,11,12} )
+DISTUTILS_USE_PEP517=hatchling
 
 inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1 pypi
 
 DESCRIPTION="Top space statusbar for JupyterLab."
 HOMEPAGE="https://github.com/jupyterlab-contrib/jupyterlab-topbar"
 SRC_URI="$(pypi_sdist_url)"
-S=${WORKDIR}/${P}
+#S=${WORKDIR}/${P}
 
 LICENSE="BSD"
 SLOT="0"
