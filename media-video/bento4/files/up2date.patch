@@ -1,0 +1,314 @@
+From 1b208a76387e603aa02aee279f98b0692f156d77 Mon Sep 17 00:00:00 2001
+From: Glenn Guy <glennguy@users.noreply.github.com>
+Date: Fri, 7 Apr 2023 23:12:36 +1000
+Subject: [PATCH 1/2] Remove some previously added wvdecrypter
+ functions/signature changes
+
+Removes most functions added in e800c33
+---
+ Source/C++/Core/Ap4CommonEncryption.cpp | 10 ++++------
+ Source/C++/Core/Ap4CommonEncryption.h   | 13 ++-----------
+ Source/C++/Core/Ap4IsmaCryp.cpp         |  5 ++---
+ Source/C++/Core/Ap4IsmaCryp.h           |  3 +--
+ Source/C++/Core/Ap4LinearReader.cpp     |  2 +-
+ Source/C++/Core/Ap4Marlin.cpp           |  5 ++---
+ Source/C++/Core/Ap4Marlin.h             |  3 +--
+ Source/C++/Core/Ap4OmaDcf.cpp           |  8 +++-----
+ Source/C++/Core/Ap4OmaDcf.h             |  6 ++----
+ Source/C++/Core/Ap4Protection.h         |  3 +--
+ 10 files changed, 19 insertions(+), 39 deletions(-)
+
+diff --git a/Source/C++/Core/Ap4CommonEncryption.cpp b/Source/C++/Core/Ap4CommonEncryption.cpp
+index aa9f359b4..5dc0e0389 100644
+--- a/Source/C++/Core/Ap4CommonEncryption.cpp
++++ b/Source/C++/Core/Ap4CommonEncryption.cpp
+@@ -1859,8 +1859,7 @@ AP4_CencSingleSampleDecrypter::~AP4_CencSingleSampleDecrypter() {
+ |   AP4_CencSingleSampleDecrypter::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_CencSingleSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+-                                                 AP4_DataBuffer& data_in,
++AP4_CencSingleSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
+                                                  AP4_DataBuffer& data_out,
+                                                  const AP4_UI08* iv,
+                                                  unsigned int    subsample_count,
+@@ -2127,8 +2126,7 @@ AP4_CencSampleDecrypter::SetSampleIndex(AP4_Ordinal sample_index)
+ |   AP4_CencSampleDecrypter::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_CencSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+-                                           AP4_DataBuffer& data_in,
++AP4_CencSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
+                                            AP4_DataBuffer& data_out,
+                                            const AP4_UI08* iv)
+ {
+@@ -2155,7 +2153,7 @@ AP4_CencSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+     }
+     
+     // decrypt the sample
+-    return m_SingleSampleDecrypter->DecryptSampleData(poolid, data_in, data_out, iv_block, subsample_count, bytes_of_cleartext_data, bytes_of_encrypted_data);
++    return m_SingleSampleDecrypter->DecryptSampleData(data_in, data_out, iv_block, subsample_count, bytes_of_cleartext_data, bytes_of_encrypted_data);
+ }
+ 
+ /*----------------------------------------------------------------------
+@@ -2339,7 +2337,7 @@ AP4_CencFragmentDecrypter::ProcessSample(AP4_DataBuffer& data_in,
+                                          AP4_DataBuffer& data_out)
+ {
+     // decrypt the sample
+-    return m_SampleDecrypter->DecryptSampleData(0, data_in, data_out, NULL);
++    return m_SampleDecrypter->DecryptSampleData(data_in, data_out, NULL);
+ }
+ 
+ /*----------------------------------------------------------------------
+diff --git a/Source/C++/Core/Ap4CommonEncryption.h b/Source/C++/Core/Ap4CommonEncryption.h
+index 367f5844e..cdc753560 100644
+--- a/Source/C++/Core/Ap4CommonEncryption.h
++++ b/Source/C++/Core/Ap4CommonEncryption.h
+@@ -697,15 +697,7 @@ class AP4_CencSingleSampleDecrypter
+         m_FullBlocksOnly(false),
+         m_ParentIsOwner(true) {}
+     virtual ~AP4_CencSingleSampleDecrypter();
+-    virtual AP4_Result SetFragmentInfo(AP4_UI32 poolid, const AP4_UI08* keyid, const AP4_UI08 nalu_length_size,
+-      AP4_DataBuffer &annexb_sps_pps, AP4_UI32 flags) {
+-      return AP4_ERROR_NOT_SUPPORTED;
+-    };
+-    virtual AP4_UI32 AddPool() { return 0; };
+-    virtual void RemovePool(AP4_UI32 poolid) {};
+-    virtual const char* GetSessionId() { return nullptr; };
+-    virtual AP4_Result DecryptSampleData(AP4_UI32 poolid, 
+-                                         AP4_DataBuffer& data_in,
++    virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
+                                          AP4_DataBuffer& data_out,
+                                          
+                                          // always 16 bytes
+@@ -785,8 +777,7 @@ class AP4_CencSampleDecrypter : public AP4_SampleDecrypter
+         m_SampleCursor(0) {}
+     virtual ~AP4_CencSampleDecrypter();
+     virtual AP4_Result SetSampleIndex(AP4_Ordinal sample_index);
+-    virtual AP4_Result DecryptSampleData(AP4_UI32 poolid, 
+-                                         AP4_DataBuffer& data_in,
++    virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
+                                          AP4_DataBuffer& data_out,
+                                          const AP4_UI08* iv);
+     
+diff --git a/Source/C++/Core/Ap4IsmaCryp.cpp b/Source/C++/Core/Ap4IsmaCryp.cpp
+index 442ad4963..dfb59a44b 100644
+--- a/Source/C++/Core/Ap4IsmaCryp.cpp
++++ b/Source/C++/Core/Ap4IsmaCryp.cpp
+@@ -142,8 +142,7 @@ AP4_IsmaCipher::GetDecryptedSampleSize(AP4_Sample& sample)
+ |   AP4_IsmaCipher::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_IsmaCipher::DecryptSampleData(AP4_UI32 poolid,
+-                                  AP4_DataBuffer& data_in,
++AP4_IsmaCipher::DecryptSampleData(AP4_DataBuffer& data_in,
+                                   AP4_DataBuffer& data_out,
+                                   const AP4_UI08* /*iv*/)
+ {
+@@ -334,7 +333,7 @@ AP4_Result
+ AP4_IsmaTrackDecrypter::ProcessSample(AP4_DataBuffer& data_in,
+                                       AP4_DataBuffer& data_out)
+ {
+-    return m_Cipher->DecryptSampleData(0, data_in, data_out);
++    return m_Cipher->DecryptSampleData(data_in, data_out);
+ }
+ 
+ /*----------------------------------------------------------------------
+diff --git a/Source/C++/Core/Ap4IsmaCryp.h b/Source/C++/Core/Ap4IsmaCryp.h
+index 970dac85d..4b9c60e11 100644
+--- a/Source/C++/Core/Ap4IsmaCryp.h
++++ b/Source/C++/Core/Ap4IsmaCryp.h
+@@ -74,8 +74,7 @@ class AP4_IsmaCipher : public AP4_SampleDecrypter
+     AP4_Result EncryptSampleData(AP4_DataBuffer& data_in,
+                                  AP4_DataBuffer& data_out,
+                                  AP4_UI32        block_counter);
+-    AP4_Result DecryptSampleData(AP4_UI32 poolid,
+-                                 AP4_DataBuffer& data_in,
++    AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
+                                  AP4_DataBuffer& data_out,
+                                  const AP4_UI08* iv = NULL);
+     AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
+diff --git a/Source/C++/Core/Ap4LinearReader.cpp b/Source/C++/Core/Ap4LinearReader.cpp
+index 61c3a9da6..027e4ff47 100644
+--- a/Source/C++/Core/Ap4LinearReader.cpp
++++ b/Source/C++/Core/Ap4LinearReader.cpp
+@@ -734,5 +734,5 @@ AP4_DecryptingSampleReader::ReadSampleData(AP4_Sample&     sample,
+     AP4_Result result = sample.ReadData(m_DataBuffer);
+     if (AP4_FAILED(result)) return result;
+ 
+-    return m_Decrypter->DecryptSampleData(0, m_DataBuffer, sample_data);
++    return m_Decrypter->DecryptSampleData(m_DataBuffer, sample_data);
+ }
+diff --git a/Source/C++/Core/Ap4Marlin.cpp b/Source/C++/Core/Ap4Marlin.cpp
+index c1aa8b646..d0ddd3f31 100644
+--- a/Source/C++/Core/Ap4Marlin.cpp
++++ b/Source/C++/Core/Ap4Marlin.cpp
+@@ -431,8 +431,7 @@ AP4_MarlinIpmpSampleDecrypter::GetDecryptedSampleSize(AP4_Sample& sample)
+ |   AP4_MarlinIpmpSampleDecrypter::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_MarlinIpmpSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+-                                                 AP4_DataBuffer&    data_in,
++AP4_MarlinIpmpSampleDecrypter::DecryptSampleData(AP4_DataBuffer&    data_in,
+                                                  AP4_DataBuffer&    data_out,
+                                                  const AP4_UI08*    /*iv*/)
+ {
+@@ -631,7 +630,7 @@ AP4_Result
+ AP4_MarlinIpmpTrackDecrypter::ProcessSample(AP4_DataBuffer& data_in,
+                                             AP4_DataBuffer& data_out)
+ {
+-    return m_SampleDecrypter->DecryptSampleData(0, data_in, data_out);
++    return m_SampleDecrypter->DecryptSampleData(data_in, data_out);
+ }
+ 
+ /*----------------------------------------------------------------------
+diff --git a/Source/C++/Core/Ap4Marlin.h b/Source/C++/Core/Ap4Marlin.h
+index 9280ad634..774e04f4c 100644
+--- a/Source/C++/Core/Ap4Marlin.h
++++ b/Source/C++/Core/Ap4Marlin.h
+@@ -118,8 +118,7 @@ class AP4_MarlinIpmpSampleDecrypter : public AP4_SampleDecrypter
+     
+     // AP4_SampleDecrypter methods
+     AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
+-    AP4_Result DecryptSampleData(AP4_UI32 poolid,
+-                                 AP4_DataBuffer&    data_in,
++    AP4_Result DecryptSampleData(AP4_DataBuffer&    data_in,
+                                  AP4_DataBuffer&    data_out,
+                                  const AP4_UI08*    iv = NULL);
+                                  
+diff --git a/Source/C++/Core/Ap4OmaDcf.cpp b/Source/C++/Core/Ap4OmaDcf.cpp
+index 4eefbaf55..17099a18b 100644
+--- a/Source/C++/Core/Ap4OmaDcf.cpp
++++ b/Source/C++/Core/Ap4OmaDcf.cpp
+@@ -436,8 +436,7 @@ AP4_OmaDcfCtrSampleDecrypter::~AP4_OmaDcfCtrSampleDecrypter()
+ |   AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+-                                                AP4_DataBuffer& data_in,
++AP4_OmaDcfCtrSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
+                                                 AP4_DataBuffer& data_out,
+                                                 const AP4_UI08* /*iv*/)
+ {   
+@@ -532,8 +531,7 @@ AP4_OmaDcfCbcSampleDecrypter::~AP4_OmaDcfCbcSampleDecrypter()
+ |   AP4_OmaDbcCbcSampleDecrypter::DecryptSampleData
+ +---------------------------------------------------------------------*/
+ AP4_Result 
+-AP4_OmaDcfCbcSampleDecrypter::DecryptSampleData(AP4_UI32 poolid,
+-                                                AP4_DataBuffer& data_in,
++AP4_OmaDcfCbcSampleDecrypter::DecryptSampleData(AP4_DataBuffer& data_in,
+                                                 AP4_DataBuffer& data_out,
+                                                 const AP4_UI08* /*iv*/)
+ {   
+@@ -855,7 +853,7 @@ AP4_Result
+ AP4_OmaDcfTrackDecrypter::ProcessSample(AP4_DataBuffer& data_in,
+                                         AP4_DataBuffer& data_out)
+ {
+-    return m_Cipher->DecryptSampleData(0, data_in, data_out);
++    return m_Cipher->DecryptSampleData(data_in, data_out);
+ }
+ 
+ /*----------------------------------------------------------------------
+diff --git a/Source/C++/Core/Ap4OmaDcf.h b/Source/C++/Core/Ap4OmaDcf.h
+index bb7b3d653..23f10ed53 100644
+--- a/Source/C++/Core/Ap4OmaDcf.h
++++ b/Source/C++/Core/Ap4OmaDcf.h
+@@ -133,8 +133,7 @@ class AP4_OmaDcfCtrSampleDecrypter : public AP4_OmaDcfSampleDecrypter
+     ~AP4_OmaDcfCtrSampleDecrypter();
+ 
+     // methods
+-    virtual AP4_Result DecryptSampleData(AP4_UI32 poolid,
+-                                         AP4_DataBuffer& data_in,
++    virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
+                                          AP4_DataBuffer& data_out,
+                                          const AP4_UI08* iv = NULL);
+     virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
+@@ -156,8 +155,7 @@ class AP4_OmaDcfCbcSampleDecrypter : public AP4_OmaDcfSampleDecrypter
+     ~AP4_OmaDcfCbcSampleDecrypter();
+ 
+     // methods
+-    virtual AP4_Result DecryptSampleData(AP4_UI32 poolid,
+-                                         AP4_DataBuffer& data_in,
++    virtual AP4_Result DecryptSampleData(AP4_DataBuffer& data_in,
+                                          AP4_DataBuffer& data_out,
+                                          const AP4_UI08* iv = NULL);
+     virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample);
+diff --git a/Source/C++/Core/Ap4Protection.h b/Source/C++/Core/Ap4Protection.h
+index 4080584d8..856f1f334 100644
+--- a/Source/C++/Core/Ap4Protection.h
++++ b/Source/C++/Core/Ap4Protection.h
+@@ -393,8 +393,7 @@ class AP4_SampleDecrypter
+     // methods
+     virtual AP4_Size   GetDecryptedSampleSize(AP4_Sample& sample) { return sample.GetSize(); }
+     virtual AP4_Result SetSampleIndex(AP4_Ordinal /*index*/)      { return AP4_SUCCESS;      }
+-    virtual AP4_Result DecryptSampleData(AP4_UI32 poolid,
+-                                         AP4_DataBuffer&    data_in,
++    virtual AP4_Result DecryptSampleData(AP4_DataBuffer&    data_in,
+                                          AP4_DataBuffer&    data_out,
+                                          const AP4_UI08*    iv = NULL) = 0;
+ };
+
+From 189ab638004af8bfb16f207a29e67090e8523bb1 Mon Sep 17 00:00:00 2001
+From: Glenn Guy <glennguy@users.noreply.github.com>
+Date: Thu, 25 May 2023 22:22:42 +1000
+Subject: [PATCH 2/2] Change access for subclassing audio codec parsers
+
+---
+ Source/C++/Codecs/Ap4Ac3Parser.h  | 2 +-
+ Source/C++/Codecs/Ap4Ac4Parser.h  | 2 +-
+ Source/C++/Codecs/Ap4AdtsParser.h | 2 +-
+ Source/C++/Codecs/Ap4Eac3Parser.h | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Source/C++/Codecs/Ap4Ac3Parser.h b/Source/C++/Codecs/Ap4Ac3Parser.h
+index 9fed0a429..2d3b9934f 100644
+--- a/Source/C++/Codecs/Ap4Ac3Parser.h
++++ b/Source/C++/Codecs/Ap4Ac3Parser.h
+@@ -111,7 +111,7 @@ class AP4_Ac3Parser {
+     AP4_Size   GetBytesFree();
+     AP4_Size   GetBytesAvailable();
+     
+-private:
++protected:
+     // methods
+     AP4_Result FindHeader(AP4_UI08* header);
+     
+diff --git a/Source/C++/Codecs/Ap4Ac4Parser.h b/Source/C++/Codecs/Ap4Ac4Parser.h
+index f054dd9db..d8f9571b5 100644
+--- a/Source/C++/Codecs/Ap4Ac4Parser.h
++++ b/Source/C++/Codecs/Ap4Ac4Parser.h
+@@ -127,7 +127,7 @@ class AP4_Ac4Parser {
+     AP4_Size   GetBytesFree();
+     AP4_Size   GetBytesAvailable();
+ 
+-private:
++protected:
+     // methods
+     AP4_Result FindHeader(AP4_UI08* header);
+     AP4_UI32   GetSyncFrameSize(AP4_BitReader &bits);
+diff --git a/Source/C++/Codecs/Ap4AdtsParser.h b/Source/C++/Codecs/Ap4AdtsParser.h
+index 26f3c7d78..f6fe64efe 100644
+--- a/Source/C++/Codecs/Ap4AdtsParser.h
++++ b/Source/C++/Codecs/Ap4AdtsParser.h
+@@ -110,7 +110,7 @@ class AP4_AdtsParser {
+     AP4_Size   GetBytesFree();
+     AP4_Size   GetBytesAvailable();
+ 
+-private:
++protected:
+     // methods
+     AP4_Result FindHeader(AP4_UI08* header);
+ 
+diff --git a/Source/C++/Codecs/Ap4Eac3Parser.h b/Source/C++/Codecs/Ap4Eac3Parser.h
+index be8a104cd..0a495189d 100644
+--- a/Source/C++/Codecs/Ap4Eac3Parser.h
++++ b/Source/C++/Codecs/Ap4Eac3Parser.h
+@@ -112,7 +112,7 @@ class AP4_Eac3Parser {
+     AP4_Size   GetBytesFree();
+     AP4_Size   GetBytesAvailable();
+ 
+-private:
++protected:
+     // methods
+     AP4_Result FindHeader(AP4_UI08* header, AP4_Size& skip_size);
+ 
