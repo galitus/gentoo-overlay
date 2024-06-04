@@ -88,7 +88,7 @@ src_compile() {
 	emake fortran "${OPTS[@]}"
 #	distutils-r1_python_compile
 #	default
-	"${PYTHON}" setup.py build || die
+#	"${PYTHON}" setup.py build || die
 #	${EPYTHON} setup.py build
 #	${EPYTHON} setup.py install
 #	python_build
