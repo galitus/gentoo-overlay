@@ -13,9 +13,10 @@ else
 	S="${WORKDIR}"/${PN^^}-${PV/_/-}
 fi
 
-PYTHON_COMPAT=( python3_{6,7,8,9,10,11,12} )
+PYTHON_COMPAT=( python3_{10,11,12} )
+DISTUTILS_USE_PEP517=meson-python
 
-inherit fortran-2 flag-o-matic toolchain-funcs ${_ECLASS} distutils-r1
+inherit fortran-2 flag-o-matic toolchain-funcs ${_ECLASS} distutils-r1 python-utils-r1 python-r1
 
 DESCRIPTION="Spherical harmonic transforms and reconstructions, rotations"
 HOMEPAGE="https://github.com/SHTOOLS/SHTOOLS"
@@ -27,11 +28,13 @@ IUSE="static-libs"
 
 RDEPEND="
 	dev-python/xarray
-	dev-python/scipy
-	dev-python/astropy
+	>=dev-python/scipy-0.14.0
+	>=dev-python/astropy-4.0
 	dev-python/numpy[${PYTHON_USEDEP},lapack]
-	dev-python/matplotlib[${PYTHON_USEDEP}]
-	dev-python/pooch
+	>=dev-python/matplotlib-3.3[${PYTHON_USEDEP}]
+	>=dev-python/pooch-1.1
+	dev-python/requests
+	dev-python/tqdm
 	sci-libs/fftw:3.0=
 	virtual/lapack
 	virtual/blas
@@ -41,9 +44,12 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+BDEPEND="dev-python/meson-python
+	"
+
 src_prepare() {
-	python_setup
-	distutils-r1_python_prepare_all
+#	python_setup
+#	distutils-r1_python_prepare_all
 #	epatch "${FILESDIR}"/shtools_www.patch
 #	eapply "${FILESDIR}"/shtools_ar_instead_libtool.patch
 	append-ldflags -shared # needed by f2py
@@ -73,10 +79,10 @@ src_prepare() {
 	default
 }
 
-src_configure () {
+#src_configure () {
 #	python_setup
-	sed -i s/"'include_dirs': \[\]"/"'include_dirs': \[\"\/usr\/lib64\/${EPYTHON}\/site-packages\/numpy\/f2py\/src\"\]"/g setup.py
-}
+#	sed -i s/"'include_dirs': \[\]"/"'include_dirs': \[\"\/usr\/lib64\/${EPYTHON}\/site-packages\/numpy\/f2py\/src\"\]"/g setup.py
+#}
 
 src_compile() {
 	emake fortran "${OPTS[@]}"
@@ -91,11 +97,11 @@ src_compile() {
 }
 
 src_install() {
-	emake PREFIX="${EPREFIX}/usr" DESTDIR="${D}" "${OPTS[@]}" install
+#	emake PREFIX="${EPREFIX}/usr" DESTDIR="${D}" "${OPTS[@]}" install
 #	${EPYTHON} setup.py install
 #	python_install
 #	default
-	distutils-r1_python_install
+#	distutils-r1_python_install
 	if ! use static-libs; then
 		rm -rf "${ED}"/usr/$(get_libdir)/*.a || die
 	fi
