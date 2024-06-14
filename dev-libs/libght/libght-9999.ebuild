@@ -18,7 +18,7 @@ KEYWORDS=""
 
 RDEPEND=""
 DEPEND=">=sci-geosciences/liblas-1.8.0
-	>=dev-util/cmake-3.7.2
+	>=dev-build/cmake-3.7.2
 	>=dev-util/cunit-2.1
 	>=dev-libs/libxml2-2.9.4"
 
