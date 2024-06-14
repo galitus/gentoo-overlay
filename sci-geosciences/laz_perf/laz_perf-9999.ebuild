@@ -18,7 +18,7 @@ LICENSE="LGPL-2.1"
 KEYWORDS=""
 
 RDEPEND=""
-DEPEND=">=dev-util/cmake-3.7.2
+DEPEND=">=dev-build/cmake-3.7.2
 	>=dev-util/cunit-2.1"
 
 REQUIRED_USE=""
