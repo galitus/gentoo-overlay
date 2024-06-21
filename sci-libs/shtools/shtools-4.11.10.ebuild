@@ -52,7 +52,7 @@ src_prepare() {
 #	python_setup
 #	distutils-r1_python_prepare_all
 #	epatch "${FILESDIR}"/shtools_www.patch
-#	eapply "${FILESDIR}"/shtools_ar_instead_libtool.patch
+	eapply "${FILESDIR}"/pyproject.patch
 	append-ldflags -shared # needed by f2py
 	# needed by f2py in fortran 77 mode
 	append-fflags -fPIC
