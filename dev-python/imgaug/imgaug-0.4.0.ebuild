@@ -20,7 +20,7 @@ RDEPEND="
 	dev-python/pillow
 	dev-python/scipy
 	dev-python/matplotlib
-	>=sci-libs/scikit-image-0.14.2
+	>=dev-python/scikit-image-0.14.2
 	dev-python/imageio
 	dev-python/shapely
 	media-libs/opencv
