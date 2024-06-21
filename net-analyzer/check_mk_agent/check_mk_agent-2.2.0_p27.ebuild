@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="apache_status dhcpd dnsclient docker inventory iptables logwatch mysql nfsiostat nfsexports oracle postgres smart +xinetd zypper"
 
-RDEPEND="!!net-analyzer/check_mk
+RDEPEND="
 	app-shells/bash:*
 	xinetd? ( || ( sys-apps/xinetd sys-apps/systemd ) )
 	dnsclient? ( net-dns/bind-tools )
@@ -44,7 +44,7 @@ src_unpack() {
 }
 
 src_prepare() {
-#	eapply "${FILESDIR}"/smart_multithread.patch
+	eapply "${FILESDIR}"/smart_multithread.patch
 	eapply_user
 	true
 }
