@@ -35,6 +35,7 @@ RDEPEND="
 	>=dev-python/pooch-1.1
 	dev-python/requests
 	dev-python/tqdm
+	sci-libs/openblas
 	sci-libs/fftw:3.0=
 	virtual/lapack
 	virtual/blas
