@@ -1,6 +1,6 @@
-diff -Naur a/smart b/smart
+diff -Naur a/agents/plugins/smart b/agents/plugins/smart
 --- a/agents/plugins/smart	2024-06-21 15:38:05.795074567 +0200
-+++ b/agents/plugins/smart	2024-06-21 15:32:56.772584548 +0200
++++ b/agents/plugins/smart	2024-06-23 17:05:37.745407594 +0200
 @@ -1,26 +1,80 @@
  #!/bin/bash
 -# Copyright (C) 2019 Checkmk GmbH - License: GNU General Public License v2
@@ -240,7 +240,7 @@ diff -Naur a/smart b/smart
              continue
          fi
          SEEN="$SEEN.$N."
-@@ -130,43 +182,9 @@
+@@ -130,43 +182,14 @@
          DNAME=${D#/dev/disk/by-id/scsi-}
          DNAME=${DNAME#/dev/disk/by-id/ata-}
          # 2012-01-25 Stefan Kaerst CDJ - special option in case vendor is AMCC
@@ -280,13 +280,18 @@ diff -Naur a/smart b/smart
 -        else
 -            [ -n "$CMD" ] && $CMD | grep Always | grep -v -E '^190(.*)Temperature(.*)' | sed "s|^|$DNAME $VEND $MODEL |"
 -        fi
-+	speedup &
++	if [ "$VEND" != "NVME" ] ; then
++		speedup &
++	else
++		sleep 0.15
++		speedup
++	fi
      done 2>/dev/null
 +    wait
  
      # Call MegaRaid submodule if conditions are met
      if type MegaCli >/dev/null 2>&1; then
-@@ -185,3 +203,4 @@
+@@ -185,3 +208,4 @@
  else
      echo "ERROR: smartctl not found" >&2
  fi
