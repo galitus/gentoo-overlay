@@ -5,7 +5,7 @@ EAPI="8"
 DISTUTILS_USE_PEP517=pdm
 PYTHON_COMPAT=( python3_{10,11,12} )
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs python-r1
 
 DESCRIPTION="Welcome to the plyfile Python module, which provides a simple facility for reading and writing ASCII and binary PLY files."
 HOMEPAGE="https://github.com/dranjan/python-plyfile"
