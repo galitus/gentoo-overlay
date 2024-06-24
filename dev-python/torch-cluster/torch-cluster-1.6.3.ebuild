@@ -3,13 +3,14 @@
 
 EAPI=8
 
+DISTUTILS_EXT=1
 PYTHON_COMPAT=( python3_{10..12} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
 inherit distutils-r1 pypi
 
-DESCRIPTION="PyTorch Sparse"
-HOMEPAGE="https://pypi.org/project/torch-sparse/"
+DESCRIPTION="PyTorch Cluster"
+HOMEPAGE="https://pypi.org/project/torch-cluster/"
 SRC_URI="$(pypi_sdist_url)"
 
 LICENSE="MIT"
@@ -20,3 +21,5 @@ RESTRICT=""
 
 RDEPEND="sci-libs/pytorch"
 DEPEND="${RDEPEND}"
+
+MAKEOPTS+=" -j6"

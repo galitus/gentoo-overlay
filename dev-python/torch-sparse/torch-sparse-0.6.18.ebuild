@@ -3,13 +3,14 @@
 
 EAPI=8
 
+DISTUTILS_EXT=1
 PYTHON_COMPAT=( python3_{10..12} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
 inherit distutils-r1 pypi
 
-DESCRIPTION="PyTorch Scatter"
-HOMEPAGE="https://pypi.org/project/torch-scatter/"
+DESCRIPTION="PyTorch Sparse"
+HOMEPAGE="https://pypi.org/project/torch-sparse/"
 SRC_URI="$(pypi_sdist_url)"
 
 LICENSE="MIT"
