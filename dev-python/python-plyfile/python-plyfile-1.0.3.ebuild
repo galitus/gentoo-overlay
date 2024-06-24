@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-DISTUTILS_USE_PEP517=pdm
+DISTUTILS_USE_PEP517=pdm-backend
 PYTHON_COMPAT=( python3_{10,11,12} )
 
-inherit distutils-r1 toolchain-funcs python-r1
+inherit distutils-r1 toolchain-funcs
 
 DESCRIPTION="Welcome to the plyfile Python module, which provides a simple facility for reading and writing ASCII and binary PLY files."
 HOMEPAGE="https://github.com/dranjan/python-plyfile"
