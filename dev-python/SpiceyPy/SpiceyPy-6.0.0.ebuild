@@ -3,9 +3,10 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_9 python3_10 python3_11 )
+PYTHON_COMPAT=( python3_{11..12} )
+DISTUTILS_USE_PEP517=setuptools
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs python-r1
 
 DESCRIPTION="SpiceyPy is a Python wrapper for the NAIF C SPICE Toolkit (N66), compatible with Python 2 and 3, written using ctypes."
 HOMEPAGE="https://github.com/AndrewAnnex/SpiceyPy"
@@ -20,6 +21,7 @@ DEPEND="sci-libs/cspice
 	>=dev-python/numpy-1.17.0
 	>=dev-python/pandas-0.24.0
 	>=dev-python/pytest-7.0.0
+	>=dev-python/twine-3.3.0
 	>=dev-python/coverage-5.1.0
 	>=dev-python/setuptools-40.6.3"
 RDEPEND="${DEPEND}"
