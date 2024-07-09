@@ -49,6 +49,7 @@ DEPEND="${RDEPEND}
 "
 
 BDEPEND="dev-python/meson-python
+	dev-python/jupyter-core
 	"
 
 
