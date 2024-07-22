@@ -23,4 +23,5 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	default
 	eautoreconf
+	emake EXTRA_FLAGS="-I/usr/include/libdrm"
 }
