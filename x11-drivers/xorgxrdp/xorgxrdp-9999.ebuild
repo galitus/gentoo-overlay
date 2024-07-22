@@ -22,6 +22,10 @@ DEPEND="${RDEPEND}"
 
 src_prepare() {
 	default
+	export CFLAGS="$CFLAGS $(pkg-config libdrm --flags)"
 	eautoreconf
+}
+
+src_compile() {
 	emake EXTRA_FLAGS="-I/usr/include/libdrm"
 }
