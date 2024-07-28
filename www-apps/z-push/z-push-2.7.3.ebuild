@@ -1,12 +1,12 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit webapp
 
 DESCRIPTION="Z-Push - open source push technology"
-HOMEPAGE="https://z-push.org"
+HOMEPAGE="https://github.com/Z-Hub/Z-Push"
 
 ZPUSH_RELEASE="final"
 ZPUSH_BASE_VERSION="2.6"
@@ -16,8 +16,9 @@ ZPUSH_SUFFIX=""
 
 #SRC_URI="http://download.z-push.org/${ZPUSH_RELEASE}/${ZPUSH_BASE_VERSION}/z-push-${ZPUSH_VERSION}${ZPUSH_SUFFIX}${ZPUSH_BUILD}.tar.gz"
 #SRC_URI="https://stash.z-hub.io/rest/api/latest/projects/ZP/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
-SRC_URI="https://stash.kopano.io/rest/api/latest/projects/ZHUB/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
-S="${WORKDIR}/z-push"
+#SRC_URI="https://stash.kopano.io/rest/api/latest/projects/ZHUB/repos/z-push/archive?at=refs%2Ftags%2F${PV}&format=tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/Z-Hub/Z-Push/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
+S="${WORKDIR}/Z-Push-${PV}"
 
 LICENSE="AGPL-3"
 KEYWORDS="~amd64 ~x86"
@@ -28,12 +29,12 @@ BACKENDS="caldav  carddav  combined  imap  ipcmemcached  kopano  ldap  maildir  
 
 DEPEND=">=virtual/httpd-php-7.4"
 
-src_unpack() {
-	mkdir ${S}
-        mv ${P}.tar.gz ${S}/
-        cd ${S}
-        unpack ${P}.tar.gz
-}
+#src_unpack() {
+#	mkdir ${S}
+#        mv ${P}.tar.gz ${S}/
+#        cd ${S}
+#        unpack ${P}.tar.gz
+#}
 
 src_install() {
 	webapp_src_preinst
