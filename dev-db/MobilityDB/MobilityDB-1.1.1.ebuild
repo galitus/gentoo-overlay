@@ -7,6 +7,8 @@ POSTGRES_COMPAT=( {12..16} )
 POSTGRES_USEDEP="server"
 inherit postgres-multi cmake
 
+CMAKE_BUILD_TYPE="Release"
+
 DESCRIPTION="MobilityDB is a geospatial trajectory data management & analysis platform, built on PostgreSQL and PostGIS."
 HOMEPAGE="https://github.com/MobilityDB/MobilityDB"
 SRC_URI="https://github.com/MobilityDB/MobilityDB/archive/refs/tags/v1.1.1.tar.gz"
