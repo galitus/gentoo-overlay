@@ -7,8 +7,6 @@ POSTGRES_COMPAT=( {12..16} )
 POSTGRES_USEDEP="server"
 inherit postgres-multi cmake
 
-AUTOTOOLS_IN_SOURCE_BUILD=1
-
 DESCRIPTION="MobilityDB is a geospatial trajectory data management & analysis platform, built on PostgreSQL and PostGIS."
 HOMEPAGE="https://github.com/MobilityDB/MobilityDB"
 SRC_URI="https://github.com/MobilityDB/MobilityDB/archive/refs/tags/v1.1.1.tar.gz"
@@ -30,18 +28,23 @@ DEPEND=">=dev-db/postgresql-12[server]
 REQUIRED_USE=""
 
 src_prepare() {
-	default
-	postgres-multi_src_prepare
+        cmake_src_prepare
+        postgres-multi_src_prepare
+}
+
+my_src_configure() {
+        local mycmakeargs=( -DPOSTGRESQL_BIN="$($PG_CONFIG --bindir)" )
+        cmake_src_configure
 }
 
 src_configure() {
-	postgres-multi_foreach econf "${myeconfargs[@]}"
+	postgres-multi_foreach my_src_configure
 }
 
 src_compile() {
-        postgres-multi_foreach emake
+        postgres-multi_foreach cmake_build
 }
 
 src_install() {
-        postgres-multi_foreach emake DESTDIR="${D}" install
+        postgres-multi_foreach cmake_src_install
 }
