@@ -3,20 +3,21 @@
 
 EAPI=8
 
+CMAKE_BUILD_TYPE="Release"
+
 POSTGRES_COMPAT=( {12..16} )
 POSTGRES_USEDEP="server"
-inherit postgres-multi cmake
 
-CMAKE_BUILD_TYPE="Release"
+inherit postgres-multi cmake
 
 DESCRIPTION="MobilityDB is a geospatial trajectory data management & analysis platform, built on PostgreSQL and PostGIS."
 HOMEPAGE="https://github.com/MobilityDB/MobilityDB"
-SRC_URI="https://github.com/MobilityDB/MobilityDB/archive/refs/tags/v1.1.1.tar.gz"
+SRC_URI="https://github.com/MobilityDB/MobilityDB/archive/refs/tags/v1.1.1.tar.gz -> ${P}.tar.gz"
 #EGIT_REPO_URI="https://github.com/MobilityDB/MobilityDB"
 
 SLOT="0"
 LICENSE="PostgreSQL"
-KEYWORDS="amd64"
+KEYWORDS="amd64 ~x86"
 
 RDEPEND=""
 DEPEND=">=dev-db/postgresql-12[server]
