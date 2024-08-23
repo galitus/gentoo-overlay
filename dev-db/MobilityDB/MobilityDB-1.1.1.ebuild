@@ -5,7 +5,7 @@ EAPI=8
 
 POSTGRES_COMPAT=( {12..16} )
 POSTGRES_USEDEP="server"
-inherit git-r3 postgres-multi cmake
+inherit postgres-multi cmake
 
 AUTOTOOLS_IN_SOURCE_BUILD=1
 
