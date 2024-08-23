@@ -16,7 +16,7 @@ SRC_URI="https://github.com/MobilityDB/MobilityDB/archive/refs/tags/v1.1.1.tar.g
 
 SLOT="0"
 LICENSE="PostgreSQL"
-KEYWORDS=""
+KEYWORDS="amd64"
 
 RDEPEND=""
 DEPEND=">=dev-db/postgresql-12[server]
