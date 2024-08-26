@@ -8,7 +8,7 @@ CMAKE_BUILD_TYPE="Release"
 POSTGRES_COMPAT=( {12..16} )
 POSTGRES_USEDEP="server"
 
-inherit postgres-multi cmake
+inherit postgres-multi cmake git-r3
 
 DESCRIPTION="MobilityDB is a geospatial trajectory data management & analysis platform, built on PostgreSQL and PostGIS."
 HOMEPAGE="https://github.com/MobilityDB/MobilityDB"
