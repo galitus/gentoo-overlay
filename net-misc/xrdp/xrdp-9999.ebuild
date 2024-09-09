@@ -14,7 +14,7 @@ EGIT_REPO_URI="https://github.com/neutrinolabs/xrdp"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug fuse kerberos jpeg pam pulseaudio"
+IUSE="debug fuse kerberos jpeg pam pulseaudio opus x264 pixman rdpsndaudin"
 
 RDEPEND="dev-libs/openssl:0=
 	x11-libs/libX11:0=
@@ -24,7 +24,11 @@ RDEPEND="dev-libs/openssl:0=
 	jpeg? ( virtual/jpeg:0= )
 	kerberos? ( virtual/krb5:0= )
 	pam? ( sys-libs/pam )
-	pulseaudio? ( media-sound/pulseaudio:0= )"
+	pulseaudio? ( media-sound/pulseaudio:0= )
+	x264? ( >=media-libs/x264-0.0.20231114-r1 )
+	pixman? ( x11-libs/pixman )
+	opus? ( media-libs/opus )"
+
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
 RDEPEND="${RDEPEND}"
@@ -86,8 +90,14 @@ src_configure() {
 
 		# -- sound support --
 		$(usex pulseaudio '--enable-simplesound --enable-loadpulsemodules' '')
+		$(usex rdpsndaudin --enable-rdpsndaudin '')
+		$(usex opus --enable-opus '')
+
+		# -- video compression
+		$(usex x264 --enable-x264 '')
 
 		# -- others --
+		$(usex pixman --enable-pixman '')
 		$(usex debug --enable-xrdpdebug '')
 		$(usex fuse --enable-fuse '')
 		# $(usex neutrinordp --enable-neutrinordp '')
