@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..12} )
 
 inherit distutils-r1 pypi
 
@@ -18,6 +18,8 @@ IUSE="test"
 RESTRICT="!test? ( test )"
 
 DOCS="README.rst"
+
+S=${WORKDIR}/${P}
 
 RDEPEND="dev-python/cryptography[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]"

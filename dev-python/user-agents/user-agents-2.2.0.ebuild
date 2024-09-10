@@ -17,7 +17,9 @@ KEYWORDS="amd64 arm arm64 x86 ~amd64-linux ~x86-linux"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-DOCS="README.rst"
+#DOCS="README.rst"
+
+S=${WORKDIR}/${P}
 
 RDEPEND=">=dev-python/ua-parser-0.8.0[${PYTHON_USEDEP}]"
 BDEPEND="
