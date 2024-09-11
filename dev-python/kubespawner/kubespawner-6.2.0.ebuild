@@ -23,7 +23,7 @@ DEPEND="${RDEPEND}
 	dev-python/python-slugify
 	>=dev-python/jupyterhub-4.0
 	>=dev-python/jinja-2.0
-	>=dev-python/kubernetes_asyncio-24
+	>=dev-python/kubernetes-asyncio-24
 	dev-python/urllib3
 	dev-python/traitlets
 	dev-python/pyyaml
