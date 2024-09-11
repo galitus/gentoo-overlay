@@ -31,4 +31,5 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	eapply ${FILESDIR}/fix_pyproject_name.patch
+	default
 }
