@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 #IUSE="test"
 
-S=${WORKDIR}/${P//-/_}
+S="${WORKDIR}/${PN//-/_}-${PV}"
 
 DEPEND="${RDEPEND}
 	>=dev-python/python-dateutil-2.5.3
