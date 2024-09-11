@@ -1,9 +1,10 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_8 python3_9 python3_10 )
+DISTUTILS_USE_PEP517=hatchling
+PYTHON_COMPAT=( python3_{10..13} )
 
 inherit distutils-r1
 
@@ -20,9 +21,10 @@ KEYWORDS="amd64 x86"
 DEPEND="${RDEPEND}
 	dev-python/escapism
 	dev-python/python-slugify
-	>=dev-python/jupyterhub-0.9
+	>=dev-python/jupyterhub-4.0
 	>=dev-python/jinja-2.0
-	>=dev-python/kubernetes_asyncio-21
+	>=dev-python/kubernetes_asyncio-24
 	dev-python/urllib3
+	dev-python/traitlets
 	dev-python/pyyaml
 "
