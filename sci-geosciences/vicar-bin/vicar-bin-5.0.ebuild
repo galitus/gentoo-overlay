@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 DESCRIPTION="VICAR - Binary Edition"
 HOMEPAGE="https://www-mipl.jpl.nasa.gov/vicar_open.html"
@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-DEPEND="~x11-libs/libXp-1.0.3
+DEPEND="~x11-libs/libXp-1.0.4
 	media-libs/tiff
 	"
 RDEPEND="${DEPEND}"
