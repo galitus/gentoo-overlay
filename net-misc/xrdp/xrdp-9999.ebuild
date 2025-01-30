@@ -112,7 +112,8 @@ src_configure() {
 
 src_install() {
 	default
-	# old approach EAPI=7- prune_libtool_files --all
+
+	# old approach EAPI=7- prune_libtool_files --all , new down below
 	find "${D}" -name '*.la' -delete || die
 
 	# use our pam.d file since upstream's incompatible with Gentoo
@@ -140,7 +141,7 @@ pkg_preinst() {
 		cp {"${EROOT}","${ED}"}/etc/xrdp/rsakeys.ini || die
 	else
 		einfo "Running xrdp-keygen to generate new rsakeys.ini ..."
-		"${D}"/usr/bin/xrdp-keygen xrdp "${ED}"/etc/xrdp/rsakeys.ini \
+		LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${D}/usr/lib64/xrdp/" "${D}"/usr/bin/xrdp-keygen xrdp "${ED}"/etc/xrdp/rsakeys.ini \
 			|| die "xrdp-keygen failed to generate RSA keys"
 	fi
 }
