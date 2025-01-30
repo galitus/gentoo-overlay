@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit autotools pam systemd git-r3 multilib-minimal
+inherit autotools pam systemd git-r3
 
 DESCRIPTION="An open source Remote Desktop Protocol server"
 HOMEPAGE="http://www.xrdp.org/"
@@ -112,7 +112,8 @@ src_configure() {
 
 src_install() {
 	default
-	prune_libtool_files --all
+	# old approach EAPI=7- prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 
 	# use our pam.d file since upstream's incompatible with Gentoo
 	use pam && newpamd "${FILESDIR}"/xrdp-sesman.pamd xrdp-sesman
