@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit autotools pam systemd git-r3
+inherit autotools pam systemd git-r3 multilib-minimal
 
 DESCRIPTION="An open source Remote Desktop Protocol server"
 HOMEPAGE="http://www.xrdp.org/"

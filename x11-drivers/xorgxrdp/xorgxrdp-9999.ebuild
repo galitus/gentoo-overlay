@@ -18,7 +18,8 @@ KEYWORDS=""
 IUSE="static-libs"
 
 RDEPEND=""
-DEPEND="${RDEPEND}"
+DEPEND="net-misc/xrdp
+	${RDEPEND}"
 
 src_prepare() {
 	default
