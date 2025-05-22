@@ -15,7 +15,7 @@ else
 fi
 
 DISTUTILS_EXT=1
-PYTHON_COMPAT=( python3_{10,11,12} )
+PYTHON_COMPAT=( python3_{11..13} )
 DISTUTILS_USE_PEP517=meson-python
 
 inherit fortran-2 flag-o-matic toolchain-funcs ${_ECLASS} distutils-r1 python-utils-r1 python-r1
