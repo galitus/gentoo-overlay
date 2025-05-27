@@ -2,13 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-PYTHON_COMPAT=( python3_{9,10,11} )
+PYTHON_COMPAT=( python3_{11..13} )
+DISTUTILS_USE_PEP517="setuptools"
 
 inherit distutils-r1 toolchain-funcs python-utils-r1 python-r1
 
 DESCRIPTION="A collection of astronomy-related routines in Python"
 HOMEPAGE="https://github.com/sczesla/PyAstronomy"
-SRC_URI="https://github.com/sczesla/PyAstronomy/archive/v_0-19-0.tar.gz -> PyAstronomy-0.19.0.tar.gz"
+SRC_URI="https://github.com/sczesla/PyAstronomy/archive/v_0-22-0.tar.gz -> PyAstronomy-0.22.0.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -30,4 +31,4 @@ DEPEND="dev-python/quantities
 
 RDEPEND="${DEPEND}"
 
-S=${WORKDIR}/PyAstronomy-v_0-19-0
+S=${WORKDIR}/PyAstronomy-v_0-22-0
