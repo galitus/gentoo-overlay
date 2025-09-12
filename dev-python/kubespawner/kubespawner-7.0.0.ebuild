@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=hatchling
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{11..14} )
 
 inherit distutils-r1
 
@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}
 	dev-python/escapism
 	dev-python/python-slugify
 	>=dev-python/jupyterhub-4.0
-	>=dev-python/jinja-2.0
+	dev-python/jinja2
 	>=dev-python/kubernetes-asyncio-24
 	dev-python/urllib3
 	dev-python/traitlets
