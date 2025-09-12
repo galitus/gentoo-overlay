@@ -37,7 +37,7 @@ RDEPEND="${DEPEND}
 "
 
 src_prepare() {
-	sed 's/-m build/-m build -n/g' ${S}/Makefile.am
+	sed -i 's/-m build/-m build -n/g' ${S}/Makefile.am
 	default
 
 	eautoreconf
