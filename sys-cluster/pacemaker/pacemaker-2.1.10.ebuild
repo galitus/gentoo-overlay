@@ -21,7 +21,7 @@ else
 	SRC_URI="https://github.com/ClusterLabs/${PN}/archive/${MY_P}.tar.gz"
 	S="${WORKDIR}/${PN}-${MY_P}"
 
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 ~x86"
 fi
 
 LICENSE="GPL-2+ LGPL-2.1+ BSD CC-BY-SA-4.0"
