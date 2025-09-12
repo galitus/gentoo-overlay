@@ -32,6 +32,7 @@ RDEPEND="${DEPEND}
 		dev-python/parallax[${PYTHON_USEDEP}]
 		dev-python/pyyaml[${PYTHON_USEDEP}]
 		dev-python/packaging[${PYTHON_USEDEP}]
+		dev-python/build[${PYTHON_USEDEP}]
 	')
 "
 
