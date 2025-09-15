@@ -6,7 +6,7 @@ EAPI="8"
 DISTUTILS_USE_PEP517=setuptools
 PYTHON_COMPAT=( python3_{11..14} )
 
-inherit distutils-r1 toolchain-funcs
+inherit distutils-r1 toolchain-funcs git-r3
 
 DESCRIPTION="Pamela: yet another Python wrapper for PAM"
 HOMEPAGE="https://github.com/minrk/pamela"
