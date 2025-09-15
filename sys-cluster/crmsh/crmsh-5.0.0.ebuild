@@ -3,14 +3,17 @@
 
 EAPI=8
 
+DISTUTILS_USE_PEP517=setuptools
 PYTHON_COMPAT=( python3_{11..14} )
+
+inherit git-r3
 
 if [[ ${PV} == *9999 ]]; then
 	EGIT_REPO_URI="https://github.com/crmsh/crmsh"
-	inherit git-r3
 	S="${WORKDIR}/${PN}-${MY_TREE}"
 else
-	SRC_URI="https://github.com/crmsh/crmsh/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	EGIT_REPO_URI="https://github.com/crmsh/crmsh"
+	EGIT_COMMIT="8d89c3d005de6582871d178f79ee44d66ffea8ab"
 	KEYWORDS="~amd64 ~hppa ~x86"
 fi
 
