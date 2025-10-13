@@ -28,8 +28,3 @@ DEPEND="${RDEPEND}
 	dev-python/traitlets
 	dev-python/pyyaml
 "
-
-src_prepare() {
-	eapply ${FILESDIR}/fix_pyproject_name.patch
-	default
-}
