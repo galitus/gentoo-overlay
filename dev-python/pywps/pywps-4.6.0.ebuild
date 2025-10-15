@@ -19,7 +19,7 @@ KEYWORDS="amd64 x86"
 BDEPEND="app-arch/gzip"
 DEPEND="dev-python/markupsafe
 	dev-python/sqlalchemy
-	sci-libs/Fiona
+	dev-python/fiona
 	sci-libs/libgeotiff
 	<=dev-python/tifffile-2025.5.10
 	<=dev-python/zarr-3
