@@ -24,7 +24,7 @@ RDEPEND="dev-libs/openssl:0=
 	jpeg? ( virtual/jpeg:0= )
 	kerberos? ( virtual/krb5:0= )
 	pam? ( sys-libs/pam )
-	pulseaudio? ( media-sound/pulseaudio:0= )
+	pulseaudio? ( media-libs/libpulse:0= )
 	x264? ( >=media-libs/x264-0.0.20231114-r1 )
 	pixman? ( x11-libs/pixman )
 	opus? ( media-libs/opus )"
