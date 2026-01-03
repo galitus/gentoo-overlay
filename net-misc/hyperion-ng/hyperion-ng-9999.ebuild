@@ -1,7 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 #AUTOTOOLS_AUTORECONF=yes
 
@@ -19,12 +19,12 @@ LICENSE="MIT"
 KEYWORDS=""
 
 RDEPEND=""
-DEPEND=">=net-dns/avahi-0.7[mdnsresponder-compat]
-	dev-qt/qtcore:5
-	dev-qt/qtgui:5
-	dev-qt/qtnetwork:5
-	dev-qt/qtserialport:5
-	dev-qt/qtwidgets:5"
+DEPEND=">=net-dns/avahi-0.9[mdnsresponder-compat]
+	dev-qt/qtcore:6
+	dev-qt/qtgui:6
+	dev-qt/qtnetwork:6
+	dev-qt/qtserialport:6
+	dev-qt/qtwidgets:6"
 
 REQUIRED_USE=""
 
