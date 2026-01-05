@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake kodi-addon
+inherit cmake
 
 DESCRIPTION="Magenta PVR client for Kodi"
 HOMEPAGE="https://github.com/nirvana-7777/pvr.magenta"
@@ -50,6 +50,9 @@ RDEPEND="
 #	cmake_src_prepare
 #}
 
-#src_configure() {
-#	cmake_src_configure
-#}
+src_configure() {
+        local mycmakeargs=(
+                -DCMAKE_INSTALL_LIBDIR="${EPREFIX}/usr/$(get_libdir)/kodi"
+        )
+	cmake_src_configure
+}
