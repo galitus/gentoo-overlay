@@ -3,8 +3,8 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{11..12} )
-DISTUTILS_USE_PEP517=setuptools
+PYTHON_COMPAT=( python3_{11..14} )
+DISTUTILS_USE_PEP517=scikit-build-core
 
 inherit distutils-r1 toolchain-funcs python-r1
 
@@ -18,11 +18,13 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="sci-libs/cspice
-	>=dev-python/numpy-1.17.0
-	>=dev-python/pandas-0.24.0
+	>=dev-python/numpy-1.23.5
+	>=dev-python/cython-3.0.12
+	>=dev-python/pandas-2.2.2
 	>=dev-python/pytest-7.0.0
-	>=dev-python/twine-3.3.0
-	>=dev-python/coverage-5.1.0
-	>=dev-python/setuptools-40.6.3"
+	>=dev-python/twine-6.1.0
+	>=dev-python/coverage-7.0.0
+	dev-python/black
+	dev-python/scikit-build-core"
 RDEPEND="${DEPEND}"
 #	>=dev-python/codecov-2.1.0
