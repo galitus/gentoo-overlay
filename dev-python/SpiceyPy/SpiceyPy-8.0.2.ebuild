@@ -16,6 +16,7 @@ LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
+RESTRICT="test"
 
 DEPEND="sci-libs/cspice
 	>=dev-python/numpy-1.23.5
@@ -30,10 +31,9 @@ RDEPEND="${DEPEND}"
 #	>=dev-python/codecov-2.1.0
 
 
-src_configure() {
-    # Tell CMake to use the system CSPICE that Gentoo already installed.
-    local mycmakeargs=(
-        -DCSPICE_INCLUDE_DIR=/usr/include/cspice
-    )
-    cmake_src_configure
+python_configure_all() {
+        DISTUTILS_ARGS=(
+                        -DCSPICE_LIB=${EPREFIX}/usr/lib64/spice.so
+                        -DCSPICE_INCLUDE_DIR=${EPREFIX}/usr/include/cspice
+        )
 }
