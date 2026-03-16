@@ -28,3 +28,12 @@ DEPEND="sci-libs/cspice
 	dev-python/scikit-build-core"
 RDEPEND="${DEPEND}"
 #	>=dev-python/codecov-2.1.0
+
+
+src_configure() {
+    # Tell CMake to use the system CSPICE that Gentoo already installed.
+    local mycmakeargs=(
+        -DCSPICE_INCLUDE_DIR=/usr/include/cspice
+    )
+    cmake_src_configure
+}
