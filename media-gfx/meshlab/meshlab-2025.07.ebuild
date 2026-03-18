@@ -60,7 +60,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}/${P}-disable-updates.patch"
-#	"${FILESDIR}/${P}-find-plugins.patch"
+	"${FILESDIR}/${P}-find-plugins.patch"
 )
 
 src_unpack() {
