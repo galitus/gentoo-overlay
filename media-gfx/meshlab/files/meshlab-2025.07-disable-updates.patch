@@ -1,38 +1,38 @@
---- a/src/meshlab/mainwindow_Init.cpp       2026-03-16 11:44:06.553791687 +0100
-+++ b/src/meshlab/mainwindow_Init.cpp       2026-03-16 12:07:35.783402126 +0100
+--- a/src/meshlab/mainwindow_Init.cpp	2026-03-16 11:44:06.553791687 +0100
++++ b/src/meshlab/mainwindow_Init.cpp	2026-03-16 12:07:35.783402126 +0100
 @@ -638,7 +638,6 @@
-        helpMenu->addAction(onlineHelpAct);
-        helpMenu->addAction(onscreenHelpAct);
-        helpMenu->addAction(submitBugAct);
--       helpMenu->addAction(checkUpdatesAct);
+ 	helpMenu->addAction(onlineHelpAct);
+ 	helpMenu->addAction(onscreenHelpAct);
+ 	helpMenu->addAction(submitBugAct);
+-	helpMenu->addAction(checkUpdatesAct);
  
-        //////////////////// Menu Split/Unsplit from handle
-        handleMenu = new QMenu(this);
+ 	//////////////////// Menu Split/Unsplit from handle
+ 	handleMenu = new QMenu(this);
 diff '--color=auto' -Naur a/meshlab/mainwindow_RunTime.cpp b/meshlab/mainwindow_RunTime.cpp
---- a/src/meshlab/mainwindow_RunTime.cpp    2026-03-16 11:44:06.553791687 +0100
-+++ b/src/meshlab/mainwindow_RunTime.cpp    2026-03-16 12:08:59.007087418 +0100
+--- a/src/meshlab/mainwindow_RunTime.cpp	2026-03-16 11:44:06.553791687 +0100
++++ b/src/meshlab/mainwindow_RunTime.cpp	2026-03-16 12:08:59.007087418 +0100
 @@ -2509,7 +2509,9 @@
  
  void MainWindow::helpOnline()
  {
 +#if defined(__ENABLE_AUTO_STATS__)
-        checkForUpdates(false);
+ 	checkForUpdates(false);
 +#endif
-        QDesktopServices::openUrl(QUrl("https://www.meshlab.net/#support"));
+ 	QDesktopServices::openUrl(QUrl("https://www.meshlab.net/#support"));
  }
  
 @@ -2689,6 +2691,7 @@
  void MainWindow::showEvent(QShowEvent * event)
  {
-        QWidget::showEvent(event);
+ 	QWidget::showEvent(event);
 +#if defined(__ENABLE_AUTO_STATS__)
-        QSettings settings;
-        QSettings::setDefaultFormat(QSettings::NativeFormat);
+ 	QSettings settings;
+ 	QSettings::setDefaultFormat(QSettings::NativeFormat);
  
 @@ -2747,6 +2750,7 @@
-                settings.setValue(versioncheckeddatestring, todayStr);
-        }
-        sendUsAMail();
+ 		settings.setValue(versioncheckeddatestring, todayStr);
+ 	}
+ 	sendUsAMail();
 +#endif
  }
  
