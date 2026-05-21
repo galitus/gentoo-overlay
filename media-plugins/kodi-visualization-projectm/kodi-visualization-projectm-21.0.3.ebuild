@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit kodi-addon
+inherit cmake
 
 DESCRIPTION="ProjectM visualizer for Kodi"
 HOMEPAGE="https://github.com/xbmc/visualization.projectm"
@@ -17,11 +17,11 @@ case ${PV} in
 	DEPEND="~media-tv/kodi-9999"
 	;;
 *)
-	CODENAME="Nexus"
-	KEYWORDS="~amd64 ~x86"
-	SRC_URI="https://github.com/xbmc/${KODI_PLUGIN_NAME}/archive/${PV}-${CODENAME}.tar.gz -> ${P}.tar.gz"
-	S="${WORKDIR}/${KODI_PLUGIN_NAME}-${PV}-${CODENAME}"
-	DEPEND="=media-tv/kodi-20*:="
+	CODENAME="Omega"
+	KEYWORDS="~amd64 ~arm64 ~x86"
+	SRC_URI="https://github.com/xbmc/${KODI_PLUGIN_NAME}/archive/refs/heads/${CODENAME}.tar.gz -> ${P}.tar.gz"
+	S="${WORKDIR}/${KODI_PLUGIN_NAME}-${CODENAME}"
+	DEPEND="=media-tv/kodi-21*:="
 	;;
 esac
 
@@ -31,7 +31,7 @@ IUSE=""
 
 DEPEND+="
 	virtual/opengl
-	>=media-libs/libprojectm-3.1.12:=
+	>=media-libs/libprojectm-3.1.2:=
 	"
 
 RDEPEND="${DEPEND}"
@@ -42,4 +42,11 @@ src_prepare() {
 	if [ -d depends ]; then rm -rf depends || die; fi
 
 	cmake_src_prepare
+}
+
+src_configure() {
+	local mycmakeargs=(
+		-DCMAKE_INSTALL_LIBDIR="${EPREFIX}/usr/$(get_libdir)/kodi"
+	)
+	cmake_src_configure
 }

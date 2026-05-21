@@ -6,6 +6,6 @@
         <name>Craig Andrews</name>
     </maintainer>
     <upstream>
-        <remote-id type="github">kodi-pvr/pvr.iptvsimple</remote-id>
+        <remote-id type="github">xbmc/vfs.libarchive</remote-id>
     </upstream>
 </pkgmetadata>

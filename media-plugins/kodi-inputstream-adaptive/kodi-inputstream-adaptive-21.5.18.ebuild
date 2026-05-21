@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake kodi-addon
+inherit cmake
 
 DESCRIPTION="Kodi's Adaptive inputstream addon"
 HOMEPAGE="https://github.com/peak3d/inputstream.adaptive.git"
@@ -13,7 +13,7 @@ case ${PV} in
 9999)
 	SRC_URI=""
 	EGIT_REPO_URI="https://github.com/peak3d/inputstream.adaptive.git"
-	EGIT_BRANCH="Nexus"
+	EGIT_BRANCH="Omega"
 	inherit git-r3
 	;;
 *)
@@ -29,9 +29,14 @@ SLOT="0"
 RESTRICT="!test? ( test )"
 IUSE="test"
 
+PATCHES=(
+)
+#		"${FILESDIR}"/${P}-gcc-13-fix.patch # Bug 899754
+
 COMMON_DEPEND="
 	dev-libs/expat
 	=media-tv/kodi-21*
+	media-video/bento4
 	"
 DEPEND="
 	${COMMON_DEPEND}
@@ -49,6 +54,7 @@ src_prepare() {
 src_configure() {
 	local mycmakeargs=(
 		-DBUILD_TESTING=$(usex test)
+		-DCMAKE_INSTALL_LIBDIR="${EPREFIX}/usr/$(get_libdir)/kodi"
 	)
 	cmake_src_configure
 }

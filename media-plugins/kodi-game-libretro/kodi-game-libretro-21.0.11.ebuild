@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake kodi-addon
+inherit cmake
 
 DESCRIPTION="Libretro compatibility layer for the Kodi Game API"
 HOMEPAGE="https://github.com/kodi-game/game.libretro"
@@ -63,6 +63,7 @@ src_configure() {
 		-DLIBRETRO_COMMON_INCLUDE_DIR="${WORKDIR}/"
 		-DRCHEEVOS_INCLUDE_DIR="${WORKDIR}/"
 		-DRCHEEVOS_LIBRARY="${WORKDIR}/rcheevos-9.2.0/build"
+		-DCMAKE_INSTALL_LIBDIR="${EPREFIX}/usr/$(get_libdir)/kodi"
 #		-DENABLE_INTERNAL_RCHEEVOS=ON
         )
 
