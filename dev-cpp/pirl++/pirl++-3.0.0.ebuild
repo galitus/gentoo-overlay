@@ -14,7 +14,7 @@ LICENSE="BSD"
 KEYWORDS="amd64 ~arm ~arm64 ~ia64 ppc ppc64 x86 ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
 
 src_prepare() {
-	eapply ${FILESDIR}/cmake.patch
+#	eapply ${FILESDIR}/cmake.patch
 
 	cmake_src_prepare
 }
