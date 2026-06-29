@@ -20,6 +20,6 @@ IUSE=""
 DEPEND="
 	dev-python/hatch-nodejs-version
 	dev-python/jupyter-packaging
-	=dev-python/jupyterlab-4*
+	>=dev-python/jupyterlab-4
 	"
 
