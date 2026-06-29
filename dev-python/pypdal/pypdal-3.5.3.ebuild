@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="8"
-PYTHON_COMPAT=( python3_{10,11,12} )
+PYTHON_COMPAT=( python3_{12..14} )
+DISTUTILS_USE_PEP517=scikit-build-core
 
 inherit distutils-r1 toolchain-funcs
 
@@ -17,7 +18,8 @@ IUSE=""
 
 DEPEND=">=sci-libs/pdal-2.4
 	dev-python/packaging
-	dev-python/scikit-build"
+	dev-python/scikit-build
+	dev-python/scikit-build-core"
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/python-${PV}
