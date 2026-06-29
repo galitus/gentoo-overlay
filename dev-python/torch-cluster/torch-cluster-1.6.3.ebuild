@@ -20,7 +20,7 @@ KEYWORDS="amd64 ~x86"
 IUSE=""
 RESTRICT=""
 
-RDEPEND="sci-libs/pytorch"
+RDEPEND="sci-ml/pytorch"
 DEPEND="${RDEPEND}"
 
 MAKEOPTS+=" -j6"
