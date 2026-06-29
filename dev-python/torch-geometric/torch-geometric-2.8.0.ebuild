@@ -3,14 +3,16 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..12} )
-DISTUTILS_USE_SETUPTOOLS=rdepend
+PYTHON_COMPAT=( python3_{10..14} )
+DISTUTILS_USE_PEP517=flit-core
 
-inherit distutils-r1 pypi
+inherit distutils-r1
+#pypi
 
 DESCRIPTION="PyTorch Geometric"
 HOMEPAGE="https://pypi.org/project/torch-geometric/"
-SRC_URI="$(pypi_sdist_url)"
+#SRC_URI="$(pypi_sdist_url)"
+SRC_URI="https://github.com/pyg-team/pytorch_geometric/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"

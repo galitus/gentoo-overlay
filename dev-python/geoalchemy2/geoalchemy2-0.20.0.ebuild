@@ -3,17 +3,19 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10,11,12} )
+PYTHON_COMPAT=( python3_{12..14} )
+DISTUTILS_USE_PEP517=setuptools
 
-inherit distutils-r1 git-r3
+inherit distutils-r1 #git-r3
 
 DESCRIPTION="Geospatial extension to SQLAlchemy with PostGIS support"
 HOMEPAGE="https://geoalchemy-2.readthedocs.io/en/latest/"
 #SRC_URI="https://github.com/geoalchemy/${PN}/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
-EGIT_REPO_URI="https://github.com/geoalchemy/${PN}"
-EGIT_COMMIT="0.14.1"
+SRC_URI="https://github.com/geoalchemy/geoalchemy2/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
+##EGIT_REPO_URI="https://github.com/geoalchemy/${PN}"
+##EGIT_COMMIT="0.14.1"
 #EGIT_BRANCH="0.12.5"
-EGIT_SUBMODULES=( '*' )
+##EGIT_SUBMODULES=( '*' )
 
 
 LICENSE="MIT"
