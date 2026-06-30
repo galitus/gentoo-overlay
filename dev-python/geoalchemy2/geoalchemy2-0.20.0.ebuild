@@ -6,7 +6,7 @@ EAPI=8
 PYTHON_COMPAT=( python3_{12..14} )
 DISTUTILS_USE_PEP517=setuptools
 
-inherit distutils-r1 #git-r3
+inherit distutils-r1 git-r3
 
 DESCRIPTION="Geospatial extension to SQLAlchemy with PostGIS support"
 HOMEPAGE="https://geoalchemy-2.readthedocs.io/en/latest/"
