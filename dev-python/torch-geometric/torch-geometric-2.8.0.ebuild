@@ -13,6 +13,7 @@ DESCRIPTION="PyTorch Geometric"
 HOMEPAGE="https://pypi.org/project/torch-geometric/"
 #SRC_URI="$(pypi_sdist_url)"
 SRC_URI="https://github.com/pyg-team/pytorch_geometric/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
+S="${WORKDIR}/pytorch_geometric-${PV}"
 
 LICENSE="MIT"
 SLOT="0"
