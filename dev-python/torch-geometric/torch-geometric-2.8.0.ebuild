@@ -22,4 +22,5 @@ IUSE=""
 RESTRICT=""
 
 RDEPEND="sci-ml/pytorch"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	dev-python/fsspec"
