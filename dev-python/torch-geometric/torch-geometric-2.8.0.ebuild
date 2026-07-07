@@ -29,4 +29,5 @@ DEPEND="${RDEPEND}
 	dev-python/requests
 	dev-python/xxhash
 	dev-python/tqdm
-	dev-python/jinja2"
+	dev-python/jinja2
+	sci-ml/pytorch"
