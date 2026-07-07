@@ -23,4 +23,10 @@ RESTRICT=""
 
 RDEPEND="sci-ml/pytorch"
 DEPEND="${RDEPEND}
-	dev-python/fsspec"
+	dev-python/fsspec
+	dev-python/aiohttp
+	dev-python/numpy
+	dev-python/requests
+	dev-python/xxhash
+	dev-python/tqdm
+	dev-python/jinja2"
