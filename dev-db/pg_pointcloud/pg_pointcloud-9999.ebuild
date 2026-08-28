@@ -20,10 +20,11 @@ KEYWORDS=""
 
 RDEPEND=""
 DEPEND=">=dev-db/postgresql-10
-	>=dev-libs/libght-9999
-	>=sci-geosciences/laz_perf-9999
 	>=dev-util/cunit-2.1
+	>=sci-geosciences/laz_perf-9999
 	>=dev-libs/libxml2-2.9.4"
+
+#	>=dev-libs/libght-9999
 
 REQUIRED_USE=""
 
