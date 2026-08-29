@@ -5,7 +5,7 @@ EAPI=8
 
 CMAKE_BUILD_TYPE="Release"
 
-POSTGRES_COMPAT=( {12..16} )
+POSTGRES_COMPAT=( {16..18} )
 POSTGRES_USEDEP="server"
 
 inherit postgres-multi cmake git-r3
@@ -20,7 +20,7 @@ LICENSE="PostgreSQL"
 KEYWORDS="amd64 ~x86"
 
 RDEPEND=""
-DEPEND=">=dev-db/postgresql-12[server]
+DEPEND=">=dev-db/postgresql-16[server]
 	>=dev-build/cmake-3.7
 	>=dev-db/postgis-3.0
 	>=sci-libs/geos-3.8
