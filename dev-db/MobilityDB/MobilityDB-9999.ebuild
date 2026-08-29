@@ -17,7 +17,7 @@ EGIT_REPO_URI="https://github.com/MobilityDB/MobilityDB"
 
 SLOT="0"
 LICENSE="PostgreSQL"
-KEYWORDS="amd64 ~x86"
+KEYWORDS="~amd64 ~x86"
 
 RDEPEND=""
 DEPEND=">=dev-db/postgresql-16[server]
