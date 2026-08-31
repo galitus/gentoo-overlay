@@ -17,6 +17,7 @@ RDEPEND=""
 DEPEND=">=dev-build/cmake-3.18
 	>=dev-util/cunit-2.1
 	dev-libs/boost
+	dev-cpp/nlohmann_json
 	>=sci-mathematics/cgal-5.6"
 
 REQUIRED_USE=""
