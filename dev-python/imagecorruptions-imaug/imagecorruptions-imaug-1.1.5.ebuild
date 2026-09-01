@@ -10,6 +10,7 @@ inherit distutils-r1
 DESCRIPTION="Python package to corrupt arbitrary images."
 HOMEPAGE="https://github.com/imaug/imagecorruptions"
 SRC_URI="https://github.com/imaug/imagecorruptions/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
+S=${WORKDIR}/imagecorruptions-${PV}
 
 LICENSE="Apache 2.0"
 SLOT="0"
