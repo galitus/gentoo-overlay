@@ -42,12 +42,6 @@ RDEPEND="${DEPEND}
 "
 
 src_prepare() {
-#        sed -i 's/-m build/-m build -n/g' ${S}/Makefile.am
-#        sed -i 's=all-local: $(builddir)/dist/crmsh-$(VERSION)-py3-none-any.whl $(builddir)/build=all-local: $(builddir)/build=g' ${S}/Makefile.am
-#        sed -i '/python3 -m pip*/d' ${S}/Makefile.am
-	#sed -i "/args.append('--help-without-redirect')/a args.extend(['-l', '/dev/null'])"
-	#sed -i "s|args.append('--help-without-redirect')|args.append('--help-without-redirect')\n    args.extend(['-l', '/dev/null'])|"
-	sed -i "s|args.extend(found.group(1).split('.', 1))|args.extend(['-l', '/dev/null'])\n    args.extend(found.group(1).split('.', 1))|" doc/toolchain/bin/adocxt
         default
 
         eautoreconf
