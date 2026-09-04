@@ -48,6 +48,7 @@ src_prepare() {
 }
 
 src_compile() {
+	addpredict /var/log/crmsh/crmsh.log
         default
         emake
 	distutils-r1_src_compile
