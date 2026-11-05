@@ -40,6 +40,7 @@ RDEPEND="
 	dev-python/tqdm
 	sci-libs/openblas
 	sci-libs/fftw:3.0=
+	>=sci-libs/boule-0.5.0
 	virtual/blas
 	${PYTHON_DEPS}"
 
