@@ -10,12 +10,12 @@ if [[ ${PV} == 9999 ]]; then
 else
 	_ECLASS="git-r3"
 	EGIT_REPO_URI="https://github.com/${PN^^}/${PN^^}.git"
-	EGIT_COMMIT="v4.11.10"
+	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~amd64"
 fi
 
 DISTUTILS_EXT=1
-PYTHON_COMPAT=( python3_{11..13} )
+PYTHON_COMPAT=( python3_{11..15} )
 DISTUTILS_USE_PEP517=meson-python
 
 inherit fortran-2 flag-o-matic toolchain-funcs ${_ECLASS} distutils-r1 python-utils-r1 python-r1
@@ -40,7 +40,6 @@ RDEPEND="
 	dev-python/tqdm
 	sci-libs/openblas
 	sci-libs/fftw:3.0=
-	virtual/lapack
 	virtual/blas
 	${PYTHON_DEPS}"
 
