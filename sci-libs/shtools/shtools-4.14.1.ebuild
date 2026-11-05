@@ -38,8 +38,8 @@ RDEPEND="
 	>=dev-python/pooch-1.1[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/tqdm[${PYTHON_USEDEP}]
-	sci-libs/openblas[${PYTHON_USEDEP}]
-	sci-libs/fftw:3.0=[${PYTHON_USEDEP}]
+	sci-libs/openblas
+	sci-libs/fftw:3.0=
 	>=sci-libs/boule-0.5.0[${PYTHON_USEDEP}]
 	virtual/blas
 	${PYTHON_DEPS}"
