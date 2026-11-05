@@ -9,7 +9,7 @@ if [[ ${PV} == 9999 ]]; then
 	S="${WORKDIR}"/${P}
 else
 	_ECLASS="git-r3"
-	EGIT_REPO_URI="https://github.com/${PN^^}/${PN^^}.git"
+	EGIT_REPO_URI="https://github.com/fatiando/${PN}.git"
 	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~amd64"
 fi
