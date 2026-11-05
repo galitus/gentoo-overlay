@@ -30,17 +30,17 @@ IUSE="static-libs"
 RESTRICT="test"
 
 RDEPEND="
-	dev-python/xarray
-	>=dev-python/scipy-0.14.0
-	>=dev-python/astropy-4.0
+	dev-python/xarray[${PYTHON_USEDEP}]
+	>=dev-python/scipy-0.14.0[${PYTHON_USEDEP}]
+	>=dev-python/astropy-4.0[${PYTHON_USEDEP}]
 	dev-python/numpy[${PYTHON_USEDEP},lapack]
 	>=dev-python/matplotlib-3.3[${PYTHON_USEDEP}]
-	>=dev-python/pooch-1.1
-	dev-python/requests
-	dev-python/tqdm
-	sci-libs/openblas
-	sci-libs/fftw:3.0=
-	>=sci-libs/boule-0.5.0
+	>=dev-python/pooch-1.1[${PYTHON_USEDEP}]
+	dev-python/requests[${PYTHON_USEDEP}]
+	dev-python/tqdm[${PYTHON_USEDEP}]
+	sci-libs/openblas[${PYTHON_USEDEP}]
+	sci-libs/fftw:3.0=[${PYTHON_USEDEP}]
+	>=sci-libs/boule-0.5.0[${PYTHON_USEDEP}]
 	virtual/blas
 	${PYTHON_DEPS}"
 
